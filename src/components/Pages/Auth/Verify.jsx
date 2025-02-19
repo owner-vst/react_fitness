@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function Login() {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-
+function Verify() {
   useEffect(() => {
     (function () {
       "use strict";
@@ -23,10 +21,6 @@ function Login() {
       });
     })();
   }, []);
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("redirecting");
@@ -44,7 +38,9 @@ function Login() {
               <div className="row no-gutters">
                 <div className="col-xl-12">
                   <div className="auth-form">
-                    <h4 className="text-center mb-4">Sign in your account</h4>
+                    <h4 className="text-center mb-4">
+                      Enter Verification Code
+                    </h4>
                     <div className="form-validation">
                       <form
                         className="needs-validation"
@@ -53,48 +49,17 @@ function Login() {
                       >
                         <div className="form-group">
                           <label className="mb-1">
-                            <strong>Email</strong>
+                            <strong>Verification Code</strong>
                           </label>
                           <input
-                            type="email"
+                            type="text"
                             className="form-control"
-                            id="email"
-                            placeholder="Your valid email.."
+                            id="verificationCode"
+                            placeholder="Enter verification code.."
                             required
                           />
                           <div className="invalid-feedback">
-                            Please enter a valid email.
-                          </div>
-                        </div>
-                        <div className="form-group position-relative">
-                          <label className="mb-1">
-                            <strong>Password</strong>
-                          </label>
-                          <input
-                            type={passwordVisible ? "text" : "password"}
-                            id="password"
-                            className="form-control"
-                            placeholder="Choose a safe one.."
-                            required
-                          />
-                          <span
-                            className="show-pass eye"
-                            onClick={togglePasswordVisibility}
-                          >
-                            <i
-                              className={`fa ${
-                                passwordVisible ? "fa-eye" : "fa-eye-slash"
-                              }`}
-                            />
-                          </span>
-                          <div className="invalid-feedback">
-                            Please enter a password.
-                          </div>
-                        </div>
-
-                        <div className="row d-flex justify-content-between mt-4 mb-2">
-                          <div className="form-group">
-                            <Link to="/auth/forgot">Forgot Password?</Link>
+                            Please enter the verification code.
                           </div>
                         </div>
 
@@ -103,7 +68,7 @@ function Login() {
                             type="submit"
                             className="btn btn-primary btn-block"
                           >
-                            Sign Me In
+                            Verify Code
                           </button>
                         </div>
                       </form>
@@ -111,8 +76,8 @@ function Login() {
 
                     <div className="new-account mt-3">
                       <p>
-                        Dont have an account?{" "}
-                        <Link to="/auth/signup">Sign Up</Link>
+                        Remember your password?{" "}
+                        <Link to="/auth/login">Login</Link>
                       </p>
                     </div>
                   </div>
@@ -126,4 +91,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Verify;

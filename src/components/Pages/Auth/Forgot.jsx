@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function Login() {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-
+function Forgot() {
   useEffect(() => {
     (function () {
       "use strict";
@@ -16,6 +14,7 @@ function Login() {
               event.preventDefault();
               event.stopPropagation();
             }
+
             form.classList.add("was-validated");
           },
           false
@@ -23,15 +22,12 @@ function Login() {
       });
     })();
   }, []);
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("redirecting");
-    window.location.href = "/";
+    window.location.href = "/auth/verify";
   };
+
   return (
     <div className="authincation h-100">
       <div className="container h-100">
@@ -44,7 +40,7 @@ function Login() {
               <div className="row no-gutters">
                 <div className="col-xl-12">
                   <div className="auth-form">
-                    <h4 className="text-center mb-4">Sign in your account</h4>
+                    <h4 className="text-center mb-4">Forgot Password</h4>
                     <div className="form-validation">
                       <form
                         className="needs-validation"
@@ -59,42 +55,11 @@ function Login() {
                             type="email"
                             className="form-control"
                             id="email"
-                            placeholder="Your valid email.."
+                            placeholder="Enter your email.."
                             required
                           />
                           <div className="invalid-feedback">
                             Please enter a valid email.
-                          </div>
-                        </div>
-                        <div className="form-group position-relative">
-                          <label className="mb-1">
-                            <strong>Password</strong>
-                          </label>
-                          <input
-                            type={passwordVisible ? "text" : "password"}
-                            id="password"
-                            className="form-control"
-                            placeholder="Choose a safe one.."
-                            required
-                          />
-                          <span
-                            className="show-pass eye"
-                            onClick={togglePasswordVisibility}
-                          >
-                            <i
-                              className={`fa ${
-                                passwordVisible ? "fa-eye" : "fa-eye-slash"
-                              }`}
-                            />
-                          </span>
-                          <div className="invalid-feedback">
-                            Please enter a password.
-                          </div>
-                        </div>
-
-                        <div className="row d-flex justify-content-between mt-4 mb-2">
-                          <div className="form-group">
-                            <Link to="/auth/forgot">Forgot Password?</Link>
                           </div>
                         </div>
 
@@ -103,7 +68,8 @@ function Login() {
                             type="submit"
                             className="btn btn-primary btn-block"
                           >
-                            Sign Me In
+                            {" "}
+                            Send Verification Code
                           </button>
                         </div>
                       </form>
@@ -111,8 +77,8 @@ function Login() {
 
                     <div className="new-account mt-3">
                       <p>
-                        Dont have an account?{" "}
-                        <Link to="/auth/signup">Sign Up</Link>
+                        Remember your password?{" "}
+                        <Link to="/auth/login">Login</Link>
                       </p>
                     </div>
                   </div>
@@ -126,4 +92,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Forgot;
