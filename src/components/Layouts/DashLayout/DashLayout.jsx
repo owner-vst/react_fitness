@@ -1,7 +1,9 @@
 import DashFooter from "./DashFooter";
 import DashHeader from "./DashHeader";
+
 import NavHeader from "./NavHeader";
-import SideBar from "./SideBar";
+import ProtoSidebar from "./ProtoSidebar";
+
 import { Outlet } from "react-router-dom";
 
 function DashLayout() {
@@ -9,7 +11,9 @@ function DashLayout() {
     <div id="main-wrapper">
       <NavHeader />
       <DashHeader />
-      <SideBar />
+
+      <ProtoSidebar />
+
       <Outlet />
       <DashFooter />
     </div>

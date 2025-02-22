@@ -14,6 +14,39 @@ function App() {
         <Route path="/" element={<DashLayout />}>
           <Route index element={<Demo />} />
         </Route>
+        <Route path="/dashboard/user" element={<DashLayout />}>
+          <Route index element={<Demo />} />
+          <Route path="workoutplan" element={<Demo />} />
+          <Route path="dietplan" element={<Demo />} />
+          <Route path="shop" element={<Demo />} />
+          <Route path="orders" element={<Demo />} />
+          <Route path="wishlist" element={<Demo />} />
+          <Route path="cart" element={<Demo />} />
+          <Route path="personalrecord" element={<Demo />} />
+          <Route path="settings" element={<Demo />} />
+        </Route>
+        <Route path="/dashboard/admin" element={<DashLayout />}>
+          <Route index element={<Demo />} />
+          <Route path="workoutplan" element={<Demo />} />
+          <Route path="dietplan" element={<Demo />} />
+          <Route path="shop" element={<Demo />} />
+          <Route path="orders" element={<Demo />} />
+          <Route path="wishlist" element={<Demo />} />
+          <Route path="cart" element={<Demo />} />
+          <Route path="personalrecord" element={<Demo />} />
+          <Route path="settings" element={<Demo />} />
+        </Route>
+        <Route path="/dashboard/vendor" element={<DashLayout />}>
+          <Route index element={<Demo />} />
+          <Route path="workoutplan" element={<Demo />} />
+          <Route path="dietplan" element={<Demo />} />
+          <Route path="shop" element={<Demo />} />
+          <Route path="orders" element={<Demo />} />
+          <Route path="wishlist" element={<Demo />} />
+          <Route path="cart" element={<Demo />} />
+          <Route path="personalrecord" element={<Demo />} />
+          <Route path="settings" element={<Demo />} />
+        </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />

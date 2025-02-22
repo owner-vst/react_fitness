@@ -1,0 +1,4 @@
+user navbar items:workoutplan,dietplan,workout stats,shop,orders,wishlist,cart,personal record,settings
+vendor navbar item:workoutplan,dietplan,workout stats,shop,orders,wishlist,cart,personal record,settings,manage orders,manage products
+admin:workoutplan,dietplan,workout stats,shop,orders,wishlist,cart,personal record,settings,manage orders,manage products,manage workout plan,manage workout log,manage activity,manage food catalogue,manage diet plan,manage food log,manaage users,integration
+follow the below refernce and make navbar compnene for above info
