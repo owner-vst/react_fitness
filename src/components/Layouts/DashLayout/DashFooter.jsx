@@ -1,13 +1,12 @@
+import { Link } from "react-router-dom";
+
 function DashFooter() {
   return (
     <div className="footer">
       <div className="copyright">
         <p>
           Copyright © Designed &amp; Developed by{" "}
-          <a href="http://dexignzone.com/" target="_blank">
-            DexignZone
-          </a>{" "}
-          2023
+          <Link>insightstracker.fit</Link> 2025
         </p>
       </div>
     </div>

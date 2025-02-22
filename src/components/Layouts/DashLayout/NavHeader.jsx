@@ -3,10 +3,10 @@ function NavHeader() {
     <div>
       <div className="nav-header">
         <a href="index.html" className="brand-logo">
-          <img className="logo-abbr" src="/assests/images/logo.png" alt />
+          <img className="logo-abbr" src="/assets/images/logo.png" alt />
           <img
             className="logo-compact"
-            src="/assestsimages/logo-text.png"
+            src="/assets/images/logo-text.png"
             alt
           />
           <img className="brand-title" src="/assets/images/logo-text.png" alt />

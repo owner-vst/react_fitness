@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import DashLayout from "./components/Layouts/DashLayout/DashLayout";
 import Demo from "./components/Custom/Demo";
+import NewChat from "./components/Custom/Chat/NewChat";
 import AuthLayout from "./components/Layouts/AuthLayout/AuthLayout";
 import Login from "./components/Pages/Auth/Login";
 import Signup from "./components/Pages/Auth/Signup";
@@ -24,6 +25,7 @@ function App() {
           <Route path="cart" element={<Demo />} />
           <Route path="personalrecord" element={<Demo />} />
           <Route path="settings" element={<Demo />} />
+          <Route path="chat" element={<NewChat />} />
         </Route>
         <Route path="/dashboard/admin" element={<DashLayout />}>
           <Route index element={<Demo />} />
@@ -35,6 +37,7 @@ function App() {
           <Route path="cart" element={<Demo />} />
           <Route path="personalrecord" element={<Demo />} />
           <Route path="settings" element={<Demo />} />
+          <Route path="chat" element={<NewChat />} />
         </Route>
         <Route path="/dashboard/vendor" element={<DashLayout />}>
           <Route index element={<Demo />} />
@@ -46,6 +49,7 @@ function App() {
           <Route path="cart" element={<Demo />} />
           <Route path="personalrecord" element={<Demo />} />
           <Route path="settings" element={<Demo />} />
+          <Route path="chat" element={<NewChat />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />

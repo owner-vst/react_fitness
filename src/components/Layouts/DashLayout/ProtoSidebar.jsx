@@ -50,7 +50,7 @@ function ProtoSidebar() {
         icon: "fas fa-pizza-slice",
       },
       {
-        label: "Manage Food Catalogue",
+        label: "Manage Catalogue",
         link: "/dashboard/admin/managefoodcatalogue",
         icon: "fas fa-th-list",
       },
@@ -105,6 +105,11 @@ function ProtoSidebar() {
         icon: "fas fa-users",
       },
       {
+        label: "Chat",
+        link: "/dashboard/admin/chat",
+        icon: "fas fa-comments",
+      },
+      {
         label: "Integration",
         link: "/dashboard/admin/integration",
         icon: "fas fa-plug",
@@ -150,6 +155,11 @@ function ProtoSidebar() {
         label: "Personal Record",
         link: "/dashboard/vendor/personalrecord",
         icon: "fas fa-id-card",
+      },
+      {
+        label: "Chat",
+        link: "/dashboard/vendor/chat",
+        icon: "fas fa-comments",
       },
       {
         label: "Settings",
@@ -209,6 +219,11 @@ function ProtoSidebar() {
         icon: "fas fa-id-card",
       },
       {
+        label: "Chat",
+        link: "/dashboard/user/chat",
+        icon: "fas fa-comments",
+      },
+      {
         label: "Settings",
         link: "/dashboard/user/settings",
         icon: "fas fa-cogs",
@@ -231,31 +246,9 @@ function ProtoSidebar() {
             </li>
           ))}
         </ul>
-        <div className="drum-box">
-          <img src="images/card/drump.png" alt />
-          <p className="fs-18 font-w500 mb-4">Start Plan Your Workout</p>
-          <a className href="javascript:;">
-            Check schedule
-            <svg
-              className="ms-3"
-              width={6}
-              height={12}
-              viewBox="0 0 6 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M0 12L6 6L0 0" fill="#BCD7FF" />
-            </svg>
-          </a>
-        </div>
+
         <div className="copyright">
-          <p>
-            <strong>Fito Fitness Admin Dashboard</strong> © 2023 All Rights
-            Reserved
-          </p>
-          <p>
-            Made with <span className="heart" /> by DexignZone
-          </p>
+          <p>Made by insightstracker.fit</p>
         </div>
       </div>
     </div>
