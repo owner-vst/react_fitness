@@ -7,6 +7,9 @@ import Login from "./components/Pages/Auth/Login";
 import Signup from "./components/Pages/Auth/Signup";
 import Verify from "./components/Pages/Auth/Verify";
 import Forgot from "./components/Pages/Auth/Forgot";
+import DashBoardAdmin from "./components/Custom/admin/DashBoardAdmin";
+import DashBoardVendor from "./components/Custom/vendor/DashBoardVendor";
+import DashBoardUser from "./components/Custom/user/DashBoardUser";
 
 function App() {
   return (
@@ -16,7 +19,7 @@ function App() {
           <Route index element={<Demo />} />
         </Route>
         <Route path="/dashboard/user" element={<DashLayout />}>
-          <Route index element={<Demo />} />
+          <Route index element={<DashBoardUser />} />
           <Route path="workoutplan" element={<Demo />} />
           <Route path="dietplan" element={<Demo />} />
           <Route path="shop" element={<Demo />} />
@@ -28,7 +31,7 @@ function App() {
           <Route path="chat" element={<NewChat />} />
         </Route>
         <Route path="/dashboard/admin" element={<DashLayout />}>
-          <Route index element={<Demo />} />
+          <Route index element={<DashBoardAdmin />} />
           <Route path="workoutplan" element={<Demo />} />
           <Route path="dietplan" element={<Demo />} />
           <Route path="shop" element={<Demo />} />
@@ -40,7 +43,7 @@ function App() {
           <Route path="chat" element={<NewChat />} />
         </Route>
         <Route path="/dashboard/vendor" element={<DashLayout />}>
-          <Route index element={<Demo />} />
+          <Route index element={<DashBoardVendor />} />
           <Route path="workoutplan" element={<Demo />} />
           <Route path="dietplan" element={<Demo />} />
           <Route path="shop" element={<Demo />} />
