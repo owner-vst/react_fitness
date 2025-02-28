@@ -10,6 +10,7 @@ import Forgot from "./components/Pages/Auth/Forgot";
 import DashBoardAdmin from "./components/Custom/admin/DashBoardAdmin";
 import DashBoardVendor from "./components/Custom/vendor/DashBoardVendor";
 import DashBoardUser from "./components/Custom/user/DashBoardUser";
+import ProductGrid from "./components/Custom/shop/ProductGrid";
 
 function App() {
   return (
@@ -34,7 +35,7 @@ function App() {
           <Route index element={<DashBoardAdmin />} />
           <Route path="workoutplan" element={<Demo />} />
           <Route path="dietplan" element={<Demo />} />
-          <Route path="shop" element={<Demo />} />
+          <Route path="shop" element={<ProductGrid />} />
           <Route path="orders" element={<Demo />} />
           <Route path="wishlist" element={<Demo />} />
           <Route path="cart" element={<Demo />} />
