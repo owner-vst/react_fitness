@@ -11,6 +11,11 @@ import DashBoardAdmin from "./components/Custom/admin/DashBoardAdmin";
 import DashBoardVendor from "./components/Custom/vendor/DashBoardVendor";
 import DashBoardUser from "./components/Custom/user/DashBoardUser";
 import ProductGrid from "./components/Custom/shop/ProductGrid";
+import Cart from "./components/Custom/shop/Cart";
+import WishList from "./components/Custom/shop/WishList";
+import Checkout from "./components/Custom/shop/Checkout";
+import PaymentSuccess from "./components/Custom/shop/PaymentSuccess";
+import PaymentFailed from "./components/Custom/shop/PaymentFailed";
 
 function App() {
   return (
@@ -37,8 +42,11 @@ function App() {
           <Route path="dietplan" element={<Demo />} />
           <Route path="shop" element={<ProductGrid />} />
           <Route path="orders" element={<Demo />} />
-          <Route path="wishlist" element={<Demo />} />
-          <Route path="cart" element={<Demo />} />
+          <Route path="wishlist" element={<WishList />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="payment" element={<PaymentSuccess />} />
+          <Route path="paymentfailed" element={<PaymentFailed />} />
+          <Route path="cart" element={<Cart />} />
           <Route path="personalrecord" element={<Demo />} />
           <Route path="settings" element={<Demo />} />
           <Route path="chat" element={<NewChat />} />
