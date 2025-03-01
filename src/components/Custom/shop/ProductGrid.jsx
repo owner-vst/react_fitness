@@ -1,4 +1,3 @@
-import React from "react";
 import PriceFilterCard from "./PriceFilterCard";
 
 const products = [
