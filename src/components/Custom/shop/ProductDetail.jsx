@@ -38,7 +38,7 @@ function ProductDetail() {
                         <img
                           className="img-fluid rounded "
                           src="/assets/images/product/1.jpg"
-                          alt=""
+                          alt="Product"
                           width={400}
                         />
                       </div>

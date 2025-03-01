@@ -7,7 +7,7 @@ function NavHeader() {
           <img
             className="logo-compact"
             src="/assets/images/logo-text.png"
-            alt
+            alt="logo"
           />
           <img className="brand-title" src="/assets/images/logo-text.png" alt />
         </a>

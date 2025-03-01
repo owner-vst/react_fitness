@@ -22,6 +22,8 @@ import WorkoutPlan from "./components/Custom/workout-plan/WorkoutPlan";
 import DietPlan from "./components/Custom/dietplan/DietPlan";
 import PersonalRecord from "./components/Custom/personal-record/PersonalRecord";
 import WorkoutStats from "./components/Custom/Workout Stats/WorkoutStats";
+import Settings from "./components/Custom/Settings/Settings";
+import ManageWorkoutPlan from "./components/Custom/admin/ManageWorkoutPlan/ManageWorkoutPlan";
 
 function App() {
   return (
@@ -45,6 +47,7 @@ function App() {
         <Route path="/dashboard/admin" element={<DashLayout />}>
           <Route index element={<DashBoardAdmin />} />
           <Route path="workoutplan" element={<WorkoutPlan />} />
+          <Route path="manageworkoutplan" element={<ManageWorkoutPlan />} />
           <Route path="dietplan" element={<DietPlan />} />
           <Route path="shop" element={<ProductGrid />} />
           <Route path="productdetail" element={<ProductDetail />} />
@@ -55,7 +58,7 @@ function App() {
           <Route path="paymentfailed" element={<PaymentFailed />} />
           <Route path="cart" element={<Cart />} />
           <Route path="personalrecord" element={<PersonalRecord />} />
-          <Route path="settings" element={<Demo />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="chat" element={<NewChat />} />
           <Route path="workoutstat" element={<WorkoutStats />} />
         </Route>
