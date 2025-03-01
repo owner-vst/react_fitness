@@ -16,7 +16,7 @@ function ProtoSidebar() {
     admin: [
       {
         label: "Dashboard",
-        link: "/dashboard/admin",
+        link: `/dashboard/${role}`,
         icon: "fas fa-home",
       },
       {
@@ -114,11 +114,16 @@ function ProtoSidebar() {
         link: "/dashboard/admin/integration",
         icon: "fas fa-plug",
       },
+      {
+        label: "Workout Stats",
+        link: "/dashboard/admin/workoutstat",
+        icon: "fas fa-chart-line",
+      },
     ],
     vendor: [
       {
         label: "Dashboard",
-        link: "/dashboard/admin",
+        link: `/dashboard/${role}`,
         icon: "fas fa-home",
       },
       {
@@ -145,6 +150,11 @@ function ProtoSidebar() {
         label: "Wishlist",
         link: "/dashboard/vendor/wishlist",
         icon: "fas fa-heart",
+      },
+      {
+        label: "Workout Stats",
+        link: "/dashboard/admin/workoutstat",
+        icon: "fas fa-chart-line",
       },
       {
         label: "Cart",
@@ -180,7 +190,7 @@ function ProtoSidebar() {
     user: [
       {
         label: "Dashboard",
-        link: "/dashboard/admin",
+        link: `/dashboard/${role}`,
         icon: "fas fa-home",
       },
       {
@@ -192,6 +202,11 @@ function ProtoSidebar() {
         label: "Diet Plan",
         link: "/dashboard/user/dietplan",
         icon: "fas fa-apple-alt",
+      },
+      {
+        label: "Workout Stats",
+        link: "/dashboard/admin/workoutstat",
+        icon: "fas fa-chart-line",
       },
       {
         label: "Shop",

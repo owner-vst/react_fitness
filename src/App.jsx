@@ -19,6 +19,9 @@ import PaymentFailed from "./components/Custom/shop/PaymentFailed";
 import ProductDetail from "./components/Custom/shop/ProductDetail";
 import Orders from "./components/Custom/shop/Orders";
 import WorkoutPlan from "./components/Custom/workout-plan/WorkoutPlan";
+import DietPlan from "./components/Custom/dietplan/DietPlan";
+import PersonalRecord from "./components/Custom/personal-record/PersonalRecord";
+import WorkoutStats from "./components/Custom/Workout Stats/WorkoutStats";
 
 function App() {
   return (
@@ -42,7 +45,7 @@ function App() {
         <Route path="/dashboard/admin" element={<DashLayout />}>
           <Route index element={<DashBoardAdmin />} />
           <Route path="workoutplan" element={<WorkoutPlan />} />
-          <Route path="dietplan" element={<Demo />} />
+          <Route path="dietplan" element={<DietPlan />} />
           <Route path="shop" element={<ProductGrid />} />
           <Route path="productdetail" element={<ProductDetail />} />
           <Route path="orders" element={<Orders />} />
@@ -51,9 +54,10 @@ function App() {
           <Route path="payment" element={<PaymentSuccess />} />
           <Route path="paymentfailed" element={<PaymentFailed />} />
           <Route path="cart" element={<Cart />} />
-          <Route path="personalrecord" element={<Demo />} />
+          <Route path="personalrecord" element={<PersonalRecord />} />
           <Route path="settings" element={<Demo />} />
           <Route path="chat" element={<NewChat />} />
+          <Route path="workoutstat" element={<WorkoutStats />} />
         </Route>
         <Route path="/dashboard/vendor" element={<DashLayout />}>
           <Route index element={<DashBoardVendor />} />

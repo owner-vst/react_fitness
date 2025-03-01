@@ -1,28 +1,33 @@
+import Diet from "../charts/Diet";
 import Workout from "../charts/Workout";
 
-function WorkoutPlan() {
+function DietPlan() {
   const cartItems = [
     {
       id: 1,
-      activity: "Running",
-      caloriesBurned: "300 kcal",
-      status: "Completed",
-      duration: "30 min",
+      foodItem: "Salad",
+      carbs: 10,
+      protein: 5,
+      fats: 3,
+      quantity: "250g",
     },
     {
       id: 2,
-      activity: "Cycling",
-      caloriesBurned: "250 kcal",
-      status: "In Progress",
-      duration: "45 min",
+      foodItem: "Rice",
+      carbs: 50,
+      protein: 6,
+      fats: 1,
+      quantity: "200g",
     },
     {
       id: 3,
-      activity: "Yoga",
-      caloriesBurned: "150 kcal",
-      status: "Completed",
-      duration: "60 min",
+      foodItem: "Fruit bowl",
+      carbs: 10,
+      protein: 5,
+      fats: 3,
+      quantity: "250g",
     },
+    // More items...
   ];
 
   return (
@@ -44,7 +49,7 @@ function WorkoutPlan() {
                     </div>
                     <div className="card-body">
                       <h6 className="fs-16 text-black mb-4">
-                        Suggested Today's Workout Plan
+                        Suggested Today's Diet Plan
                       </h6>
                       <div className="d-flex mb-4 align-items-center">
                         <span className="date-icon me-3">2</span>
@@ -54,9 +59,10 @@ function WorkoutPlan() {
                               href="workout-statistic.html"
                               className="text-black"
                             >
-                              Cardio Exercise
+                              Oatmeal
                             </a>
                           </h6>
+                          <span>Breakfast-</span>
                           <span>Pending</span>
                         </div>
                       </div>
@@ -68,9 +74,10 @@ function WorkoutPlan() {
                               href="workout-statistic.html"
                               className="text-black"
                             >
-                              Cycling Routine
+                              Rice Bowl
                             </a>
                           </h6>
+                          <span>Lunch-</span>
                           <span>Finished</span>
                         </div>
                       </div>
@@ -82,9 +89,10 @@ function WorkoutPlan() {
                               href="workout-statistic.html"
                               className="text-black"
                             >
-                              Running
+                              Sandwich
                             </a>
                           </h6>
+                          <span>Snack-</span>
                           <span>Skipped</span>
                         </div>
                       </div>
@@ -94,7 +102,7 @@ function WorkoutPlan() {
                         data-bs-target="#addNewPlan"
                         className="btn btn-outline-primary rounded"
                       >
-                        Add New Activity
+                        Add New Food Item
                       </a>
                       {/* Modal */}
                       <div className="modal fade" id="addNewPlan">
@@ -104,7 +112,7 @@ function WorkoutPlan() {
                         >
                           <div className="modal-content">
                             <div className="modal-header">
-                              <h5 className="modal-title">Add New Activity</h5>
+                              <h5 className="modal-title">Add New Food Item</h5>
                               <button
                                 type="button"
                                 className="btn-close"
@@ -114,31 +122,47 @@ function WorkoutPlan() {
                             <div className="modal-body">
                               <form>
                                 <div className="form-group">
-                                  <label>Activity Name</label>
+                                  <label>Food Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Activity Name"
+                                    placeholder="Food Name"
                                   />
                                 </div>
                                 <div className="form-group">
-                                  <label>Activity Unit</label>
+                                  <label>Calories</label>
                                   <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Activity Unit"
+                                    placeholder="Calories"
                                   />
                                 </div>
                                 <div className="form-group">
-                                  <label>Calories Burned</label>
+                                  <label>Fats</label>
                                   <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Calories Burned"
+                                    placeholder="Fats"
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label>Carbs</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Carbs"
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label>Protein</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Protein"
                                   />
                                 </div>
                                 <button className="btn btn-primary">
-                                  Add New Activity
+                                  Add Food Item
                                 </button>
                               </form>
                             </div>
@@ -165,7 +189,7 @@ function WorkoutPlan() {
                         data-bs-target="#addNewPlan1"
                         className="btn btn-outline-primary rounded me-3"
                       >
-                        Add Workout Log
+                        Add Food Log
                       </a>
 
                       {/* Modal */}
@@ -186,14 +210,20 @@ function WorkoutPlan() {
                             <div className="modal-body">
                               <form>
                                 <div className="form-group">
-                                  <label>Activity</label>
+                                  <label>Food Item</label>
                                   <select
                                     name="status"
                                     className="form-control input-btn input-number "
+                                    defaultValue=""
                                   >
-                                    <option value="Cycling">Cycling</option>
-                                    <option value="Running">Running</option>
-                                    <option value="Yoga">Yoga</option>
+                                    <option value="" disabled>
+                                      Select a food item
+                                    </option>
+                                    <option value="Salad">Salad</option>
+                                    <option value="Rice">Rice</option>
+                                    <option value="Pizza">Pizza</option>
+                                    <option value="Burger">Burger</option>
+                                    <option value="Sandwich">Sandwich</option>
                                   </select>
                                 </div>
                                 <div className="form-group">
@@ -210,9 +240,23 @@ function WorkoutPlan() {
                                     <option value="Pending">Pending</option>
                                   </select>
                                 </div>
-
                                 <div className="form-group">
-                                  <label>Duration</label>
+                                  <label>Meal Type</label>
+                                  <select
+                                    name="status"
+                                    className="form-control input-btn input-number "
+                                    defaultValue=""
+                                  >
+                                    <option value="" disabled>
+                                      Select a Meal Type
+                                    </option>
+                                    <option value="Breakfast">Breakfast</option>
+                                    <option value="Lunch">Lunch</option>
+                                    <option value="Dinner">Dinner</option>
+                                  </select>
+                                </div>
+                                <div className="form-group">
+                                  <label>Quantity</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -220,7 +264,7 @@ function WorkoutPlan() {
                                   />
                                 </div>
                                 <button className="btn btn-primary">
-                                  Add Workout Log
+                                  Add Food Log
                                 </button>
                               </form>
                             </div>
@@ -234,103 +278,19 @@ function WorkoutPlan() {
                       >
                         Update Workout Log
                       </a>
-                      {/* Modal */}
                     </div>
                     <div className="card-body">
-                      {/* <div className="table-responsive">
-                        <table className="table table-responsive-md">
-                          <thead>
-                            <tr>
-                              <th style={{ width: 80 }}>#</th>
-
-                              <th>UNIT PRICE</th>
-                              <th>QUANTITY</th>
-                              <th>TOTAL PRICE</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {cartItems.map((item) => (
-                              <tr key={item.id}>
-                                <td>
-                                  <strong className="text-black">
-                                    {String(item.id).padStart(2, "0")}
-                                  </strong>
-                                </td>
-
-                                <td>{item.unitPrice}</td>
-                                <td>{item.quantity}</td>
-                                <td>{item.totalPrice}</td>
-                                <td>
-                                  <div className="dropdown">
-                                    <button
-                                      type="button"
-                                      className="btn btn-success light sharp"
-                                      data-bs-toggle="dropdown"
-                                    >
-                                      <svg
-                                        width="20px"
-                                        height="20px"
-                                        viewBox="0 0 24 24"
-                                        version="1.1"
-                                      >
-                                        <g
-                                          stroke="none"
-                                          strokeWidth={1}
-                                          fill="none"
-                                          fillRule="evenodd"
-                                        >
-                                          <rect
-                                            x={0}
-                                            y={0}
-                                            width={24}
-                                            height={24}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={5}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={12}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={19}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                        </g>
-                                      </svg>
-                                    </button>
-                                    <div className="dropdown-menu">
-                                      <a className="dropdown-item" href="#">
-                                        Edit
-                                      </a>
-                                      <a className="dropdown-item" href="#">
-                                        Delete
-                                      </a>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div> */}
                       <div className="table-responsive">
                         <table className="table table-responsive-md">
                           <thead>
                             <tr>
                               <th style={{ width: 80 }}>#</th>
-                              <th>Activity</th>
-                              <th>Calories Burned</th>
+                              <th>Food Item</th>
+                              <th>Carbs</th>
+                              <th>Protein</th>
+                              <th>Fats</th>
+                              <th>Quantity</th>
                               <th>Status</th>
-                              <th>Duration</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -342,26 +302,29 @@ function WorkoutPlan() {
                                     {String(item.id).padStart(2, "0")}
                                   </strong>
                                 </td>
-                                <td>{item.activity}</td>
-                                <td>{item.caloriesBurned}</td>
+                                <td>{item.foodItem}</td>{" "}
+                                {/* Adjusted for food item */}
+                                <td>{item.carbs}</td> {/* Adjusted for carbs */}
+                                <td>{item.protein}</td>{" "}
+                                {/* Adjusted for protein */}
+                                <td>{item.fats}</td> {/* Adjusted for fats */}
+                                <td>{item.quantity}</td>{" "}
+                                {/* Adjusted for quantity */}
                                 <td>
                                   <div className="dropdown mt-sm-0 mt-3">
                                     <select
                                       name="status"
-                                      className="form-control input-btn input-number "
+                                      className="form-control input-btn input-number"
                                       defaultValue="Pending"
                                     >
                                       <option value="Completed">
                                         Completed
                                       </option>
-                                      <option value="In Progress">
-                                        In Progress
-                                      </option>
+                                      <option value="Skipped">Skipped</option>
                                       <option value="Pending">Pending</option>
                                     </select>
                                   </div>
                                 </td>
-                                <td>{item.duration}</td>
                                 <td>
                                   <div className="dropdown">
                                     <button
@@ -431,11 +394,11 @@ function WorkoutPlan() {
                   <div className="card">
                     <div className="card-header border-0 pb-0">
                       <h5 className="text-black fs-20 mb-0">
-                        Weekly Workout Progress
+                        Weekly Diet Progress
                       </h5>
                     </div>
                     <br></br>
-                    <Workout />
+                    <Diet />
                   </div>
                 </div>
               </div>
@@ -447,4 +410,4 @@ function WorkoutPlan() {
   );
 }
 
-export default WorkoutPlan;
+export default DietPlan;
