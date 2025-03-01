@@ -16,6 +16,7 @@ import WishList from "./components/Custom/shop/WishList";
 import Checkout from "./components/Custom/shop/Checkout";
 import PaymentSuccess from "./components/Custom/shop/PaymentSuccess";
 import PaymentFailed from "./components/Custom/shop/PaymentFailed";
+import ProductDetail from "./components/Custom/shop/ProductDetail";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="workoutplan" element={<Demo />} />
           <Route path="dietplan" element={<Demo />} />
           <Route path="shop" element={<ProductGrid />} />
+          <Route path="productdetail" element={<ProductDetail />} />
           <Route path="orders" element={<Demo />} />
           <Route path="wishlist" element={<WishList />} />
           <Route path="checkout" element={<Checkout />} />
