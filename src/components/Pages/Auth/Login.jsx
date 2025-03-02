@@ -115,6 +115,11 @@ function Login() {
                         <Link to="/auth/signup">Sign Up</Link>
                       </p>
                     </div>
+                    <div className="d-flex justify-content-around">
+                      <Link to="/dashboard/admin">Admin</Link>
+                      <Link to="/dashboard/vendor">Vendor</Link>
+                      <Link to="/dashboard/user">User</Link>
+                    </div>
                   </div>
                 </div>
               </div>

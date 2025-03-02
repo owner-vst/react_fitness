@@ -43,14 +43,18 @@ function App() {
         </Route>
         <Route path="/dashboard/user" element={<DashLayout />}>
           <Route index element={<DashBoardUser />} />
-          <Route path="workoutplan" element={<Demo />} />
-          <Route path="dietplan" element={<Demo />} />
-          <Route path="shop" element={<Demo />} />
-          <Route path="orders" element={<Demo />} />
-          <Route path="wishlist" element={<Demo />} />
-          <Route path="cart" element={<Demo />} />
-          <Route path="personalrecord" element={<Demo />} />
-          <Route path="settings" element={<Demo />} />
+          <Route path="workoutplan" element={<WorkoutPlan />} />
+          <Route path="dietplan" element={<DietPlan />} />
+          <Route path="shop" element={<ProductGrid />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="payment" element={<PaymentSuccess />} />
+          <Route path="paymentfailed" element={<PaymentFailed />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="wishlist" element={<WishList />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="personalrecord" element={<PersonalRecord />} />
+          <Route path="settings" element={<Settings />} />
+
           <Route path="chat" element={<NewChat />} />
         </Route>
         <Route path="/dashboard/admin" element={<DashLayout />}>
@@ -82,14 +86,20 @@ function App() {
         </Route>
         <Route path="/dashboard/vendor" element={<DashLayout />}>
           <Route index element={<DashBoardVendor />} />
-          <Route path="workoutplan" element={<Demo />} />
-          <Route path="dietplan" element={<Demo />} />
-          <Route path="shop" element={<Demo />} />
-          <Route path="orders" element={<Demo />} />
-          <Route path="wishlist" element={<Demo />} />
-          <Route path="cart" element={<Demo />} />
-          <Route path="personalrecord" element={<Demo />} />
-          <Route path="settings" element={<Demo />} />
+          <Route path="workoutplan" element={<WorkoutPlan />} />
+          <Route path="dietplan" element={<DietPlan />} />
+          <Route path="shop" element={<ProductGrid />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="manageorders" element={<ManageOrders />} />
+          <Route path="manageproducts" element={<ManageProducts />} />
+          <Route path="payment" element={<PaymentSuccess />} />
+          <Route path="paymentfailed" element={<PaymentFailed />} />
+          <Route path="wishlist" element={<WishList />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="personalrecord" element={<PersonalRecord />} />
+          <Route path="settings" element={<Settings />} />
+
           <Route path="chat" element={<NewChat />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>

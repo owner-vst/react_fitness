@@ -24,7 +24,7 @@ function Verify() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("redirecting");
-    window.location.href = "/";
+    window.location.href = "/dashboard/admin";
   };
   return (
     <div className="authincation h-100">
