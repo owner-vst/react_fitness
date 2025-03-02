@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import DashLayout from "./components/Layouts/DashLayout/DashLayout";
-import Demo from "./components/Custom/Demo";
+
 import NewChat from "./components/Custom/Chat/NewChat";
 import AuthLayout from "./components/Layouts/AuthLayout/AuthLayout";
 import Login from "./components/Pages/Auth/Login";
@@ -36,6 +36,7 @@ import Integrations from "./components/Custom/admin/Integrations/Integrations";
 import LandingLayout from "./components/Layouts/LandingLayout/LandingLayout";
 import Homepage from "./components/Pages/Landing/HomePage";
 import About from "./components/Pages/Landing/About";
+import Contact from "./components/Pages/Landing/Contact";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
         <Route path="/" element={<LandingLayout />}>
           <Route index element={<Homepage />} />
           <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
         </Route>
         <Route path="/dashboard/user" element={<DashLayout />}>
           <Route index element={<DashBoardUser />} />
