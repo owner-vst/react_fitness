@@ -24,6 +24,15 @@ import PersonalRecord from "./components/Custom/personal-record/PersonalRecord";
 import WorkoutStats from "./components/Custom/Workout Stats/WorkoutStats";
 import Settings from "./components/Custom/Settings/Settings";
 import ManageWorkoutPlan from "./components/Custom/admin/ManageWorkoutPlan/ManageWorkoutPlan";
+import ManageWorkoutLog from "./components/Custom/admin/ManageWorkoutLog/ManageWorkoutLog";
+import ManageActivity from "./components/Custom/admin/ManageActivity/ManageActivity";
+import ManageDietPlan from "./components/Custom/admin/ManageDietPlan/ManageDietPlan";
+import ManageFoodCatalogue from "./components/Custom/admin/ManageFoodCatalogue/ManageFoodCatalogue";
+import ManageFoodLog from "./components/Custom/admin/ManageFoodLog/ManageFoodLog";
+import ManageOrders from "./components/Custom/admin/ManageOrders/ManageOrders";
+import ManageProducts from "./components/Custom/admin/ManageProducts/ManageProducts";
+import ManageUsers from "./components/Custom/admin/ManageUsers/ManageUsers";
+import Integrations from "./components/Custom/admin/Integrations/Integrations";
 
 function App() {
   return (
@@ -48,10 +57,18 @@ function App() {
           <Route index element={<DashBoardAdmin />} />
           <Route path="workoutplan" element={<WorkoutPlan />} />
           <Route path="manageworkoutplan" element={<ManageWorkoutPlan />} />
+          <Route path="manageworkoutlog" element={<ManageWorkoutLog />} />
+          <Route path="manageactivity" element={<ManageActivity />} />
           <Route path="dietplan" element={<DietPlan />} />
+          <Route path="managedietplan" element={<ManageDietPlan />} />
+          <Route path="managefoodcatalogue" element={<ManageFoodCatalogue />} />
+          <Route path="managefoodlog" element={<ManageFoodLog />} />
           <Route path="shop" element={<ProductGrid />} />
           <Route path="productdetail" element={<ProductDetail />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="manageorders" element={<ManageOrders />} />
+          <Route path="manageproducts" element={<ManageProducts />} />
+          <Route path="manageusers" element={<ManageUsers />} />
           <Route path="wishlist" element={<WishList />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="payment" element={<PaymentSuccess />} />
@@ -59,6 +76,7 @@ function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="personalrecord" element={<PersonalRecord />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="integration" element={<Integrations />} />
           <Route path="chat" element={<NewChat />} />
           <Route path="workoutstat" element={<WorkoutStats />} />
         </Route>

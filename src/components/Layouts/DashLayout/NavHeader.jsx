@@ -1,8 +1,20 @@
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+
 function NavHeader() {
+  const [role, setRole] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname) {
+      const currentRole = location.pathname.split("/")[2];
+      setRole(currentRole);
+    }
+  }, [location.pathname]);
   return (
     <div>
       <div className="nav-header">
-        <a href="index.html" className="brand-logo">
+        <a className="brand-logo">
           <img className="logo-abbr" src="/assets/images/logo.png" alt />
           <img
             className="logo-compact"

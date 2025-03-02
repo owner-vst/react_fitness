@@ -200,7 +200,7 @@ function DietPlan() {
                         >
                           <div className="modal-content">
                             <div className="modal-header">
-                              <h5 className="modal-title">Add Workout Log</h5>
+                              <h5 className="modal-title">Add Food Log</h5>
                               <button
                                 type="button"
                                 className="btn-close"
@@ -226,20 +226,7 @@ function DietPlan() {
                                     <option value="Sandwich">Sandwich</option>
                                   </select>
                                 </div>
-                                <div className="form-group">
-                                  <label>Status</label>
-                                  <select
-                                    name="status"
-                                    className="form-control input-btn input-number "
-                                    defaultValue="Pending"
-                                  >
-                                    <option value="Completed">Completed</option>
-                                    <option value="In Progress">
-                                      In Progress
-                                    </option>
-                                    <option value="Pending">Pending</option>
-                                  </select>
-                                </div>
+
                                 <div className="form-group">
                                   <label>Meal Type</label>
                                   <select
@@ -260,7 +247,7 @@ function DietPlan() {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Duration"
+                                    placeholder="Quantity"
                                   />
                                 </div>
                                 <button className="btn btn-primary">

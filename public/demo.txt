@@ -2,3 +2,8 @@ user navbar items:workoutplan,dietplan,workout stats,shop,orders,wishlist,cart,p
 vendor navbar item:workoutplan,dietplan,workout stats,shop,orders,wishlist,cart,personal record,settings,manage orders,manage products
 admin:workoutplan,dietplan,workout stats,shop,orders,wishlist,cart,personal record,settings,manage orders,manage products,manage workout plan,manage workout log,manage activity,manage food catalogue,manage diet plan,manage food log,manaage users,integration
 follow the below refernce and make navbar compnene for above info
+
+
+the button will have 2 modes-add,edit
+if form is filled and add is pressed then the entry ius addedd in obj and displayed in table
+if user select  edit option under action in a row then those values should refelcet on form and user can change values at that time button mode will be edit,after clicking edit with form consists data then the data should refelct in obj,table

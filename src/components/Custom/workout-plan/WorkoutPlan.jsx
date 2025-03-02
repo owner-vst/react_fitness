@@ -196,20 +196,6 @@ function WorkoutPlan() {
                                     <option value="Yoga">Yoga</option>
                                   </select>
                                 </div>
-                                <div className="form-group">
-                                  <label>Status</label>
-                                  <select
-                                    name="status"
-                                    className="form-control input-btn input-number "
-                                    defaultValue="Pending"
-                                  >
-                                    <option value="Completed">Completed</option>
-                                    <option value="In Progress">
-                                      In Progress
-                                    </option>
-                                    <option value="Pending">Pending</option>
-                                  </select>
-                                </div>
 
                                 <div className="form-group">
                                   <label>Duration</label>
