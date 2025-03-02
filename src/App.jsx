@@ -33,13 +33,17 @@ import ManageOrders from "./components/Custom/admin/ManageOrders/ManageOrders";
 import ManageProducts from "./components/Custom/admin/ManageProducts/ManageProducts";
 import ManageUsers from "./components/Custom/admin/ManageUsers/ManageUsers";
 import Integrations from "./components/Custom/admin/Integrations/Integrations";
+import LandingLayout from "./components/Layouts/LandingLayout/LandingLayout";
+import Homepage from "./components/Pages/Landing/HomePage";
+import About from "./components/Pages/Landing/About";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<DashLayout />}>
-          <Route index element={<Demo />} />
+        <Route path="/" element={<LandingLayout />}>
+          <Route index element={<Homepage />} />
+          <Route path="about" element={<About />} />
         </Route>
         <Route path="/dashboard/user" element={<DashLayout />}>
           <Route index element={<DashBoardUser />} />
@@ -99,7 +103,6 @@ function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="personalrecord" element={<PersonalRecord />} />
           <Route path="settings" element={<Settings />} />
-
           <Route path="chat" element={<NewChat />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
