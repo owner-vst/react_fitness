@@ -3,198 +3,306 @@ import { Link } from "react-router-dom";
 function About() {
   return (
     <div>
-      <div
-        className="dz-bnr-inr dz-bnr-inr-sm text-center overlay-primary-dark"
-        style={{ backgroundImage: "url(/assets/images/banner/bnr1.jpg)" }}
-      >
-        <div className="container">
-          <div className="dz-bnr-inr-entry">
-            <h1>About Us</h1>
+      <section className="py-8">
+        <div className="container my-lg-4 ">
+          <div className="row">
+            <div className=" col-lg-10 col-md-12 col-12 mb-8 mt-5">
+              <h1 className="display-2 fw-bold mb-2">
+                Welcome to insightstracker.fit
+              </h1>
+              {/* <h1 className="display-2 fw-bold mb-3 text-primary">
+                insightstracker.fit
+              </h1> */}
+              <p className="h2 mb-3">
+                Your ultimate fitness companion. Log your food, track your
+                workouts, get AI-powered diet plans, shop for fitness gear, and
+                much more!
+              </p>
+              <p className="mb-0 h4 text-body lh-lg text-primary">
+                We offers a comprehensive suite of tools to help you achieve
+                your fitness goals. From logging your meals to tracking your
+                workouts, our app provides everything you need to stay on top of
+                your health journey.
+              </p>
+            </div>
+          </div>
 
-            <nav aria-label="breadcrumb" className="breadcrumb-row m-t15">
-              <ul className="breadcrumb">
-                <li className="breadcrumb-item">
-                  <Link to="/">Home</Link>
-                </li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  About Us
-                </li>
-              </ul>
-            </nav>
+          <div className="row gallery mb-8">
+            <figure className="col-lg-4 col-md-6 mb-4">
+              <img
+                src="/assets/images/big/img1.jpg"
+                alt="Gallery image 1"
+                className="gallery__img rounded-3 img-fluid"
+              />
+            </figure>
+
+            <figure className="col-lg-4 col-md-6 mb-4">
+              <img
+                src="/assets/images/big/img2.jpg"
+                alt="Gallery image 2"
+                className="gallery__img rounded-3 img-fluid"
+              />
+            </figure>
+
+            <figure className="col-lg-4 col-md-6 mb-4">
+              <img
+                src="/assets/images/big/img3.jpg"
+                alt="Gallery image 3"
+                className="gallery__img rounded-3 img-fluid"
+              />
+            </figure>
+
+            <figure className="col-lg-4 col-md-6 mb-4">
+              <img
+                src="/assets/images/big/img4.jpg"
+                alt="Gallery image 4"
+                className="gallery__img rounded-3 img-fluid"
+              />
+            </figure>
+
+            <figure className="col-lg-4 col-md-6 mb-4">
+              <img
+                src="/assets/images/big/img5.jpg"
+                alt="Gallery image 5"
+                className="gallery__img rounded-3 img-fluid"
+              />
+            </figure>
+
+            <figure className="col-lg-4 col-md-6 mb-4">
+              <img
+                src="/assets/images/big/img6.jpg"
+                alt="Gallery image 6"
+                className="gallery__img rounded-3 img-fluid"
+              />
+            </figure>
           </div>
-        </div>
-      </div>
-      <section className="content-inner overflow-hidden position-relative">
-        <div className="container">
-          <div className="section-head text-center">
-            <h2 className="title wow fadeInUp" data-wow-delay="0.8s">
-              What We Believe In
-            </h2>
-          </div>
-          <div className="row justify-content-center">
-            <div className="col-lg-4 col-md-6 m-b30">
-              <div
-                className="icon-bx-wraper style-1 bg-clr-sky wow bounceInLeft"
-                data-wow-delay="1.2s"
-              >
-                <div className="icon-media">
-                  <img
-                    src="/assets/images/icon/pic1.png"
-                    alt="image"
-                    className="rounded"
-                  />
-                </div>
-                <div className="icon-content">
-                  <h4 className="title">Mission</h4>
-                  <p className="text">
-                    We aim to support academic excellence by ensuring that every
-                    thesis is accessible, well-documented, and subjected to
-                    rigorous peer review
-                  </p>
-                </div>
-                <h3 className="count">01</h3>
+
+          <div className="row ">
+            <div className="col-md-10 offset-right-md-6">
+              <h1 className="display-4 fw-bold mb-3">Our global reach</h1>
+
+              <p className="lead">
+                insightstracker.fit is the leading global platform for fitness
+                connecting millions of users to the tools they need to succeed
+                in their fitness journey.
+              </p>
+            </div>
+            <div className="col-lg-3 col-md-6 col-6">
+              <div className="border-top pt-4 mt-6 mb-5">
+                <h1 className="display-3 fw-bold mb-0">20M</h1>
+                <p className="text-uppercase">Users</p>
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 m-b30">
-              <div
-                className="icon-bx-wraper style-1 bg-clr-pink wow bounceInUp"
-                data-wow-delay="1.0s"
-              >
-                <div className="icon-media">
-                  <img
-                    src="/assets/images/icon/value.png"
-                    alt="image"
-                    className="rounded"
-                  />
-                </div>
-                <div className="icon-content">
-                  <h4 className="title">Values</h4>
-                  <p className="text">
-                    We believe in transparency, academic integrity, and the
-                    power of collaboration to drive scholarly advancement
-                  </p>
-                  <br></br>
-                </div>
-                <h3 className="count">02</h3>
+            <div className="col-lg-3 col-md-6 col-6">
+              <div className="border-top pt-4 mt-6 mb-5">
+                <h1 className="display-3 fw-bold mb-0">57K</h1>
+                <p className="text-uppercase">Goals Set</p>
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 m-b30">
-              <div
-                className="icon-bx-wraper style-1 bg-clr-green wow bounceInRight"
-                data-wow-delay="1.2s"
-              >
-                <div className="icon-media">
-                  <img
-                    src="/assets/images/icon/pic3.png"
-                    alt="image"
-                    className="rounded"
-                  />
-                </div>
-                <div className="icon-content">
-                  <h4 className="title">History</h4>
-                  <p className="text">
-                    Founded in 1990, our repository has grown to include
-                    thousands of theses from institutions around the world.
-                  </p>
-                  <br></br>
-                </div>
-                <h3 className="count">03</h3>
+            <div className="col-lg-3 col-md-6 col-6">
+              <div className="border-top pt-4 mt-6 mb-5">
+                <h1 className="display-3 fw-bold mb-0">21K</h1>
+                <p className="text-uppercase">Workout Plans</p>
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-6 col-6">
+              <div className="border-top pt-4 mt-6 mb-5">
+                <h1 className="display-3 fw-bold mb-0">380M</h1>
+                <p className="text-uppercase">Workouts Logged</p>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <section className="content-inner position-relative">
-        <div className="container">
-          <div className="section-head text-center">
-            <h2 className="title wow fadeInUp" data-wow-delay="0.8s">
-              Our Team
-            </h2>
+
+      {/* features */}
+      <section className="py-8">
+        <div className="container my-lg-8">
+          <div className="row">
+            <div className="col-lg-10 col-md-8 col-12 mb-6">
+              <h2 className="display-4 mb-3 fw-bold">Our Core Values</h2>
+              <p className="lead">
+                Our core values guide us in creating a fitness app that empowers
+                users to lead healthier lives. We are committed to helping you
+                achieve your fitness goals with integrity and innovation.
+              </p>
+            </div>
           </div>
           <div className="row">
-            <div className="col-lg-4 col-md-6  m-b30">
-              <div
-                className="dz-card style-1 overlay-shine wow fadeInUp"
-                data-wow-delay="1.0s"
-              >
-                <div className="dz-media">
-                  <img src="/assets/images/about/p1.jpeg" alt="img" />
-                </div>
-                <div className="dz-info">
-                  <div className="dz-meta">
-                    <ul>
-                      <li className="post-author text-primary">
-                        <span>
-                          <i className="fa-solid fa-user" />
-                        </span>
-                        Scholar
-                      </li>
-                    </ul>
+            <div className="col-md-4 col-12">
+              <div className="card mb-4 mb-lg-0">
+                <div className="card-body p-5">
+                  <div className="mb-3">
+                    <i className="fas fa-heart-pulse text-primary fa-2x"></i>
                   </div>
-                  <h4 className="dz-title">David</h4>
-                  <p>
-                    {" "}
-                    Thesis Contributed:10 <br></br>Thesis Reviewed:12<br></br>
-                    Since 2010
+                  <h3 className="mb-2">Health and Wellness</h3>
+                  <p className="mb-0">
+                    We prioritize your health and wellness, providing tools to
+                    track your progress and stay motivated.
                   </p>
                 </div>
               </div>
             </div>
-            <div className="col-lg-4 col-md-6  m-b30">
-              <div
-                className="dz-card style-1 overlay-shine wow fadeInUp"
-                data-wow-delay="1.0s"
-              >
-                <div className="dz-media">
-                  <img src="/assets/images/about/p2.jpeg" alt="img" />
-                </div>
-                <div className="dz-info">
-                  <div className="dz-meta">
-                    <ul>
-                      <li className="post-author text-primary">
-                        <span>
-                          <i className="fa-solid fa-user" />
-                        </span>
-                        Scholar
-                      </li>
-                    </ul>
+            <div className="col-md-4 col-12">
+              <div className="card mb-4 mb-lg-0">
+                <div className="card-body p-5">
+                  <div className="mb-3">
+                    <i className="fas fa-chart-line text-primary fa-2x"></i>
                   </div>
-                  <h4 className="dz-title">Mark</h4>
-                  <p>
-                    {" "}
-                    Thesis Contributed:15 <br></br>Thesis Reviewed:16<br></br>
-                    Since 2014
+                  <h3 className="mb-2">Data-Driven Insights</h3>
+                  <p className="mb-0">
+                    Utilize data to provide personalized insights and help you
+                    make informed decisions about your fitness journey.
                   </p>
                 </div>
               </div>
             </div>
-            <div className="col-lg-4 col-md-6  m-b30">
-              <div
-                className="dz-card style-1 overlay-shine wow fadeInUp"
-                data-wow-delay="1.0s"
-              >
-                <div className="dz-media">
-                  <img src="/assets/images/about/p3.jpeg" alt="img" />
-                </div>
-                <div className="dz-info">
-                  <div className="dz-meta">
-                    <ul>
-                      <li className="post-author text-primary">
-                        <span>
-                          <i className="fa-solid fa-user" />
-                        </span>
-                        Scholar
-                      </li>
-                    </ul>
+            <div className="col-md-4 col-12">
+              <div className="card mb-4 mb-lg-0">
+                <div className="card-body p-5">
+                  <div className="mb-3">
+                    <i className="fas fa-solid fa-lightbulb text-primary fa-2x"></i>
                   </div>
-                  <h4 className="dz-title">Harris</h4>
-                  <p>
-                    {" "}
-                    Thesis Contributed:20 <br></br>Thesis Reviewed:17<br></br>
-                    Since 2010
+                  <h3 className="mb-2">Innovation</h3>
+                  <p className="mb-0">
+                    We strive to innovate and improve our app continuously to
+                    provide you with the best fitness tracking experience.
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section className="py-8 bg-white">
+        <div className="container my-lg-8">
+          <div className="row">
+            <div className="col-lg-10 col-md-8 col-12 mb-8 ">
+              {/* heading */}
+              <h2 className="display-4 mb-3 fw-bold mt-5">Our Team</h2>
+              {/* lead */}
+              <p className="lead mb-5">
+                Want to work with some of the best global talent and build a
+                tool used by all the companies you know and love? Join the Geeks
+                team and help shape the future of design.
+              </p>
+              {/* btn */}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xl-3 col-lg-4 col-md-6 col-12">
+              <div className="card mb-4 card-hover">
+                <div>
+                  <img
+                    src="/assets/images/profile/avatar-1.jpg"
+                    alt="Trainer 1"
+                    className="card-img-top img-fluid"
+                  />
+                </div>
+
+                <div className="card-body">
+                  <h3 className="mb-0 fw-semibold">
+                    <a href="#" className="text-inherit">
+                      Mary Roberts
+                    </a>
+                  </h3>
+                  <p className="mb-3">Founder</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-xl-3 col-lg-4 col-md-6 col-12">
+              <div className="card mb-4 card-hover">
+                <div>
+                  <img
+                    src="/assets/images/profile/avatar-2.jpg"
+                    alt="Trainer 2"
+                    className="card-img-top img-fluid"
+                  />
+                </div>
+
+                <div className="card-body">
+                  <h3 className="mb-0 fw-semibold">
+                    <a href="#" className="text-inherit">
+                      Esther Howard
+                    </a>
+                  </h3>
+                  <p className="mb-3">Co-Founder</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-xl-3 col-lg-4 col-md-6 col-12">
+              <div className="card mb-4 card-hover">
+                <div>
+                  <img
+                    src="/assets/images/profile/avatar-5.jpg"
+                    alt="Trainer 3"
+                    className="card-img-top img-fluid"
+                  />
+                </div>
+
+                <div className="card-body">
+                  <h3 className="mb-0 fw-semibold">
+                    <a href="#" className="text-inherit">
+                      Ross Johnson
+                    </a>
+                  </h3>
+                  <p className="mb-3">Content Moderator</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-xl-3 col-lg-4 col-md-6 col-12 d-lg-none d-xl-block">
+              <div className="card mb-4 card-hover">
+                <div>
+                  <img
+                    src="/assets/images/profile/avatar-6.jpg"
+                    alt="Trainer 4"
+                    className="card-img-top img-fluid"
+                  />
+                </div>
+
+                <div className="card-body">
+                  <h3 className="mb-0 fw-semibold">
+                    <a href="#" className="text-inherit">
+                      James Davies
+                    </a>
+                  </h3>
+                  <p className="mb-3">Support Moderator</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* cta */}
+      <section>
+        <div className="container mt-4 mb-5">
+          <div className="row align-items-center g-0">
+            <div className="col-xl-8 col-lg-6 col-md-12">
+              <div className="pt-6 pt-lg-0">
+                <h1 className="text display-4 fw-bold pe-lg-8">
+                  Join the insightstracker.fit community
+                </h1>
+
+                <p className="text-50 mb-4 lead">
+                  If you’re passionate about fitness and ready to make a change,
+                  we’d love to have you on board. We’re committed to supporting
+                  your fitness goals and overall well-being.
+                </p>
+
+                <a href="#" className="btn btn-primary">
+                  Explore Fitness Programs
+                </a>
+              </div>
+            </div>
+
+            <div className="col-xl-4 col-lg-6 col-md-12 text-lg-end text-center pt-6">
+              <img
+                src="/assets/images/ab1.png"
+                alt="Fitness Hero"
+                className="img-fluid"
+              />
             </div>
           </div>
         </div>

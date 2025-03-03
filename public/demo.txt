@@ -7,3 +7,5 @@ follow the below refernce and make navbar compnene for above info
 the button will have 2 modes-add,edit
 if form is filled and add is pressed then the entry ius addedd in obj and displayed in table
 if user select  edit option under action in a row then those values should refelcet on form and user can change values at that time button mode will be edit,after clicking edit with form consists data then the data should refelct in obj,table
+
+
