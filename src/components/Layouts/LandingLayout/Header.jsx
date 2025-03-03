@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 
 function Header() {
-  
   return (
     <nav className="navbar navbar-expand-lg bg-white navbar-light">
       <div className="container px-3 py-2">
         <Link className="navbar-brand" to="/">
-          <img src="/assets/images/logo.png" alt />
+          <img src="/assets/images/logo.png" alt="logo" />
           <span className="brand-title"> insightstracker.fit</span>
         </Link>
         <div className="d-flex align-items-center order-lg-3 ms-lg-3">
@@ -16,7 +15,7 @@ function Header() {
             </Link>
             <Link
               to="/auth/signup"
-              className="btn btn-primary d-none d-md-block"
+              className="btn btn-outline-primary d-none d-md-block"
             >
               Sign up
             </Link>

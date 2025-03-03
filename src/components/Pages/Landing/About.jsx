@@ -1,8 +1,15 @@
-import { Link } from "react-router-dom";
-
 function About() {
   return (
     <div>
+      <div>
+        <div className="dz-bnr-inr dz-bnr-inr-sm text-center- overlay-primary-dark">
+          <div className="container ">
+            <strong className="d-flex text-primary justify-content-center mt-3">
+              <h1>About Us</h1>
+            </strong>
+          </div>
+        </div>
+      </div>
       <section className="py-8">
         <div className="container my-lg-4 ">
           <div className="row">

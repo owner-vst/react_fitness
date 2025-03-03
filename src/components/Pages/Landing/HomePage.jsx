@@ -6,7 +6,7 @@ function HomePage() {
       <section className="py-lg-16 py-8">
         <div className="container">
           {/* row */}
-          <div className="row align-items-center">
+          <div className="row align-items-center ">
             {/* col */}
             <div className="col-lg-6 mb-6 mb-lg-0">
               <div className>
@@ -39,11 +39,11 @@ function HomePage() {
           </div>
         </div>
       </section>
-      <div className="py-8  bg-light-gradient-top ">
-        <div className="container">
+      <div className="py-8  bg-white mb-5 ">
+        <div className="container mt-10">
           <div className="row mb-8 justify-content-center">
             {/* caption */}
-            <div className="col-lg-8 col-md-12 col-12 text-center">
+            <div className="col-lg-8 col-md-12 col-12 text-center mt-5">
               <span className="text-primary mb-3 d-block text-uppercase fw-semibold ls-xl">
                 Product Features
               </span>
@@ -238,7 +238,7 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div className="py-8">
+      <div className="py-8 " >
         {/* container */}
         <div className="container">
           <div className="row">
