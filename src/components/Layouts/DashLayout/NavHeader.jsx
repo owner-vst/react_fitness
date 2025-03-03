@@ -15,13 +15,18 @@ function NavHeader() {
     <div>
       <div className="nav-header">
         <a className="brand-logo">
-          <img className="logo-abbr" src="/assets/images/logo.png" alt />
+          <img className="logo-abbr" src="/assets/images/ftic.png" alt />
           <img
             className="logo-compact"
-            src="/assets/images/logo-text.png"
+            src="/assets/images/lot.png"
             alt="logo"
           />
-          <img className="brand-title" src="/assets/images/logo-text.png" alt />
+          <img
+            className="brand-title "
+            src="/assets/images/lot.png"
+            alt
+            style={{ width: "200px", height: "30px" }}
+          />
         </a>
         <div className="nav-control">
           <div className="hamburger">
