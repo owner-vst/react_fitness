@@ -79,16 +79,7 @@ function ProtoSidebar() {
         link: "/dashboard/admin/cart",
         icon: "fas fa-cart-plus",
       },
-      {
-        label: "Personal Record",
-        link: "/dashboard/admin/personalrecord",
-        icon: "fas fa-id-card",
-      },
-      {
-        label: "Settings",
-        link: "/dashboard/admin/settings",
-        icon: "fas fa-cogs",
-      },
+
       {
         label: "Manage Orders",
         link: "/dashboard/admin/manageorders",
@@ -119,6 +110,16 @@ function ProtoSidebar() {
         link: "/dashboard/admin/workoutstat",
         icon: "fas fa-chart-line",
       },
+      {
+        label: "Personal Record",
+        link: "/dashboard/admin/personalrecord",
+        icon: "fas fa-id-card",
+      },
+      {
+        label: "Settings",
+        link: "/dashboard/admin/settings",
+        icon: "fas fa-cogs",
+      },
     ],
     vendor: [
       {
@@ -147,20 +148,31 @@ function ProtoSidebar() {
         icon: "fas fa-shopping-cart",
       },
       {
+        label: "Cart",
+        link: "/dashboard/vendor/cart",
+        icon: "fas fa-cart-plus",
+      },
+      {
         label: "Wishlist",
         link: "/dashboard/vendor/wishlist",
         icon: "fas fa-heart",
+      },
+      {
+        label: "Manage Orders",
+        link: "/dashboard/vendor/manageorders",
+        icon: "fas fa-box",
+      },
+      {
+        label: "Manage Products",
+        link: "/dashboard/vendor/manageproducts",
+        icon: "fas fa-cogs",
       },
       {
         label: "Workout Stats",
         link: "/dashboard/admin/workoutstat",
         icon: "fas fa-chart-line",
       },
-      {
-        label: "Cart",
-        link: "/dashboard/vendor/cart",
-        icon: "fas fa-cart-plus",
-      },
+
       {
         label: "Personal Record",
         link: "/dashboard/vendor/personalrecord",
@@ -174,16 +186,6 @@ function ProtoSidebar() {
       {
         label: "Settings",
         link: "/dashboard/vendor/settings",
-        icon: "fas fa-cogs",
-      },
-      {
-        label: "Manage Orders",
-        link: "/dashboard/vendor/manageorders",
-        icon: "fas fa-box",
-      },
-      {
-        label: "Manage Products",
-        link: "/dashboard/vendor/manageproducts",
         icon: "fas fa-cogs",
       },
     ],
