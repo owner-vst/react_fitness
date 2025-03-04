@@ -15,7 +15,7 @@ function NavHeader() {
     <div>
       <div className="nav-header">
         <a className="brand-logo">
-          <img className="logo-abbr" src="/assets/images/ftic.png" alt />
+          <img className="logo-abbr" src="/assets/images/ftbgic.png" alt />
           <img
             className="logo-compact"
             src="/assets/images/lot.png"
@@ -23,7 +23,7 @@ function NavHeader() {
           />
           <img
             className="brand-title "
-            src="/assets/images/lot.png"
+            src="/assets/images/lotbg.png"
             alt
             style={{ width: "200px", height: "30px" }}
           />
