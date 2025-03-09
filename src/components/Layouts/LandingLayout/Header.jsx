@@ -73,6 +73,11 @@ function Header() {
         <div className="collapse navbar-collapse" id="navbar-default5">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
+              <Link className="nav-link " aria-current="page" to="/">
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link className="nav-link " aria-current="page" to="/about">
                 About Us
               </Link>

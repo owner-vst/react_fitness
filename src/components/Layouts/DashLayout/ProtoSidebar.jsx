@@ -69,22 +69,22 @@ function ProtoSidebar() {
         link: "/dashboard/admin/orders",
         icon: "fas fa-shopping-cart",
       },
-      {
-        label: "Wishlist",
-        link: "/dashboard/admin/wishlist",
-        icon: "fas fa-heart",
-      },
-      {
-        label: "Cart",
-        link: "/dashboard/admin/cart",
-        icon: "fas fa-cart-plus",
-      },
+      // {
+      //   label: "Wishlist",
+      //   link: "/dashboard/admin/wishlist",
+      //   icon: "fas fa-heart",
+      // },
+      // {
+      //   label: "Cart",
+      //   link: "/dashboard/admin/cart",
+      //   icon: "fas fa-cart-plus",
+      // },
 
-      {
-        label: "Manage Orders",
-        link: "/dashboard/admin/manageorders",
-        icon: "fas fa-box",
-      },
+      // {
+      //   label: "Manage Orders",
+      //   link: "/dashboard/admin/manageorders",
+      //   icon: "fas fa-box",
+      // },
       {
         label: "Manage Products",
         link: "/dashboard/admin/manageproducts",
@@ -147,21 +147,21 @@ function ProtoSidebar() {
         link: "/dashboard/vendor/orders",
         icon: "fas fa-shopping-cart",
       },
-      {
-        label: "Cart",
-        link: "/dashboard/vendor/cart",
-        icon: "fas fa-cart-plus",
-      },
-      {
-        label: "Wishlist",
-        link: "/dashboard/vendor/wishlist",
-        icon: "fas fa-heart",
-      },
-      {
-        label: "Manage Orders",
-        link: "/dashboard/vendor/manageorders",
-        icon: "fas fa-box",
-      },
+      // {
+      //   label: "Cart",
+      //   link: "/dashboard/vendor/cart",
+      //   icon: "fas fa-cart-plus",
+      // },
+      // {
+      //   label: "Wishlist",
+      //   link: "/dashboard/vendor/wishlist",
+      //   icon: "fas fa-heart",
+      // },
+      // {
+      //   label: "Manage Orders",
+      //   link: "/dashboard/vendor/manageorders",
+      //   icon: "fas fa-box",
+      // },
       {
         label: "Manage Products",
         link: "/dashboard/vendor/manageproducts",

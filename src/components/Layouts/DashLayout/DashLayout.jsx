@@ -8,7 +8,7 @@ import { Outlet } from "react-router-dom";
 
 function DashLayout() {
   return (
-    <div id="main-wrapper">
+    <div>
       <NavHeader />
       <DashHeader />
 

@@ -11,6 +11,8 @@ function ManageUsers() {
       gender: "Male",
       role: "Admin",
       dob: "1990-01-01",
+      status: "Active",
+      verified: "Verified",
     },
     {
       id: 2,
@@ -21,6 +23,8 @@ function ManageUsers() {
       gender: "Female",
       role: "User",
       dob: "1990-01-01",
+      status: "Inactive",
+      verified: "Not Verified",
     },
     {
       id: 3,
@@ -31,6 +35,8 @@ function ManageUsers() {
       gender: "Female",
       role: "Vendor",
       dob: "1990-01-01",
+      status: "Active",
+      verified: "Verified",
     },
   ]);
 
@@ -42,12 +48,17 @@ function ManageUsers() {
     profilePic: null,
     gender: "",
     role: "",
+    dob: "",
+    status: "",
+    verified: "",
   });
 
   const [isEditMode, setIsEditMode] = useState(false);
 
   const genderOptions = ["Male", "Female"];
   const roleOptions = ["Admin", "User", "Vendor"];
+  const statusOptions = ["Active", "Inactive"];
+  const verifiedOptions = ["Verified", "Not Verified"];
 
   useEffect(() => {
     (function () {
@@ -78,10 +89,10 @@ function ManageUsers() {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0]; // Get the file
+    const file = e.target.files[0];
     setFormData((prevData) => ({
       ...prevData,
-      profilePic: file ? URL.createObjectURL(file) : null, // Convert the file to a temporary URL
+      profilePic: file ? URL.createObjectURL(file) : null,
     }));
   };
 
@@ -100,28 +111,23 @@ function ManageUsers() {
       ]);
     }
 
-    // Reset formData and ensure the image URL is retained
     setFormData({
       id: null,
       firstName: "",
       lastName: "",
       email: "",
-      profilePic: null, // Resetting image to null but it will be set again with object URL
+      profilePic: null,
       gender: "",
       role: "",
       dob: "",
+      status: "",
+      verified: "",
     });
     setIsEditMode(false);
   };
 
   const handleEdit = (user) => {
-    setFormData({
-      ...user,
-      gender: user.gender,
-      role: user.role,
-      dob: user.dob,
-      profilePic: user.profilePic,
-    });
+    setFormData({ ...user });
     setIsEditMode(true);
   };
 
@@ -247,6 +253,50 @@ function ManageUsers() {
                         Please select Role.
                       </div>
                     </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Status</label>
+                      <select
+                        name="status"
+                        className="form-control"
+                        required
+                        value={formData.status}
+                        onChange={handleChange}
+                      >
+                        <option value="" disabled>
+                          Choose Status
+                        </option>
+                        {statusOptions.map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="invalid-feedback">
+                        Please select Status.
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Verified</label>
+                      <select
+                        name="verified"
+                        className="form-control"
+                        required
+                        value={formData.verified}
+                        onChange={handleChange}
+                      >
+                        <option value="" disabled>
+                          Choose Verified
+                        </option>
+                        {verifiedOptions.map((verified) => (
+                          <option key={verified} value={verified}>
+                            {verified}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="invalid-feedback">
+                        Please select Verified.
+                      </div>
+                    </div>
                     <div className="col-md-6">
                       <label htmlFor="dateOfBirth">Date of Birth</label>
                       <input
@@ -289,6 +339,8 @@ function ManageUsers() {
                           <th>Gender</th>
                           <th>Role</th>
                           <th>DOB</th>
+                          <th>Status</th>
+                          <th>Verified</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -318,6 +370,8 @@ function ManageUsers() {
                             <td>{user.gender}</td>
                             <td>{user.role}</td>
                             <td>{user.dob}</td>
+                            <td>{user.status}</td>
+                            <td>{user.verified}</td>
                             <td>
                               <div className="dropdown">
                                 <button

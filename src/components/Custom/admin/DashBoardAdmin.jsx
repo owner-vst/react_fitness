@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function DashBoardAdmin() {
   return (
     <div className="content-body">
@@ -484,14 +486,14 @@ function DashBoardAdmin() {
               <div className="card-body text-center">
                 <div id="radialBar" />
                 <p className="fs-14">
-                  Progrees based on your fitness activity{" "}
+                  Progress based on your fitness activity{" "}
                 </p>
-                <a
-                  href="workout-statistic.html"
+                <Link
+                  to="/dashboard/admin/workoutplan"
                   className="btn btn-outline-primary rounded"
                 >
                   See Workout Plan
-                </a>
+                </Link>
               </div>
             </div>
           </div>

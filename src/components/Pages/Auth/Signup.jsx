@@ -336,7 +336,7 @@ function Signup() {
                         </svg>
                       </Link>
                     </div>
-                    <h4 className="text-center mb-4">Sign up your account</h4>
+                    <h4 className="text-center mb-4">Sign Up</h4>
 
                     <form
                       className="needs-validation"

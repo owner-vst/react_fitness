@@ -116,29 +116,31 @@ function Contact() {
           </div>
 
           <div className="row">
-            <div className="col-md-6 col-lg-3 border-top-md  border-end-md">
+            <div className="col-md-6 col-lg-3 border-top-md mb-4 border-end-md">
               <div className="py-7 text-center">
                 <div className="mb-3">
                   <i className="fas fa fa-map-marker-alt fs-2 text-primary" />
                 </div>
                 <div className="lh-1">
-                  <h2 className="mb-1">Office</h2>
-                  <span>insightstracker.fit HQ</span>
+                  <h2 className="mb-1">Office </h2>
+                  <a href="https://maps.app.goo.gl/KFd4adjq2YzSsCnt8">
+                    <span>insightstracker.fit HQ</span>
+                  </a>
                 </div>
               </div>
             </div>
-            <div className="col-md-6 col-lg-3 border-top-md  border-end-lg">
+            <div className="col-md-6 col-lg-3 border-top-md mb-4 border-end-lg">
               <div className="py-7 text-center">
                 <div className="mb-3">
                   <i className="fas fa-phone-alt fs-2 text-primary" />
                 </div>
                 <div className="lh-1">
                   <h2 className="mb-1">Phone</h2>
-                  <span>+(91) 123 456 7890</span>
+                  <span>+18172722011</span>
                 </div>
               </div>
             </div>
-            <div className="col-md-6 col-lg-3 border-top-lg  border-end-md">
+            <div className="col-md-6 col-lg-3 border-top-lg mb-4 border-end-md">
               <div className="py-7 text-center">
                 <div className="mb-3">
                   <i className="fas fa-envelope fs-2 text-primary" />
@@ -149,13 +151,13 @@ function Contact() {
                 </div>
               </div>
             </div>
-            <div className="col-md-6 col-lg-3 border-top-lg ">
+            <div className="col-md-6 col-lg-3 border-top-lg mb-4">
               <div className="py-7 text-center">
                 <div className="mb-3">
                   <i className="fas fa-clock fs-2 text-primary" />
                 </div>
                 <div className="lh-1">
-                  <h2 className="mb-1">Hours</h2>
+                  <h2 className="mb-1">Working Hours</h2>
                   <span>Mon-Fri: 9am - 7pm</span>
                 </div>
               </div>

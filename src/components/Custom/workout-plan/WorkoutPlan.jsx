@@ -399,7 +399,7 @@ function WorkoutPlan() {
                                         Edit
                                       </a>
                                       <a className="dropdown-item" href="#">
-                                        Save
+                                        Delete
                                       </a>
                                     </div>
                                   </div>

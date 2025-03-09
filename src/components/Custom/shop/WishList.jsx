@@ -218,7 +218,6 @@ function WishList() {
             <div className="card">
               <div className="card-header">
                 <h4 className="card-title">WishList Items</h4>
-               
               </div>
               <div className="card-body">
                 <div className="table-responsive">
@@ -226,6 +225,7 @@ function WishList() {
                     <thead>
                       <tr>
                         <th style={{ width: 80 }}>#</th>
+                        <th>IMAGE</th>
                         <th>NAME</th>
                         <th>UNIT PRICE</th>
                         <th>QUANTITY</th>
@@ -249,9 +249,9 @@ function WishList() {
                                 width={70}
                                 alt
                               />
-                              <span className="w-space-no">{item.name}</span>
                             </div>
                           </td>
+                          <td> {item.name}</td>
                           <td>{item.unitPrice}</td>
                           <td>{item.quantity}</td>
                           <td>{item.totalPrice}</td>
@@ -301,7 +301,7 @@ function WishList() {
                                   Move to Cart
                                 </a>
                                 <a className="dropdown-item" href="#">
-                                  Delete
+                                  Remove
                                 </a>
                               </div>
                             </div>

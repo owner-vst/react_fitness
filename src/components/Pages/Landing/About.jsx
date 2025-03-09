@@ -4,92 +4,176 @@ function About() {
       <div>
         <div className="dz-bnr-inr dz-bnr-inr-sm text-center- overlay-primary-dark">
           <div className="container ">
-            <strong className="d-flex text-primary justify-content-center mt-3">
-              <h1>About Us</h1>
+            <strong className="d-flex text-primary justify-content-center mt-5">
+              <h1 className="">About Us</h1>
             </strong>
           </div>
         </div>
       </div>
-      <section className="py-8">
-        <div className="container my-lg-4 ">
+      <section className="py-6">
+        <div className="container my-lg-8 ">
           <div className="row">
-            <div className=" col-lg-10 col-md-12 col-12 mb-8 mt-5">
-              <h1 className="display-2 fw-bold mb-2">
-                Welcome to insightstracker.fit
+            <div className=" col-lg-12 col-md-12 col-12 mb-8 ">
+              <h1 className="d-flex display-5 fw-bold mb-2 justify-content-center mt-5">
+                Programs for Fitness Tracker
               </h1>
-              {/* <h1 className="display-2 fw-bold mb-3 text-primary">
-                insightstracker.fit
-              </h1> */}
-              <p className="h2 mb-3">
+
+              <p className="h2 mb-3 ">
                 Your ultimate fitness companion. Log your food, track your
                 workouts, get AI-powered diet plans, shop for fitness gear, and
                 much more!
               </p>
-              <p className="mb-0 h4 text-body lh-lg text-primary">
-                We offers a comprehensive suite of tools to help you achieve
-                your fitness goals. From logging your meals to tracking your
-                workouts, our app provides everything you need to stay on top of
-                your health journey.
-              </p>
             </div>
           </div>
+        </div>
+      </section>
+      <section className="py-6">
+        <div className="container">
+          <div className="row">
+            <div className="col-xxl-4 col-xl-4 col-12">
+              <div className="card mb-4 card-hover border">
+                <a href="#!">
+                  <img
+                    src="../assets/images/big/img1.jpg"
+                    alt="design"
+                    className="img-fluid  card-img-top"
+                  />
+                </a>
+                <div className="card-body">
+                  <h4 className="mb-3">
+                    <a href="#!" className="text-inherit">
+                      Weight Loss Program
+                    </a>
+                  </h4>
 
-          <div className="row gallery mb-8">
-            <figure className="col-lg-4 col-md-6 mb-4">
-              <img
-                src="/assets/images/big/img1.jpg"
-                alt="Gallery image 1"
-                className="gallery__img rounded-3 img-fluid"
-              />
-            </figure>
+                  <a href="#!">
+                    Aim is to lose weight by 2025 without compromising your
+                    health
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="col-xxl-4 col-xl-4 col-12">
+              <div className="card mb-4 card-hover border">
+                <a href="#!">
+                  <img
+                    src="../assets/images/big/img2.jpg"
+                    alt="Build Muscle"
+                    className="img-fluid card-img-top"
+                  />
+                </a>
+                <div className="card-body">
+                  <h4 className="mb-3">
+                    <a href="#!" className="text-inherit">
+                      Build Muscle Program
+                    </a>
+                  </h4>
+                  <a href="#!">
+                    Focus on gaining muscle mass and strength with our
+                    structured workout plan.
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="col-xxl-4 col-xl-4 col-12">
+              <div className="card mb-4 card-hover border">
+                <a href="#!">
+                  <img
+                    src="../assets/images/big/img3.jpg"
+                    alt="HIIT Workout"
+                    className="img-fluid card-img-top"
+                  />
+                </a>
+                <div className="card-body">
+                  <h4 className="mb-3">
+                    <a href="#!" className="text-inherit">
+                      HIIT Workout Program
+                    </a>
+                  </h4>
+                  <a href="#!">
+                    High-intensity interval training to boost your cardio and
+                    burn calories efficiently.
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="col-xxl-4 col-xl-4 col-12">
+              <div className="card mb-4 card-hover border">
+                <a href="#!">
+                  <img
+                    src="../assets/images/big/img4.jpg"
+                    alt="Zumba Dance"
+                    className="img-fluid card-img-top"
+                  />
+                </a>
+                <div className="card-body">
+                  <h4 className="mb-3">
+                    <a href="#!" className="text-inherit">
+                      Zumba Dance Fitness
+                    </a>
+                  </h4>
+                  <a href="#!">
+                    Dance your way to fitness with our fun and energetic Zumba
+                    classes.
+                  </a>
+                </div>
+              </div>
+            </div>
 
-            <figure className="col-lg-4 col-md-6 mb-4">
-              <img
-                src="/assets/images/big/img2.jpg"
-                alt="Gallery image 2"
-                className="gallery__img rounded-3 img-fluid"
-              />
-            </figure>
-
-            <figure className="col-lg-4 col-md-6 mb-4">
-              <img
-                src="/assets/images/big/img3.jpg"
-                alt="Gallery image 3"
-                className="gallery__img rounded-3 img-fluid"
-              />
-            </figure>
-
-            <figure className="col-lg-4 col-md-6 mb-4">
-              <img
-                src="/assets/images/big/img4.jpg"
-                alt="Gallery image 4"
-                className="gallery__img rounded-3 img-fluid"
-              />
-            </figure>
-
-            <figure className="col-lg-4 col-md-6 mb-4">
-              <img
-                src="/assets/images/big/img5.jpg"
-                alt="Gallery image 5"
-                className="gallery__img rounded-3 img-fluid"
-              />
-            </figure>
-
-            <figure className="col-lg-4 col-md-6 mb-4">
-              <img
-                src="/assets/images/big/img6.jpg"
-                alt="Gallery image 6"
-                className="gallery__img rounded-3 img-fluid"
-              />
-            </figure>
+            <div className="col-xxl-4 col-xl-4 col-12">
+              <div className="card mb-4 card-hover border">
+                <a href="#!">
+                  <img
+                    src="../assets/images/big/img7.jpg"
+                    alt="Cardio Blast"
+                    className="img-fluid card-img-top"
+                  />
+                </a>
+                <div className="card-body">
+                  <h4 className="mb-3">
+                    <a href="#!" className="text-inherit">
+                      Cardio Blast Program
+                    </a>
+                  </h4>
+                  <a href="#!">
+                    Elevate your heart rate and burn calories with our intense
+                    cardio workouts.
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="col-xxl-4 col-xl-4 col-12">
+              <div className="card mb-4 card-hover border">
+                <a href="#!">
+                  <img
+                    src="../assets/images/big/img8.jpg"
+                    alt="Flexibility Training"
+                    className="img-fluid card-img-top"
+                  />
+                </a>
+                <div className="card-body">
+                  <h4 className="mb-3">
+                    <a href="#!" className="text-inherit">
+                      Flexibility Training
+                    </a>
+                  </h4>
+                  <a href="#!">
+                    Improve your range of motion and reduce the risk of injury
+                    with our flexibility program.
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-
+        </div>
+      </section>
+      <section className="py-8 bg-white">
+        <div className="container my-lg-8">
           <div className="row ">
             <div className="col-md-10 offset-right-md-6">
-              <h1 className="display-4 fw-bold mb-3">Our global reach</h1>
-
+              <h1 className="display-4 fw-bold mb-3 mt-5">Our Global Reach</h1>
               <p className="lead">
-                insightstracker.fit is the leading global platform for fitness
+                insightstracker.fit is the leading global platform for fitness,
                 connecting millions of users to the tools they need to succeed
                 in their fitness journey.
               </p>
@@ -127,7 +211,7 @@ function About() {
         <div className="container my-lg-8">
           <div className="row">
             <div className="col-lg-10 col-md-8 col-12 mb-6">
-              <h2 className="display-4 mb-3 fw-bold">Our Core Values</h2>
+              <h2 className="display-4 mb-3 fw-bold mt-5">Our Core Values</h2>
               <p className="lead">
                 Our core values guide us in creating a fitness app that empowers
                 users to lead healthier lives. We are committed to helping you

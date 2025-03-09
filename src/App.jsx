@@ -37,6 +37,7 @@ import LandingLayout from "./components/Layouts/LandingLayout/LandingLayout";
 import Homepage from "./components/Pages/Landing/HomePage";
 import About from "./components/Pages/Landing/About";
 import Contact from "./components/Pages/Landing/Contact";
+import AdminOrders from "./components/Custom/shop/AdminOrders";
 
 function App() {
   return (
@@ -75,15 +76,15 @@ function App() {
           <Route path="managefoodlog" element={<ManageFoodLog />} />
           <Route path="shop" element={<ProductGrid />} />
           <Route path="productdetail" element={<ProductDetail />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="manageorders" element={<ManageOrders />} />
+          <Route path="orders" element={<AdminOrders />} />
+          {/* <Route path="manageorders" element={<ManageOrders />} /> */}
           <Route path="manageproducts" element={<ManageProducts />} />
           <Route path="manageusers" element={<ManageUsers />} />
-          <Route path="wishlist" element={<WishList />} />
+          {/* <Route path="wishlist" element={<WishList />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="payment" element={<PaymentSuccess />} />
           <Route path="paymentfailed" element={<PaymentFailed />} />
-          <Route path="cart" element={<Cart />} />
+          <Route path="cart" element={<Cart />} /> */}
           <Route path="personalrecord" element={<PersonalRecord />} />
           <Route path="settings" element={<Settings />} />
           <Route path="integration" element={<Integrations />} />
@@ -95,14 +96,14 @@ function App() {
           <Route path="workoutplan" element={<WorkoutPlan />} />
           <Route path="dietplan" element={<DietPlan />} />
           <Route path="shop" element={<ProductGrid />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="checkout" element={<Checkout />} />
-          <Route path="manageorders" element={<ManageOrders />} />
+          <Route path="orders" element={<AdminOrders />} />
+          {/* <Route path="checkout" element={<Checkout />} /> */}
+          {/* <Route path="manageorders" element={<ManageOrders />} /> */}
           <Route path="manageproducts" element={<ManageProducts />} />
-          <Route path="payment" element={<PaymentSuccess />} />
-          <Route path="paymentfailed" element={<PaymentFailed />} />
-          <Route path="wishlist" element={<WishList />} />
-          <Route path="cart" element={<Cart />} />
+          {/* <Route path="payment" element={<PaymentSuccess />} />
+          <Route path="paymentfailed" element={<PaymentFailed />} /> */}
+          {/* <Route path="wishlist" element={<WishList />} />
+          <Route path="cart" element={<Cart />} /> */}
           <Route path="personalrecord" element={<PersonalRecord />} />
           <Route path="settings" element={<Settings />} />
           <Route path="chat" element={<NewChat />} />

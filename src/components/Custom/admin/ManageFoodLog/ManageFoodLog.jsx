@@ -199,7 +199,7 @@ function ManageFoodLog() {
                       </div>
                     </div>
                     <div className=" col-md-6 mb-3 ">
-                      <label className="form-label">Date</label>
+                      <label className="form-label">Date & Time</label>
                       <br></br>
                       <DatePicker
                         selected={
@@ -207,6 +207,7 @@ function ManageFoodLog() {
                         }
                         onChange={handleDateChange}
                         showTimeSelect
+                        placeholderText="Select Date & Time"
                         timeFormat="HH:mm aa"
                         timeIntervals={15}
                         dateFormat="dd/MM/yyyy h:mm aa"

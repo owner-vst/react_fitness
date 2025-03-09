@@ -54,17 +54,17 @@ function Footer() {
             <div className="offset-lg-6 col-lg-2 col-md-3 col-6">
               <div className="mb-4">
                 {/* list */}
-                <h3 className="fw-bold mb-3">Company</h3>
+                <h3 className="fw-bold mb-3">Quick Links</h3>
                 <ul className="list-unstyled nav nav-footer flex-column nav-x-0">
                   <li>
                     <Link to="/about" className="nav-link">
-                      About
+                      About Us
                     </Link>
                   </li>
 
                   <li>
                     <Link to="/contact" className="nav-link">
-                      Contact
+                      Contact Us
                     </Link>
                   </li>
                 </ul>
@@ -75,7 +75,7 @@ function Footer() {
             {/* Desc */}
             <div className="col-lg-4 col-md-5 col-12">
               <span>
-                © <span id="copyright2"></span> insightstracker.fit, Inc. All
+                © <span id="copyright2"></span> insightstracker.fit 2025
                 Reserved
               </span>
             </div>

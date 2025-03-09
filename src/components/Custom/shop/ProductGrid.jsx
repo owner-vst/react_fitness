@@ -1,4 +1,6 @@
+import { Link, useLocation } from "react-router-dom";
 import PriceFilterCard from "./PriceFilterCard";
+import { useEffect, useState } from "react";
 
 const products = [
   {
@@ -64,6 +66,15 @@ const products = [
 ];
 
 function ProductGrid() {
+  const [role, setRole] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname) {
+      const currentRole = location.pathname.split("/")[2];
+      setRole(currentRole);
+    }
+  }, [location.pathname]);
   return (
     <div>
       <div className="content-body">
@@ -83,7 +94,7 @@ function ProductGrid() {
               </div>
               <br />
             </div>
-            <div className="col-xl-10 col-xxl-11 col-md-10 col-sm-12">
+            <div className="col-xl-9 col-xxl-10 col-md-12 col-sm-12">
               <div className="row">
                 {products.map((product, index) => (
                   <div
@@ -104,9 +115,20 @@ function ProductGrid() {
                             <h4>{product.name}</h4>
                             <span className="price">{product.price}</span>
                             <div className="icons mt-3">
-                              <i className="fas fa-heart me-2" />{" "}
+                              <button className="btn ">
+                                <Link to={`/dashboard/${role}/cart`}>
+                                  {" "}
+                                  <i className="fas fa-shopping-cart"></i>
+                                </Link>
+                              </button>
+
                               {/* Wishlist icon */}
-                              <i className="fas fa-cart-plus" />{" "}
+                              <button className="btn ">
+                                <Link to={`/dashboard/${role}/wishlist`}>
+                                  <i className="fas fa-heart" />
+                                </Link>
+                              </button>
+
                               {/* Cart icon */}
                             </div>
                           </div>
@@ -117,7 +139,7 @@ function ProductGrid() {
                 ))}
               </div>
             </div>
-            <div className="col-xl-2 col-xxl-1 col-md-2 col-sm-12">
+            <div className="col-xl-3 col-xxl-2 col-md-12 col-sm-12">
               <PriceFilterCard />
             </div>
           </div>
