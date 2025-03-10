@@ -255,7 +255,7 @@ function DashHeader() {
                 </a>
                 <div className="dropdown-menu dropdown-menu-end">
                   <Link
-                    to={`/dashboard/${role}/personalrecord`}
+                    to={`/dashboard/${role}/settings`}
                     className="dropdown-item ai-icon"
                   >
                     <svg

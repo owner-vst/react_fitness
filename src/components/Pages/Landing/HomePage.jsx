@@ -19,7 +19,7 @@ function HomePage() {
                   fitness goals with our all-in-one fitness tracker.
                 </p>
                 {/* btn */}
-                <a href="#" className="btn btn-primary">
+                <a href="/auth/signup" className="btn btn-primary">
                   Join Free Now
                 </a>
               </div>
@@ -238,7 +238,7 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div className="py-8 " >
+      <div className="py-8">
         {/* container */}
         <div className="container">
           <div className="row">

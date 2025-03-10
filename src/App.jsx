@@ -29,7 +29,6 @@ import ManageActivity from "./components/Custom/admin/ManageActivity/ManageActiv
 import ManageDietPlan from "./components/Custom/admin/ManageDietPlan/ManageDietPlan";
 import ManageFoodCatalogue from "./components/Custom/admin/ManageFoodCatalogue/ManageFoodCatalogue";
 import ManageFoodLog from "./components/Custom/admin/ManageFoodLog/ManageFoodLog";
-import ManageOrders from "./components/Custom/admin/ManageOrders/ManageOrders";
 import ManageProducts from "./components/Custom/admin/ManageProducts/ManageProducts";
 import ManageUsers from "./components/Custom/admin/ManageUsers/ManageUsers";
 import Integrations from "./components/Custom/admin/Integrations/Integrations";

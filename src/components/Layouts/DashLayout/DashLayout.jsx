@@ -5,15 +5,19 @@ import NavHeader from "./NavHeader";
 import ProtoSidebar from "./ProtoSidebar";
 
 import { Outlet } from "react-router-dom";
+import { useState } from "react";
 
 function DashLayout() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div>
-      <NavHeader />
+    <div id="main-wrapper" className="show">
+      <NavHeader isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <DashHeader />
-
-      <ProtoSidebar />
-
+      <ProtoSidebar toggleSidebar={toggleSidebar} />
       <Outlet />
       <DashFooter />
     </div>

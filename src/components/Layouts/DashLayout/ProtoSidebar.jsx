@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-function ProtoSidebar() {
+function ProtoSidebar({ isSidebarOpen }) {
   const [role, setRole] = useState(null);
   const location = useLocation();
 
@@ -251,7 +251,7 @@ function ProtoSidebar() {
   const currentMenuItems = menuItems[role] || [];
 
   return (
-    <div className="deznav">
+    <div className={`deznav ${isSidebarOpen ? "fixed" : ""}`}>
       <div className="deznav-scroll">
         <ul className="metismenu" id="menu">
           {currentMenuItems.map((item, index) => (
