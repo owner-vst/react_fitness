@@ -680,6 +680,7 @@ function ManageProducts() {
                       <thead>
                         <tr>
                           <th style={{ width: 80 }}>#</th>
+                          <th>Product Image</th>
                           <th>Product Name</th>
                           <th>Quantity</th>
                           <th>Price</th>
@@ -705,11 +706,9 @@ function ManageProducts() {
                                   width={70}
                                   alt
                                 />
-                                <span className="w-space-no">
-                                  {product.productName}
-                                </span>
                               </div>
                             </td>
+                            <td>{product.productName}</td>
                             <td>{product.quantity}</td>
                             <td>{product.price}</td>
                             <td>{product.category}</td>

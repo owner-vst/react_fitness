@@ -34,7 +34,7 @@ function About() {
               <div className="card mb-4 card-hover border">
                 <a href="#!">
                   <img
-                    src="../assets/images/big/img1.jpg"
+                    src="/assets/images/big/abb1.png"
                     alt="design"
                     className="img-fluid  card-img-top"
                   />
@@ -57,7 +57,7 @@ function About() {
               <div className="card mb-4 card-hover border">
                 <a href="#!">
                   <img
-                    src="../assets/images/big/img2.jpg"
+                    src="../assets/images/big/abb2.png"
                     alt="Build Muscle"
                     className="img-fluid card-img-top"
                   />
@@ -79,7 +79,7 @@ function About() {
               <div className="card mb-4 card-hover border">
                 <a href="#!">
                   <img
-                    src="../assets/images/big/img3.jpg"
+                    src="/assets/images/big/abb3.png"
                     alt="HIIT Workout"
                     className="img-fluid card-img-top"
                   />
@@ -101,7 +101,7 @@ function About() {
               <div className="card mb-4 card-hover border">
                 <a href="#!">
                   <img
-                    src="../assets/images/big/img4.jpg"
+                    src="../assets/images/big/abb4.png"
                     alt="Zumba Dance"
                     className="img-fluid card-img-top"
                   />
@@ -124,7 +124,7 @@ function About() {
               <div className="card mb-4 card-hover border">
                 <a href="#!">
                   <img
-                    src="../assets/images/big/img7.jpg"
+                    src="../assets/images/big/abb5.png"
                     alt="Cardio Blast"
                     className="img-fluid card-img-top"
                   />
@@ -146,7 +146,7 @@ function About() {
               <div className="card mb-4 card-hover border">
                 <a href="#!">
                   <img
-                    src="../assets/images/big/img8.jpg"
+                    src="../assets/images/big/abb6.png"
                     alt="Flexibility Training"
                     className="img-fluid card-img-top"
                   />
@@ -287,7 +287,7 @@ function About() {
               <div className="card mb-4 card-hover">
                 <div>
                   <img
-                    src="/assets/images/profile/avatar-1.jpg"
+                    src="/assets/images/profile/av1.jpeg"
                     alt="Trainer 1"
                     className="card-img-top img-fluid"
                   />
@@ -307,7 +307,7 @@ function About() {
               <div className="card mb-4 card-hover">
                 <div>
                   <img
-                    src="/assets/images/profile/avatar-2.jpg"
+                    src="/assets/images/profile/av2.jpeg"
                     alt="Trainer 2"
                     className="card-img-top img-fluid"
                   />
@@ -327,7 +327,7 @@ function About() {
               <div className="card mb-4 card-hover">
                 <div>
                   <img
-                    src="/assets/images/profile/avatar-5.jpg"
+                    src="/assets/images/profile/av3.jpeg"
                     alt="Trainer 3"
                     className="card-img-top img-fluid"
                   />
@@ -347,7 +347,7 @@ function About() {
               <div className="card mb-4 card-hover">
                 <div>
                   <img
-                    src="/assets/images/profile/avatar-6.jpg"
+                    src="/assets/images/profile/av4.jpeg"
                     alt="Trainer 4"
                     className="card-img-top img-fluid"
                   />

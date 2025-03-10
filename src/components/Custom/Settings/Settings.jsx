@@ -16,7 +16,7 @@ function Settings() {
                     >
                       <div className="mb-3 text-center">
                         <img
-                          src="/assets/images/profile/small/pic4.jpg"
+                          src="/assets/images/profile/ava.jpg"
                           alt="User"
                           className="img-fluid rounded-circle"
                           width={150}

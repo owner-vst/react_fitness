@@ -251,7 +251,7 @@ function DashHeader() {
                   role="button"
                   data-bs-toggle="dropdown"
                 >
-                  <img src="/assets/images/profile/17.jpg" width={20} alt />
+                  <img src="/assets/images/profile/ava.jpg" width={20} alt />
                 </a>
                 <div className="dropdown-menu dropdown-menu-end">
                   <Link
