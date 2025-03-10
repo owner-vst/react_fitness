@@ -38,6 +38,7 @@ import Homepage from "./components/Pages/Landing/HomePage";
 import About from "./components/Pages/Landing/About";
 import Contact from "./components/Pages/Landing/Contact";
 import AdminOrders from "./components/Custom/shop/AdminOrders";
+import AdminShop from "./components/Custom/shop/AdminShop";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           <Route path="dietplan" element={<DietPlan />} />
           <Route path="shop" element={<ProductGrid />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route path="productdetail" element={<ProductDetail />} />
           <Route path="payment" element={<PaymentSuccess />} />
           <Route path="paymentfailed" element={<PaymentFailed />} />
           <Route path="orders" element={<Orders />} />
@@ -74,7 +76,7 @@ function App() {
           <Route path="managedietplan" element={<ManageDietPlan />} />
           <Route path="managefoodcatalogue" element={<ManageFoodCatalogue />} />
           <Route path="managefoodlog" element={<ManageFoodLog />} />
-          <Route path="shop" element={<ProductGrid />} />
+          <Route path="shop" element={<AdminShop />} />
           <Route path="productdetail" element={<ProductDetail />} />
           <Route path="orders" element={<AdminOrders />} />
           {/* <Route path="manageorders" element={<ManageOrders />} /> */}
@@ -95,7 +97,8 @@ function App() {
           <Route index element={<DashBoardVendor />} />
           <Route path="workoutplan" element={<WorkoutPlan />} />
           <Route path="dietplan" element={<DietPlan />} />
-          <Route path="shop" element={<ProductGrid />} />
+          <Route path="shop" element={<AdminShop />} />
+          <Route path="productdetail" element={<ProductDetail />} />
           <Route path="orders" element={<AdminOrders />} />
           {/* <Route path="checkout" element={<Checkout />} /> */}
           {/* <Route path="manageorders" element={<ManageOrders />} /> */}
