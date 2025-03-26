@@ -38,85 +38,98 @@ import About from "./components/Pages/Landing/About";
 import Contact from "./components/Pages/Landing/Contact";
 import AdminOrders from "./components/Custom/shop/AdminOrders";
 import AdminShop from "./components/Custom/shop/AdminShop";
+import { AuthProvider } from "./context/authProvider";
+import Auth from "./components/Pages/Auth/Auth";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LandingLayout />}>
-          <Route index element={<Homepage />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-        </Route>
-        <Route path="/dashboard/user" element={<DashLayout />}>
-          <Route index element={<DashBoardUser />} />
-          <Route path="workoutplan" element={<WorkoutPlan />} />
-          <Route path="dietplan" element={<DietPlan />} />
-          <Route path="shop" element={<ProductGrid />} />
-          <Route path="checkout" element={<Checkout />} />
-          <Route path="productdetail" element={<ProductDetail />} />
-          <Route path="payment" element={<PaymentSuccess />} />
-          <Route path="paymentfailed" element={<PaymentFailed />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="wishlist" element={<WishList />} />
-          <Route path="cart" element={<Cart />} />
-          <Route path="personalrecord" element={<PersonalRecord />} />
-          <Route path="settings" element={<Settings />} />
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<LandingLayout />}>
+            <Route index element={<Homepage />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+          </Route>
+          <Route element={<Auth allowedRoles={["user"]} />}>
+            <Route path="/dashboard/user" element={<DashLayout />}>
+              <Route index element={<DashBoardUser />} />
+              <Route path="workoutplan" element={<WorkoutPlan />} />
+              <Route path="dietplan" element={<DietPlan />} />
+              <Route path="shop" element={<ProductGrid />} />
+              <Route path="checkout" element={<Checkout />} />
+              <Route path="productdetail" element={<ProductDetail />} />
+              <Route path="payment" element={<PaymentSuccess />} />
+              <Route path="paymentfailed" element={<PaymentFailed />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="wishlist" element={<WishList />} />
+              <Route path="cart" element={<Cart />} />
+              <Route path="personalrecord" element={<PersonalRecord />} />
+              <Route path="settings" element={<Settings />} />
 
-          <Route path="chat" element={<NewChat />} />
-        </Route>
-        <Route path="/dashboard/admin" element={<DashLayout />}>
-          <Route index element={<DashBoardAdmin />} />
-          <Route path="workoutplan" element={<WorkoutPlan />} />
-          <Route path="manageworkoutplan" element={<ManageWorkoutPlan />} />
-          <Route path="manageworkoutlog" element={<ManageWorkoutLog />} />
-          <Route path="manageactivity" element={<ManageActivity />} />
-          <Route path="dietplan" element={<DietPlan />} />
-          <Route path="managedietplan" element={<ManageDietPlan />} />
-          <Route path="managefoodcatalogue" element={<ManageFoodCatalogue />} />
-          <Route path="managefoodlog" element={<ManageFoodLog />} />
-          <Route path="shop" element={<AdminShop />} />
-          <Route path="productdetail" element={<ProductDetail />} />
-          <Route path="orders" element={<AdminOrders />} />
-          {/* <Route path="manageorders" element={<ManageOrders />} /> */}
-          <Route path="manageproducts" element={<ManageProducts />} />
-          <Route path="manageusers" element={<ManageUsers />} />
-          {/* <Route path="wishlist" element={<WishList />} />
+              <Route path="chat" element={<NewChat />} />
+            </Route>
+          </Route>
+          <Route element={<Auth allowedRoles={["admin"]} />}>
+            <Route path="/dashboard/admin" element={<DashLayout />}>
+              <Route index element={<DashBoardAdmin />} />
+              <Route path="workoutplan" element={<WorkoutPlan />} />
+              <Route path="manageworkoutplan" element={<ManageWorkoutPlan />} />
+              <Route path="manageworkoutlog" element={<ManageWorkoutLog />} />
+              <Route path="manageactivity" element={<ManageActivity />} />
+              <Route path="dietplan" element={<DietPlan />} />
+              <Route path="managedietplan" element={<ManageDietPlan />} />
+              <Route
+                path="managefoodcatalogue"
+                element={<ManageFoodCatalogue />}
+              />
+              <Route path="managefoodlog" element={<ManageFoodLog />} />
+              <Route path="shop" element={<AdminShop />} />
+              <Route path="productdetail" element={<ProductDetail />} />
+              <Route path="orders" element={<AdminOrders />} />
+              {/* <Route path="manageorders" element={<ManageOrders />} /> */}
+              <Route path="manageproducts" element={<ManageProducts />} />
+              <Route path="manageusers" element={<ManageUsers />} />
+              {/* <Route path="wishlist" element={<WishList />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="payment" element={<PaymentSuccess />} />
           <Route path="paymentfailed" element={<PaymentFailed />} />
           <Route path="cart" element={<Cart />} /> */}
-          <Route path="personalrecord" element={<PersonalRecord />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="integration" element={<Integrations />} />
-          <Route path="chat" element={<NewChat />} />
-          <Route path="workoutstat" element={<WorkoutStats />} />
-        </Route>
-        <Route path="/dashboard/vendor" element={<DashLayout />}>
-          <Route index element={<DashBoardVendor />} />
-          <Route path="workoutplan" element={<WorkoutPlan />} />
-          <Route path="dietplan" element={<DietPlan />} />
-          <Route path="shop" element={<AdminShop />} />
-          <Route path="productdetail" element={<ProductDetail />} />
-          <Route path="orders" element={<AdminOrders />} />
-          {/* <Route path="checkout" element={<Checkout />} /> */}
-          {/* <Route path="manageorders" element={<ManageOrders />} /> */}
-          <Route path="manageproducts" element={<ManageProducts />} />
-          {/* <Route path="payment" element={<PaymentSuccess />} />
+              <Route path="personalrecord" element={<PersonalRecord />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="integration" element={<Integrations />} />
+              <Route path="chat" element={<NewChat />} />
+              <Route path="workoutstat" element={<WorkoutStats />} />
+            </Route>
+          </Route>
+          <Route element={<Auth allowedRoles={["vendor"]} />}>
+            <Route path="/dashboard/vendor" element={<DashLayout />}>
+              <Route index element={<DashBoardVendor />} />
+              <Route path="workoutplan" element={<WorkoutPlan />} />
+              <Route path="dietplan" element={<DietPlan />} />
+              <Route path="shop" element={<AdminShop />} />
+              <Route path="productdetail" element={<ProductDetail />} />
+              <Route path="orders" element={<AdminOrders />} />
+              {/* <Route path="checkout" element={<Checkout />} /> */}
+              {/* <Route path="manageorders" element={<ManageOrders />} /> */}
+              <Route path="manageproducts" element={<ManageProducts />} />
+              {/* <Route path="payment" element={<PaymentSuccess />} />
           <Route path="paymentfailed" element={<PaymentFailed />} /> */}
-          {/* <Route path="wishlist" element={<WishList />} />
+              {/* <Route path="wishlist" element={<WishList />} />
           <Route path="cart" element={<Cart />} /> */}
-          <Route path="personalrecord" element={<PersonalRecord />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="chat" element={<NewChat />} />
-        </Route>
-        <Route path="/auth" element={<AuthLayout />}>
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="forgot" element={<Forgot />} />
-          <Route path="verify" element={<Verify />} />
-        </Route>
-      </Routes>
+              <Route path="personalrecord" element={<PersonalRecord />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="chat" element={<NewChat />} />
+            </Route>
+          </Route>
+          <Route path="/auth" element={<AuthLayout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="forgot" element={<Forgot />} />
+            <Route path="verify" element={<Verify />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

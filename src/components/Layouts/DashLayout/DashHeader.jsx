@@ -1,9 +1,37 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
+import Cookies from "js-cookie";
 
 function DashHeader() {
   const location = useLocation();
   const [role, setRole] = useState(null);
+  const { setAuth } = useAuth();
+  const Logout = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/logout", {
+        method: "POST",
+        credentials: "include", // Include cookies if your token is in cookies
+      });
+
+      // Parse the JSON response
+      const data = await response.json();
+
+      console.log(data); // Check the response body
+
+      // Check the success value from the backend response
+      if (data.success) {
+        console.log("inside if res");
+        localStorage.clear();
+        Cookies.remove(token);
+        setAuth({}); // Clear auth state, if you're using one
+      } else {
+        console.error("Logout failed:", data.message);
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   useEffect(() => {
     if (location.pathname) {
@@ -277,7 +305,11 @@ function DashHeader() {
                     <span className="ms-2">Profile </span>
                   </Link>
 
-                  <Link to="/auth/login" className="dropdown-item ai-icon">
+                  <Link
+                    to="#"
+                    onClick={Logout}
+                    className="dropdown-item ai-icon"
+                  >
                     <svg
                       id="icon-logout"
                       xmlns="http://www.w3.org/2000/svg"

@@ -1,6 +1,7 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
+import Cookies from "js-cookie";
 function Verify() {
   useEffect(() => {
     (function () {
@@ -21,10 +22,57 @@ function Verify() {
       });
     })();
   }, []);
-  const handleSubmit = (e) => {
+  const [otp, setOtp] = useState("");
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("redirecting");
-    window.location.href = "/dashboard/admin";
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get("userId");
+
+      const response = await fetch(
+        "http://localhost:3000/api/auth/verify-otp",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ otp, userId }),
+        }
+      );
+
+      const data = await response.json();
+      if (data.success) {
+        // Redirect to the respective dashboard based on the user's role
+        //   if (data.role === "admin") {
+        //     window.location.href = "/dashboard/admin";
+        //   } else if (data.role === "vendor") {
+        //     window.location.href = "/dashboard/vendor";
+        //   } else {
+        //     window.location.href = "/dashboard/user";
+        //   }
+        // } else {
+        //   console.error(data.message);
+        // }
+        console.log(data);
+        localStorage.setItem("name", data.user.name);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.role);
+        setAuth({
+          role: data.role,
+          user: data.user,
+          token: data.token,
+        });
+        Cookies.set("token", data.token);
+        navigate("/dashboard/" + data.role);
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error during OTP verification:", error);
+    }
   };
   return (
     <div className="authincation h-100">
@@ -89,6 +137,9 @@ function Verify() {
                           </label>
                           <input
                             type="text"
+                            name="otp"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
                             className="form-control"
                             id="verificationCode"
                             placeholder="Enter verification code.."

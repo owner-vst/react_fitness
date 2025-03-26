@@ -1,9 +1,11 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   useEffect(() => {
     (function () {
       "use strict";
@@ -27,10 +29,34 @@ function Login() {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("redirecting");
-    window.location.href = "/";
+    console.log(email, password);
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+       
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+      console.log("Data=", data);
+      if (data.success) {
+        // Redirect to Verify component with userId
+        console.log("Date res=", data);
+        window.location.href = `/auth/verify?userId=${data.userId}`;
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
   };
   return (
     <div className="authincation h-100">
@@ -95,6 +121,9 @@ function Login() {
                             type="email"
                             className="form-control"
                             id="email"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter Email"
                             required
                           />
@@ -109,6 +138,9 @@ function Login() {
                           <input
                             type={passwordVisible ? "text" : "password"}
                             id="password"
+                            name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             className="form-control"
                             placeholder="Enter Password"
                             required
@@ -139,6 +171,7 @@ function Login() {
                         <div className="text-center">
                           <button
                             type="submit"
+                            // onCick={handleSubmit}
                             className="btn btn-primary btn-block"
                           >
                             Sign Me In
