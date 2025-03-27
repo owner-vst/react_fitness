@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
+import useLogin from "../../../hooks/useLogin";
 function Verify() {
   useEffect(() => {
     (function () {
@@ -24,55 +25,58 @@ function Verify() {
   }, []);
   const [otp, setOtp] = useState("");
   const { setAuth } = useAuth();
+  const { loading, verifyOTP } = useLogin(); // Use the hook
+
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const userId = urlParams.get("userId");
+    // try {
+    //   const urlParams = new URLSearchParams(window.location.search);
+    //   const userId = urlParams.get("userId");
 
-      const response = await fetch(
-        "http://localhost:3000/api/auth/verify-otp",
-        {
-          method: "POST",
+    //   const response = await fetch(
+    //     "http://localhost:3000/api/auth/verify-otp",
+    //     {
+    //       method: "POST",
 
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ otp, userId }),
-        }
-      );
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ otp, userId }),
+    //     }
+    //   );
 
-      const data = await response.json();
-      if (data.success) {
-        // Redirect to the respective dashboard based on the user's role
-        //   if (data.role === "admin") {
-        //     window.location.href = "/dashboard/admin";
-        //   } else if (data.role === "vendor") {
-        //     window.location.href = "/dashboard/vendor";
-        //   } else {
-        //     window.location.href = "/dashboard/user";
-        //   }
-        // } else {
-        //   console.error(data.message);
-        // }
-        console.log(data);
-        localStorage.setItem("name", data.user.name);
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.role);
-        setAuth({
-          role: data.role,
-          user: data.user,
-          token: data.token,
-        });
-        Cookies.set("token", data.token);
-        navigate("/dashboard/" + data.role);
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error("Error during OTP verification:", error);
-    }
+    //   const data = await response.json();
+    //   if (data.success) {
+    //     // Redirect to the respective dashboard based on the user's role
+    //     //   if (data.role === "admin") {
+    //     //     window.location.href = "/dashboard/admin";
+    //     //   } else if (data.role === "vendor") {
+    //     //     window.location.href = "/dashboard/vendor";
+    //     //   } else {
+    //     //     window.location.href = "/dashboard/user";
+    //     //   }
+    //     // } else {
+    //     //   console.error(data.message);
+    //     // }
+    //     console.log(data);
+    //     localStorage.setItem("name", data.user.name);
+    //     localStorage.setItem("token", data.token);
+    //     localStorage.setItem("role", data.role);
+    //     setAuth({
+    //       role: data.role,
+    //       user: data.user,
+    //       token: data.token,
+    //     });
+    //     Cookies.set("token", data.token);
+    //     navigate("/dashboard/" + data.role);
+    //   } else {
+    //     console.error(data.message);
+    //   }
+    // } catch (error) {
+    //   console.error("Error during OTP verification:", error);
+    // }
+    await verifyOTP(otp);
   };
   return (
     <div className="authincation h-100">
@@ -155,7 +159,7 @@ function Verify() {
                             type="submit"
                             className="btn btn-primary btn-block"
                           >
-                            Verify Code
+                            {loading ? "Verifying..." : "Verify Code"}
                           </button>
                         </div>
                       </form>

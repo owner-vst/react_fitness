@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
 
 function DashHeader() {
+  const navigate = useNavigate();
   const location = useLocation();
   const [role, setRole] = useState(null);
   const { setAuth } = useAuth();
@@ -25,6 +26,10 @@ function DashHeader() {
         localStorage.clear();
         Cookies.remove(token);
         setAuth({}); // Clear auth state, if you're using one
+        // navigate("/auth/login");
+        setTimeout(() => {
+          navigate("/auth/login");
+        }, 500);
       } else {
         console.error("Logout failed:", data.message);
       }

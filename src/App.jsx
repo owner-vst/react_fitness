@@ -40,6 +40,9 @@ import AdminOrders from "./components/Custom/shop/AdminOrders";
 import AdminShop from "./components/Custom/shop/AdminShop";
 import { AuthProvider } from "./context/authProvider";
 import Auth from "./components/Pages/Auth/Auth";
+import 'react-toastify/dist/ReactToastify.css';
+
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -129,6 +132,7 @@ function App() {
             <Route path="verify" element={<Verify />} />
           </Route>
         </Routes>
+        <ToastContainer />
       </AuthProvider>
     </Router>
   );

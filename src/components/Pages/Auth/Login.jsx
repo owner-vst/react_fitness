@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import useLogin from "../../../hooks/useLogin";
+import { toast } from "react-toastify";
 
 function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { loading, login } = useLogin(); // Use the hook
   useEffect(() => {
     (function () {
       "use strict";
@@ -29,34 +32,36 @@ function Login() {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email, password);
-    try {
-      const response = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-       
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
+    // console.log(email, password);
+    // try {
+    //   const response = await fetch("http://localhost:3000/api/auth/login", {
+    //     method: "POST",
 
-      const data = await response.json();
-      console.log("Data=", data);
-      if (data.success) {
-        // Redirect to Verify component with userId
-        console.log("Date res=", data);
-        window.location.href = `/auth/verify?userId=${data.userId}`;
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       email: email,
+    //       password: password,
+    //     }),
+    //   });
+
+    //   const data = await response.json();
+    //   console.log("Data=", data);
+    //   if (data.success) {
+    //     // Redirect to Verify component with userId
+    //     console.log("Date res=", data);
+    //     window.location.href = `/auth/verify?userId=${data.userId}`;
+    //   } else {
+    //     console.error(data.message);
+    //   }
+    // } catch (error) {
+    //   console.error("Error during login:", error);
+    // }
+    await login(email, password);
   };
   return (
     <div className="authincation h-100">
@@ -174,7 +179,7 @@ function Login() {
                             // onCick={handleSubmit}
                             className="btn btn-primary btn-block"
                           >
-                            Sign Me In
+                            {loading ? "Logging in..." : "Sign In"}
                           </button>
                         </div>
                       </form>
