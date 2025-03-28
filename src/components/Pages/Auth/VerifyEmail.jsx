@@ -8,6 +8,10 @@ export default function VerifyEmail() {
   const { verifyEmail, loading } = useSignup();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (code.length !== 6) {
+      toast.error("Please enter a valid verification code");
+      return;
+    }
     await verifyEmail(code);
   };
   return (

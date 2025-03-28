@@ -44,6 +44,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { ToastContainer } from "react-toastify";
 import VerifyEmail from "./components/Pages/Auth/VerifyEmail";
+import ResetPassword from "./components/Pages/Auth/ResetPassword";
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
               <Route path="cart" element={<Cart />} />
               <Route path="personalrecord" element={<PersonalRecord />} />
               <Route path="settings" element={<Settings />} />
+              <Route path="workoutstat" element={<WorkoutStats />} />
 
               <Route path="chat" element={<NewChat />} />
             </Route>
@@ -132,6 +134,7 @@ function App() {
             <Route path="forgot" element={<Forgot />} />
             <Route path="verify" element={<Verify />} />
             <Route path="verify-email" element={<VerifyEmail />} />
+            <Route path="reset-password" element={<ResetPassword />} />
           </Route>
         </Routes>
         <ToastContainer />

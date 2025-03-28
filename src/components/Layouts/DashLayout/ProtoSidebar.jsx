@@ -1,16 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import useAuth from "../../../hooks/useAuth";
 
 function ProtoSidebar({ isSidebarOpen }) {
-  const [role, setRole] = useState(null);
+  const { auth } = useAuth();
+  const role = auth.role;
   const location = useLocation();
 
-  useEffect(() => {
-    if (location.pathname) {
-      const currentRole = location.pathname.split("/")[2];
-      setRole(currentRole);
-    }
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   if (location.pathname) {
+  //     const currentRole = location.pathname.split("/")[2];
+  //     setRole(currentRole);
+  //   }
+  // }, [location.pathname]);
 
   const menuItems = {
     admin: [
@@ -207,7 +209,7 @@ function ProtoSidebar({ isSidebarOpen }) {
       },
       {
         label: "Workout Stats",
-        link: "/dashboard/admin/workoutstat",
+        link: "/dashboard/user/workoutstat",
         icon: "fas fa-chart-line",
       },
       {

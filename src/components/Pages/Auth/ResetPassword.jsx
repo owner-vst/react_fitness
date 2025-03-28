@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useForgot from "../../../hooks/useForgot";
 
-function Forgot() {
-  const { loading, forgotPassword } = useForgot();
-  const [email, setEmail] = useState("");
-
+export default function ResetPassword() {
+  const { loading, resetPassword } = useForgot();
+  const [token, setToken] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     (function () {
@@ -29,7 +29,7 @@ function Forgot() {
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await forgotPassword(email);
+    await resetPassword(token, newPassword);
   };
 
   return (
@@ -90,20 +90,38 @@ function Forgot() {
                       >
                         <div className="form-group">
                           <label className="mb-1">
-                            <strong>Email</strong>
+                            <strong>Verification Code</strong>
                           </label>
                           <input
-                            type="email"
+                            type="text"
                             className="form-control"
-                            name="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            id="email"
-                            placeholder="Enter your email.."
+                            id="text"
+                            name="token"
+                            value={token}
+                            onChange={(e) => setToken(e.target.value)}
+                            placeholder="Enter your verification code.."
                             required
                           />
                           <div className="invalid-feedback">
-                            Please enter a valid email.
+                            Please enter a valid verification code.
+                          </div>
+                        </div>
+                        <div className="form-group">
+                          <label className="mb-1">
+                            <strong>New Password</strong>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="text"
+                            name="newPassword"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            placeholder="Enter your new password.."
+                            required
+                          />
+                          <div className="invalid-feedback">
+                            Please enter a valid new password.
                           </div>
                         </div>
 
@@ -114,8 +132,8 @@ function Forgot() {
                           >
                             {" "}
                             {loading
-                              ? "Sending verification code..."
-                              : "Send Verification Code"}
+                              ? "Resetting password..."
+                              : "Reset Password"}
                           </button>
                         </div>
                       </form>
@@ -137,5 +155,3 @@ function Forgot() {
     </div>
   );
 }
-
-export default Forgot;
