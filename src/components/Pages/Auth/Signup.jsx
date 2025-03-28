@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { data, Link } from "react-router-dom";
+import useSignup from "../../../hooks/useSignup";
 
 const initialFormData = {
   firstname: "",
   lastname: "",
+  email: "",
   gender: "",
   dob: "",
   profilePic: null,
@@ -15,7 +17,7 @@ function Signup() {
   const [formData, setFormData] = useState(initialFormData);
   const [profilePicFile, setProfilePicFile] = useState(null);
   const [formErrors, setFormErrors] = useState({});
-
+  const { signup, loading } = useSignup();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -30,6 +32,7 @@ function Signup() {
     if (!formData.firstname) errors.firstname = "First Name is required";
     if (!formData.lastname) errors.lastname = "Last Name is required";
     if (!formData.gender) errors.gender = "Gender is required";
+    if (!formData.email) errors.email = "Email is required";
     if (!formData.dob) errors.dob = "Date of Birth is required";
     if (!formData.password) errors.password = "Password is required";
     if (formData.password !== formData.confirmPassword) {
@@ -85,7 +88,7 @@ function Signup() {
     };
     // After profile picture is uploaded and form data is updated
     console.log("Form is valid, submitting data", dataToSend);
-
+    await signup(dataToSend);
     // window.location.href = "/auth/verify"; // Redirect to the verification page
   };
 
@@ -217,8 +220,8 @@ function Signup() {
                             <option value="" disabled>
                               Choose Gender
                             </option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                           </select>
                           {formErrors.gender && (
                             <div className="text-danger">
@@ -244,7 +247,25 @@ function Signup() {
                           )}
                         </div>
                       </div>
-
+                      <div className="form-group position-relative">
+                        <label className="mb-1">
+                          <strong>Email</strong>
+                        </label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          placeholder="Enter Email"
+                          required
+                        />
+                        {formErrors.email && (
+                          <div className="text-danger">
+                            {formErrors.email}
+                          </div>
+                        )}
+                      </div>
                       <div className="form-group position-relative">
                         <label className="mb-1">
                           <strong>Password</strong>
@@ -309,7 +330,7 @@ function Signup() {
                           type="submit"
                           className="btn btn-primary btn-block"
                         >
-                          Sign Up
+                          {loading ? "Signing up..." : "Sign Up"}
                         </button>
                       </div>
                     </form>

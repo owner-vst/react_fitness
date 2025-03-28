@@ -1,11 +1,15 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useSignup from "../../../hooks/useSignup";
 export default function VerifyEmail() {
-  const [otp, setOtp] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [code, setCode] = useState("");
 
-  const handleSubmit = (e) => {};
+  const { verifyEmail, loading } = useSignup();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await verifyEmail(code);
+  };
   return (
     <div className="authincation h-100">
       <div className="container h-100">
@@ -69,9 +73,9 @@ export default function VerifyEmail() {
                           </label>
                           <input
                             type="text"
-                            name="otp"
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
+                            name="code"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
                             className="form-control"
                             id="verificationCode"
                             placeholder="Enter verification code.."
