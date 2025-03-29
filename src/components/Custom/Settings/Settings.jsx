@@ -128,6 +128,7 @@ function Settings() {
     totalCaloriesBurned: "",
     gender: "",
     weeklyProgress: "",
+    profilePic: "",
   });
 
   // Fetch profile data when the component mounts
@@ -147,23 +148,30 @@ function Settings() {
             withCredentials: true, // Ensure cookies are included in the request
           }
         );
-        if (response.success) {
-          const data = await response.json();
-          console.log(data);
+        if (response.data.success) {
+          const data = response.data;
+          const formattedDob = new Date(data.user.dob).toLocaleDateString(
+            "en-CA"
+          ); // "en-CA" for yyyy-mm-dd format
+          const formattedMemberSince = new Date(
+            data.user.created_at
+          ).toLocaleDateString("en-CA");
+
           // Assuming the response structure is similar to this
           setProfileData({
-            name: data.name,
-            email: data.email,
-            dob: data.dob,
-            bloodGroup: data.bloodGroup,
-            activityLevel: data.activityLevel,
-            goal: data.goal,
+            name: data.user.name,
+            email: data.user.email,
+            dob: formattedDob,
+            bloodGroup: data.profile.blood_group,
+            activityLevel: data.profile.activity_type,
+            goal: data.profile.goal,
             height: data.profile.height,
-            weight: data.weight,
-            memberSince: data.memberSince,
+            weight: data.profile.weight,
+            memberSince: formattedMemberSince,
             totalCaloriesBurned: 1233,
-            gender: data.gender,
+            gender: data.user.gender,
             weeklyProgress: 123,
+            profilePic: data.user.profilePic,
           });
         } else {
           console.error("Failed to fetch profile data");
@@ -191,7 +199,7 @@ function Settings() {
                     >
                       <div className="mb-3 text-center">
                         <img
-                          src="/assets/images/profile/ava.jpg"
+                          src={profileData.profilePic}
                           alt="User"
                           className="img-fluid rounded-circle"
                           width={150}

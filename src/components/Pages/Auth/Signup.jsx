@@ -58,7 +58,6 @@ function Signup() {
         }
       );
       const data = await response.json();
-      console.log("Uploaded profile picture URL:", data.secure_url);
 
       return data.secure_url;
     } catch (error) {
@@ -261,9 +260,7 @@ function Signup() {
                           required
                         />
                         {formErrors.email && (
-                          <div className="text-danger">
-                            {formErrors.email}
-                          </div>
+                          <div className="text-danger">{formErrors.email}</div>
                         )}
                       </div>
                       <div className="form-group position-relative">
