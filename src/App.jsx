@@ -45,6 +45,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import VerifyEmail from "./components/Pages/Auth/VerifyEmail";
 import ResetPassword from "./components/Pages/Auth/ResetPassword";
+import TestingChat from "./components/Custom/Chat/TestingChat";
 
 function App() {
   return (
@@ -73,7 +74,7 @@ function App() {
               <Route path="settings" element={<Settings />} />
               <Route path="workoutstat" element={<WorkoutStats />} />
 
-              <Route path="chat" element={<NewChat />} />
+              <Route path="chat" element={<TestingChat />} />
             </Route>
           </Route>
           <Route element={<Auth allowedRoles={["admin"]} />}>

@@ -65,6 +65,7 @@ const useLogin = () => {
         localStorage.setItem("name", data.user.name);
         localStorage.setItem("token", data.token);
         localStorage.setItem("role", data.role);
+        localStorage.setItem("user", JSON.stringify(data.user));
         setAuth({
           role: data.role,
           user: data.user,
