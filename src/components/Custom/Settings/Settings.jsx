@@ -143,7 +143,7 @@ function Settings() {
         //   }
         // );
         const response = await axios.get(
-          "http://localhost:3000/common/get-profile",
+          "http://insightstracker.com:3000/api/common/get-profile",
           {
             withCredentials: true, // Ensure cookies are included in the request
           }
@@ -301,7 +301,7 @@ function Settings() {
                 </div>
                 <div className="card-body">
                   <div className="basic-form">
-                    <UpdateProfile />
+                    <UpdateProfile  />
                   </div>
                 </div>
               </div>

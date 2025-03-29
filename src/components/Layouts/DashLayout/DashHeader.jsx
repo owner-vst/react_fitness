@@ -10,7 +10,7 @@ function DashHeader() {
   const { setAuth } = useAuth();
   const Logout = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/auth/logout", {
+      const response = await fetch("http://insightstracker.com:3000/api/auth/logout", {
         method: "POST",
         credentials: "include", // Include cookies if your token is in cookies
       });

@@ -12,11 +12,14 @@ const useLogin = () => {
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        "http://insightstracker.com:3000/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
       if (data.error) {
@@ -43,11 +46,14 @@ const useLogin = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const userId = urlParams.get("userId");
 
-      const res = await fetch("http://localhost:3000/api/auth/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ otp, userId }),
-      });
+      const res = await fetch(
+        "http://insightstracker.com:3000/api/auth/verify-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ otp, userId }),
+        }
+      );
 
       const data = await res.json();
       if (data.error) {

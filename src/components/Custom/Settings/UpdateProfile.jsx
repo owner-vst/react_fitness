@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import useProfile from "../../../hooks/useProfile";
-function UpdateProfile() {
-  const initialFormData = {
+function UpdateProfile(props) {
+  
+  let initialFormData = {
     firstName: "",
     lastName: "",
     email: "",
@@ -11,13 +12,21 @@ function UpdateProfile() {
     bloodGroup: "",
     activityType: "",
     goal: "",
-    height: "",
-    weight: "",
+    height: 0,
+    weight: 0,
     address: "",
   };
   const [formData, setFormData] = useState(initialFormData);
   const [profilePicFile, setProfilePicFile] = useState(null);
   const { isLoading, updateProfile } = useProfile();
+  const handleWeigthChange = (e) => {
+    const { value } = e.target;
+    setFormData((prev) => ({ ...prev, weight: parseInt(value) }));
+  };
+  const handleHeightChange = (e) => {
+    const { value } = e.target;
+    setFormData((prev) => ({ ...prev, height: parseInt(value) }));
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -71,6 +80,7 @@ function UpdateProfile() {
     // window.location.href = "/auth/verify"; // Redirect to the verification page
   };
   useEffect(() => {
+    // initialFormData={profileData}
     (function () {
       "use strict";
       const forms = document.querySelectorAll(".needs-validation");
@@ -270,7 +280,7 @@ function UpdateProfile() {
             type="number"
             name="height"
             value={formData.height}
-            onChange={handleChange}
+            onChange={handleHeightChange}
             className="form-control"
             placeholder="Enter Height"
             required
@@ -283,7 +293,7 @@ function UpdateProfile() {
             type="number"
             name="weight"
             value={formData.weight}
-            onChange={handleChange}
+            onChange={handleWeigthChange}
             className="form-control"
             placeholder="Enter Weight"
             required
