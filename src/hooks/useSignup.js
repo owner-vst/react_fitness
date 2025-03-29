@@ -11,7 +11,7 @@ const useSignup = () => {
       dataToSend;
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/auth/signup", {
+      const res = await fetch("http://insightstracker.com:3000/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -47,7 +47,7 @@ const useSignup = () => {
     setLoading(true);
     console.log("inside verify email", code);
     try {
-      const res = await fetch("http://localhost:3000/api/auth/verify-email", {
+      const res = await fetch("http://insightstracker.com:3000/api/auth/verify-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code }),

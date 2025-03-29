@@ -150,6 +150,7 @@ function Settings() {
         );
         if (response.data.success) {
           const data = response.data;
+          console.log("data inside card", data);
           const formattedDob = new Date(data.user.dob).toLocaleDateString(
             "en-CA"
           ); // "en-CA" for yyyy-mm-dd format
@@ -158,21 +159,23 @@ function Settings() {
           ).toLocaleDateString("en-CA");
 
           // Assuming the response structure is similar to this
-          setProfileData({
-            name: data.user.name,
-            email: data.user.email,
+
+          setProfileData((prevData) => ({
+            ...prevData, // Spread the existing profile data to retain the already set values
+            name: data.user?.name,
+            email: data.user?.email,
             dob: formattedDob,
-            bloodGroup: data.profile.blood_group,
-            activityLevel: data.profile.activity_type,
-            goal: data.profile.goal,
-            height: data.profile.height,
-            weight: data.profile.weight,
             memberSince: formattedMemberSince,
-            totalCaloriesBurned: 1233,
-            gender: data.user.gender,
-            weeklyProgress: 123,
-            profilePic: data.user.profilePic,
-          });
+            totalCaloriesBurned: 1233, // Static value or replace with actual data if available
+            gender: data.user?.gender,
+            weeklyProgress: 123, // Static value or replace with actual data if available
+            profilePic: data.user?.profilePic,
+            bloodGroup: data.profile?.blood_group,
+            activityLevel: data.profile?.activity_type,
+            goal: data.profile?.goal,
+            height: data.profile?.height,
+            weight: data.profile?.weight,
+          }));
         } else {
           console.error("Failed to fetch profile data");
         }
@@ -301,7 +304,7 @@ function Settings() {
                 </div>
                 <div className="card-body">
                   <div className="basic-form">
-                    <UpdateProfile  />
+                    <UpdateProfile />
                   </div>
                 </div>
               </div>

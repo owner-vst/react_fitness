@@ -8,15 +8,15 @@ const useProfile = () => {
     console.log("inside update profile", submittedData);
     setIsLoading(true);
     try {
-        const response = await fetch(
-          "http://insightstracker.com:3000/api/common/update-profile",
-          {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(submittedData),
-          }
-        );
+      const response = await fetch(
+        "http://insightstracker.com:3000/api/common/update-profile",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(submittedData),
+        }
+      );
       // const res = await axios.post(
       //   "http://localhost:3000/common/update-profile",
       //   submittedData,
@@ -25,8 +25,8 @@ const useProfile = () => {
       //   }
       // );
 
-       const data = await response.json();
-    //  const data = res.data;
+      const data = await response.json();
+      //  const data = res.data;
       console.log("Data=", data);
       if (data.error) {
         throw new Error(data.error);
@@ -44,7 +44,26 @@ const useProfile = () => {
       setIsLoading(false);
     }
   };
-  return { isLoading, updateProfile };
+  const getProfile = async () => {
+    try {
+      const response = await fetch(
+        "http://insightstracker.com:3000/api/common/get-profile",
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      const data = await response.json();
+      console.log("Data=", data);
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      return data;
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  };
+  return { isLoading, updateProfile, getProfile };
 };
 
 export default useProfile;

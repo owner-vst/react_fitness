@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useProfile from "../../../hooks/useProfile";
+import { set } from "date-fns";
 function UpdateProfile(props) {
-  
   let initialFormData = {
     firstName: "",
     lastName: "",
@@ -18,7 +18,7 @@ function UpdateProfile(props) {
   };
   const [formData, setFormData] = useState(initialFormData);
   const [profilePicFile, setProfilePicFile] = useState(null);
-  const { isLoading, updateProfile } = useProfile();
+  const { isLoading, updateProfile, getProfile } = useProfile();
   const handleWeigthChange = (e) => {
     const { value } = e.target;
     setFormData((prev) => ({ ...prev, weight: parseInt(value) }));
@@ -35,6 +35,7 @@ function UpdateProfile(props) {
     setProfilePicFile(e.target.files[0]);
   };
   const uploadProfilePic = async () => {
+    if (!profilePicFile) return null; // Skip upload if no file is selected
     const formDataObj = new FormData();
     formDataObj.append("file", profilePicFile);
     formDataObj.append("upload_preset", "insightstracker"); // Replace with your Cloudinary preset
@@ -62,25 +63,45 @@ function UpdateProfile(props) {
 
     // Handle Profile Picture Upload
     const profilePicUrl = await uploadProfilePic();
-    if (!profilePicUrl) {
-      return;
-    }
-    // Set the uploaded profile picture URL to formData
-    // setFormData((prev) => ({
-    //   ...prev,
-    //   profilePic: profilePicUrl, // Set the image URL into the formData
-    // }));
+
     const dataToSend = {
       ...formData,
-      profilePic: profilePicUrl,
+      ...(profilePicUrl && { profilePic: profilePicUrl }),
     };
     // After profile picture is uploaded and form data is updated
     console.log("Form is valid, submitting data", dataToSend);
     await updateProfile(dataToSend);
     // window.location.href = "/auth/verify"; // Redirect to the verification page
   };
+
   useEffect(() => {
-    // initialFormData={profileData}
+    const fetchProfile = async () => {
+      const profileData = await getProfile();
+      console.log("profileData from api ", profileData);
+
+      if (profileData) {
+        const dob = new Date(profileData.user.dob);
+        const formattedDob = dob.toISOString().split("T")[0];
+        setFormData({
+          firstName: profileData.user?.first_name,
+          lastName: profileData.user?.last_name,
+          email: profileData.user?.email,
+          gender: profileData.user?.gender,
+          dob: formattedDob,
+          phone: profileData.profile?.phone,
+          bloodGroup: profileData.profile?.blood_group,
+          activityType: profileData.profile?.activity_type,
+          goal: profileData.profile?.goal,
+          height: profileData.profile?.height,
+          weight: profileData.profile?.weight,
+          address: profileData.profile?.address,
+        });
+      }
+    };
+
+    fetchProfile();
+  }, []);
+  useEffect(() => {
     (function () {
       "use strict";
       const forms = document.querySelectorAll(".needs-validation");
@@ -191,7 +212,7 @@ function UpdateProfile(props) {
             <option value="" disabled>
               Choose Blood Group
             </option>
-            <option value="O_POSTIVE">O+</option>
+            <option value="O_POSITIVE">O+</option>
             <option value="O_NEGATIVE">O-</option>
             <option value="A_POSITIVE">A+</option>
             <option value="A_NEGATIVE">A-</option>
@@ -254,7 +275,6 @@ function UpdateProfile(props) {
             onChange={handleFileChange}
             className="form-control"
             placeholder="Choose Profile Picture"
-            required
           />
           <div className="invalid-feedback">Select Profile Picture.</div>
         </div>
@@ -268,6 +288,7 @@ function UpdateProfile(props) {
             className="form-control"
             placeholder="Enter Email"
             required
+            readOnly
           />
           <div className="invalid-feedback">Please enter Email.</div>
         </div>
