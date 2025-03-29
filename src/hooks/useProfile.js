@@ -10,7 +10,8 @@ const useProfile = () => {
       const response = await fetch(
         "http://localhost:3000/common/update-profile",
         {
-          method: "PUT",
+          method: "POST",
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(submittedData),
         }
