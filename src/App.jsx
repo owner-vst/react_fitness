@@ -46,6 +46,7 @@ import { ToastContainer } from "react-toastify";
 import VerifyEmail from "./components/Pages/Auth/VerifyEmail";
 import ResetPassword from "./components/Pages/Auth/ResetPassword";
 import TestingChat from "./components/Custom/Chat/TestingChat";
+import ChatComp from "./components/Custom/Chat/ChatComp";
 
 function App() {
   return (
@@ -74,7 +75,7 @@ function App() {
               <Route path="settings" element={<Settings />} />
               <Route path="workoutstat" element={<WorkoutStats />} />
 
-              <Route path="chat" element={<TestingChat />} />
+              <Route path="chat" element={<ChatComp />} />
             </Route>
           </Route>
           <Route element={<Auth allowedRoles={["admin"]} />}>
@@ -105,7 +106,7 @@ function App() {
               <Route path="personalrecord" element={<PersonalRecord />} />
               <Route path="settings" element={<Settings />} />
               <Route path="integration" element={<Integrations />} />
-              <Route path="chat" element={<NewChat />} />
+              <Route path="chat" element={<ChatComp />} />
               <Route path="workoutstat" element={<WorkoutStats />} />
             </Route>
           </Route>
@@ -126,7 +127,7 @@ function App() {
           <Route path="cart" element={<Cart />} /> */}
               <Route path="personalrecord" element={<PersonalRecord />} />
               <Route path="settings" element={<Settings />} />
-              <Route path="chat" element={<NewChat />} />
+              <Route path="chat" element={<ChatComp />} />
             </Route>
           </Route>
           <Route path="/auth" element={<AuthLayout />}>
