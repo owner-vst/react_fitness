@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import useAuth from "../../../hooks/useAuth";
 
 // A placeholder for the API endpoints
-const apiUrl = "/api/messages"; // Adjust to your actual API route
 
 const TestingChat = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -20,14 +20,11 @@ const TestingChat = () => {
   }, []);
   const fetchUsers = async () => {
     try {
-      const response = await fetch(
-        "http://insightstracker.com:3000/api/common/get-users",
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/common/get-users`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -37,14 +34,11 @@ const TestingChat = () => {
   // Fetch conversations (last messages)
   const fetchConversations = async () => {
     try {
-      const response = await fetch(
-        "http://insightstracker.com:3000/api/common/get-last-message",
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }
-      ); // Adjust API endpoint
+      const response = await fetch(`${apiUrl}/api/common/get-last-message`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      }); // Adjust API endpoint
       const data = await response.json();
       setConversations(data);
     } catch (error) {
@@ -60,7 +54,7 @@ const TestingChat = () => {
     }
     try {
       const response = await fetch(
-        `http://insightstracker.com:3000/api/common/get-convo?user_id=${userId}`,
+        `${apiUrl}/api/common/get-convo?user_id=${userId}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -81,27 +75,24 @@ const TestingChat = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     console.log("Clicked");
-console.log("selected user", selectedUser);
-console.log("input message", inputMessage);
+    console.log("selected user", selectedUser);
+    console.log("input message", inputMessage);
     if (!inputMessage.trim() || !selectedUser) return;
 
     const newMessage = {
       receiver_id: String(selectedUser.id),
       content: inputMessage,
     };
-console.log("new message", newMessage);
+    console.log("new message", newMessage);
     try {
-      const response = await fetch(
-        "http://insightstracker.com:3000/api/common/send-message",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newMessage),
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/common/send-message`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMessage),
+        credentials: "include",
+      });
 
       const data = await response.json();
 
@@ -310,7 +301,6 @@ console.log("new message", newMessage);
                       type="text"
                       className="form-control"
                       placeholder="Type your message..."
-                      
                       value={inputMessage}
                       onChange={(e) => setInputMessage(e.target.value)}
                     />

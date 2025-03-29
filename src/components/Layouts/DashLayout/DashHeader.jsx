@@ -5,12 +5,14 @@ import Cookies from "js-cookie";
 
 function DashHeader() {
   const navigate = useNavigate();
+
   const location = useLocation();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [role, setRole] = useState(null);
   const { setAuth } = useAuth();
   const Logout = async () => {
     try {
-      const response = await fetch("http://insightstracker.com:3000/api/auth/logout", {
+      const response = await fetch(`${apiUrl}/api/auth/logout`, {
         method: "POST",
         credentials: "include", // Include cookies if your token is in cookies
       });

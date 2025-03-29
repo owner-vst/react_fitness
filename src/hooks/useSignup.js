@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 const useSignup = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   const signup = async (dataToSend) => {
     const { email, password, firstname, lastname, gender, dob, profilePic } =
       dataToSend;
     setLoading(true);
     try {
-      const res = await fetch("http://insightstracker.com:3000/api/auth/signup", {
+      const res = await fetch(`${apiUrl}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -45,9 +45,9 @@ const useSignup = () => {
 
   const verifyEmail = async (code) => {
     setLoading(true);
-    console.log("inside verify email", code);
+
     try {
-      const res = await fetch("http://insightstracker.com:3000/api/auth/verify-email", {
+      const res = await fetch(`${apiUrl}/api/auth/verify-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code }),

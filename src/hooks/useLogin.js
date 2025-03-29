@@ -8,18 +8,15 @@ const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const { setAuth } = useAuth();
   const navigate = useNavigate();
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const res = await fetch(
-        "http://insightstracker.com:3000/api/auth/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const res = await fetch(`${apiUrl}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
       const data = await res.json();
       if (data.error) {
@@ -46,14 +43,11 @@ const useLogin = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const userId = urlParams.get("userId");
 
-      const res = await fetch(
-        "http://insightstracker.com:3000/api/auth/verify-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ otp, userId }),
-        }
-      );
+      const res = await fetch(`${apiUrl}/api/auth/verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp, userId }),
+      });
 
       const data = await res.json();
       if (data.error) {
@@ -61,7 +55,7 @@ const useLogin = () => {
       }
       if (data.success) {
         toast.success(data.message);
-        console.log(data);
+
         localStorage.setItem("name", data.user.name);
         localStorage.setItem("token", data.token);
         localStorage.setItem("role", data.role);

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useProfile from "../../../hooks/useProfile";
 import { set } from "date-fns";
 function UpdateProfile(props) {
+  const apiUrl = import.meta.env.VITE_API_URL;
   let initialFormData = {
     firstName: "",
     lastName: "",
@@ -69,15 +70,13 @@ function UpdateProfile(props) {
       ...(profilePicUrl && { profilePic: profilePicUrl }),
     };
     // After profile picture is uploaded and form data is updated
-    console.log("Form is valid, submitting data", dataToSend);
+
     await updateProfile(dataToSend);
-    // window.location.href = "/auth/verify"; // Redirect to the verification page
   };
 
   useEffect(() => {
     const fetchProfile = async () => {
       const profileData = await getProfile();
-      console.log("profileData from api ", profileData);
 
       if (profileData) {
         const dob = new Date(profileData.user.dob);

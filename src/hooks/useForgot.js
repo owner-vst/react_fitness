@@ -4,17 +4,15 @@ import { useNavigate } from "react-router-dom";
 const useForgot = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const forgotPassword = async (email) => {
     setLoading(true);
     try {
-      const res = await fetch(
-        "http://localhost:3000/api/auth/forgot-password",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
+      const res = await fetch(`${apiUrl}/api/auth/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
       const data = await res.json();
       if (data.error) {
@@ -36,7 +34,7 @@ const useForgot = () => {
   const resetPassword = async (token, newPassword) => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/auth/reset-password", {
+      const res = await fetch(`${apiUrl}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, newPassword }),

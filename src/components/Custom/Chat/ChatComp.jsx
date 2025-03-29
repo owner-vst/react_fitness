@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import useAuth from "../../../hooks/useAuth";
 
 const ChatComp = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -20,14 +21,11 @@ const ChatComp = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch(
-        "http://insightstracker.com:3000/api/common/get-users",
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/common/get-users`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -37,14 +35,11 @@ const ChatComp = () => {
 
   const fetchConversations = async () => {
     try {
-      const response = await fetch(
-        "http://insightstracker.com:3000/api/common/get-last-message",
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/common/get-last-message`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
       const data = await response.json();
       setConversations(data);
     } catch (error) {
@@ -59,7 +54,7 @@ const ChatComp = () => {
     }
     try {
       const response = await fetch(
-        `http://insightstracker.com:3000/api/common/get-convo?user_id=${userId}`,
+        `${apiUrl}/api/common/get-convo?user_id=${userId}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -83,17 +78,14 @@ const ChatComp = () => {
     };
 
     try {
-      const response = await fetch(
-        "http://insightstracker.com:3000/api/common/send-message",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newMessage),
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/common/send-message`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMessage),
+        credentials: "include",
+      });
       const data = await response.json();
       setMessages((prevMessages) => [
         ...prevMessages,

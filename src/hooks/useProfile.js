@@ -3,30 +3,20 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const useProfile = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [isLoading, setIsLoading] = useState(false); // Track loading state
   const updateProfile = async (submittedData) => {
-    console.log("inside update profile", submittedData);
     setIsLoading(true);
     try {
-      const response = await fetch(
-        "http://insightstracker.com:3000/api/common/update-profile",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(submittedData),
-        }
-      );
-      // const res = await axios.post(
-      //   "http://localhost:3000/common/update-profile",
-      //   submittedData,
-      //   {
-      //     withCredentials: true,
-      //   }
-      // );
+      const response = await fetch(`${apiUrl}/api/common/update-profile`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submittedData),
+      });
 
       const data = await response.json();
-      //  const data = res.data;
+
       console.log("Data=", data);
       if (data.error) {
         throw new Error(data.error);
@@ -46,13 +36,10 @@ const useProfile = () => {
   };
   const getProfile = async () => {
     try {
-      const response = await fetch(
-        "http://insightstracker.com:3000/api/common/get-profile",
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/common/get-profile`, {
+        method: "GET",
+        credentials: "include",
+      });
       const data = await response.json();
       console.log("Data=", data);
       if (data.error) {

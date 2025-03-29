@@ -35,32 +35,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(email, password);
-    // try {
-    //   const response = await fetch("http://localhost:3000/api/auth/login", {
-    //     method: "POST",
 
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       email: email,
-    //       password: password,
-    //     }),
-    //   });
-
-    //   const data = await response.json();
-    //   console.log("Data=", data);
-    //   if (data.success) {
-    //     // Redirect to Verify component with userId
-    //     console.log("Date res=", data);
-    //     window.location.href = `/auth/verify?userId=${data.userId}`;
-    //   } else {
-    //     console.error(data.message);
-    //   }
-    // } catch (error) {
-    //   console.error("Error during login:", error);
-    // }
     await login(email, password);
   };
   return (
