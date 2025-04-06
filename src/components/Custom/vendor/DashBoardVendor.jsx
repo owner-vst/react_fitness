@@ -1,3 +1,7 @@
+import CalorieChart from "../charts/CalorieChart";
+import DashboardAdminCharts from "../charts/DashBardAdminCharts";
+import RadialChart from "../charts/RadialChart";
+
 function DashBoardVendor() {
   return (
     <div className="content-body">
@@ -358,7 +362,8 @@ function DashBoardVendor() {
                 </div>
               </div>
               <div className="card-body pt-3">
-                <div id="chartBar" />
+                {/* <div id="chartBar" /> */}
+                <DashboardAdminCharts />
               </div>
             </div>
           </div>
@@ -368,7 +373,8 @@ function DashBoardVendor() {
                 <h4 className="text-black fs-20 mb-0">Workout Progress</h4>
               </div>
               <div className="card-body text-center">
-                <div id="radialBar" />
+                {/* <div id="radialBar" /> */}
+                <RadialChart />
                 <p className="fs-14">
                   Progrees based on your fitness activity{" "}
                 </p>
@@ -535,7 +541,8 @@ function DashBoardVendor() {
                 </div>
               </div>
               <div className="card-body">
-                <div id="chartTimeline" />
+                {/* <div id="chartTimeline" /> */}
+                <CalorieChart />
               </div>
             </div>
           </div>

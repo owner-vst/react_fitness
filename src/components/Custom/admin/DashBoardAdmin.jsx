@@ -1,4 +1,8 @@
 import { Link } from "react-router-dom";
+import DashBoardAdminCharts from "../charts/DashBardAdminCharts";
+import CalorieChart from "../charts/CalorieChart";
+import DashboardAdminCharts from "../charts/DashBardAdminCharts";
+import RadialChart from "../charts/RadialChart";
 
 function DashBoardAdmin() {
   return (
@@ -474,7 +478,8 @@ function DashBoardAdmin() {
                 </div>
               </div>
               <div className="card-body pt-3">
-                <div id="chartBar" />
+                {/* <div id="chartBar30" /> */}
+                <DashboardAdminCharts />
               </div>
             </div>
           </div>
@@ -484,7 +489,8 @@ function DashBoardAdmin() {
                 <h4 className="text-black fs-20 mb-0">Workout Progress</h4>
               </div>
               <div className="card-body text-center">
-                <div id="radialBar" />
+                {/* <div id="radialBar" /> */}
+                <RadialChart />
                 <p className="fs-14">
                   Progress based on your fitness activity{" "}
                 </p>
@@ -651,7 +657,8 @@ function DashBoardAdmin() {
                 </div>
               </div>
               <div className="card-body">
-                <div id="chartTimeline" />
+                {/* <div id="chartTimeline11" /> */}
+                <CalorieChart />
               </div>
             </div>
           </div>

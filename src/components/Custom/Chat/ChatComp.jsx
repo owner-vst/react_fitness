@@ -12,6 +12,7 @@ const ChatComp = () => {
   const [showAutocomplete, setShowAutocomplete] = useState(false);
   const { auth } = useAuth();
   const currUser = JSON.parse(auth.user);
+
   const currId = currUser.id;
 
   useEffect(() => {

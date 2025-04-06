@@ -10,6 +10,9 @@ function DashHeader() {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [role, setRole] = useState(null);
   const { setAuth } = useAuth();
+  const { auth } = useAuth();
+  const currUser = JSON.parse(auth.user);
+
   const Logout = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/auth/logout`, {
@@ -286,7 +289,7 @@ function DashHeader() {
                   role="button"
                   data-bs-toggle="dropdown"
                 >
-                  <img src="/assets/images/profile/ava.jpg" width={20} alt />
+                  <img src={currUser.profilePic} alt={currUser.first_name} />
                 </a>
                 <div className="dropdown-menu dropdown-menu-end">
                   <Link
