@@ -32,9 +32,7 @@ function DashHeader() {
         Cookies.remove(token);
         setAuth({}); // Clear auth state, if you're using one
         // navigate("/auth/login");
-        setTimeout(() => {
-          navigate("/auth/login");
-        }, 500);
+        navigate("/auth/login");
       } else {
         console.error("Logout failed:", data.message);
       }
