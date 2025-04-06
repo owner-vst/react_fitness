@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useForgot from "../../../hooks/useForgot";
+import { toast } from "react-toastify";
 
 export default function ResetPassword() {
   const { loading, resetPassword } = useForgot();
   const [token, setToken] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     (function () {
@@ -29,6 +31,10 @@ export default function ResetPassword() {
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
     await resetPassword(token, newPassword);
   };
 
@@ -111,7 +117,7 @@ export default function ResetPassword() {
                             <strong>New Password</strong>
                           </label>
                           <input
-                            type="text"
+                            type="password"
                             className="form-control"
                             id="text"
                             name="newPassword"
@@ -123,6 +129,20 @@ export default function ResetPassword() {
                           <div className="invalid-feedback">
                             Please enter a valid new password.
                           </div>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="confirmPassword">
+                            Confirm Password
+                          </label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            id="confirmPassword"
+                            placeholder="Confirm new password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                          />
                         </div>
 
                         <div className="text-center">

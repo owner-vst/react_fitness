@@ -1,11 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
+import useUnread from "../../../hooks/useUnread";
 
 function ProtoSidebar({ isSidebarOpen }) {
   const { auth } = useAuth();
   const role = auth.role;
+  const userId = JSON.parse(auth.user).id;
+
   const location = useLocation();
+  const unreadCount = useUnread(userId);
 
   // useEffect(() => {
   //   if (location.pathname) {
@@ -101,6 +105,7 @@ function ProtoSidebar({ isSidebarOpen }) {
         label: "Chat",
         link: "/dashboard/admin/chat",
         icon: "fas fa-comments",
+        unreadCount,
       },
       {
         label: "Integration",
@@ -184,6 +189,7 @@ function ProtoSidebar({ isSidebarOpen }) {
         label: "Chat",
         link: "/dashboard/vendor/chat",
         icon: "fas fa-comments",
+        unreadCount,
       },
       {
         label: "Settings",
@@ -241,6 +247,7 @@ function ProtoSidebar({ isSidebarOpen }) {
         label: "Chat",
         link: "/dashboard/user/chat",
         icon: "fas fa-comments",
+        unreadCount,
       },
       {
         label: "Settings",
@@ -261,6 +268,9 @@ function ProtoSidebar({ isSidebarOpen }) {
               <Link to={item.link}>
                 <i className={item.icon} />
                 <span className="nav-text">{item.label}</span>
+                {item.unreadCount > 0 && (
+                  <span className="">({item.unreadCount})</span>
+                )}
               </Link>
             </li>
           ))}

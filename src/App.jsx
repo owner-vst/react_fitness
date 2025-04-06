@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import DashLayout from "./components/Layouts/DashLayout/DashLayout";
 
 import NewChat from "./components/Custom/Chat/NewChat";
@@ -130,6 +135,7 @@ function App() {
               <Route path="chat" element={<ChatComp />} />
             </Route>
           </Route>
+          <Route path="/auth" element={<Navigate to="/auth/login" />} />
           <Route path="/auth" element={<AuthLayout />}>
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />

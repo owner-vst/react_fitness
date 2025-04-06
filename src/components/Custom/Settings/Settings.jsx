@@ -72,7 +72,7 @@ function Settings() {
       <div className="content-body">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-xl-3 col-lg-4">
+            <div className="col-xl-4 col-lg-4">
               <div className="clearfix">
                 <div className="row">
                   <div className="d-flex justify-content-center align-items-center min-vh-100">
@@ -177,7 +177,7 @@ function Settings() {
               </div>
             </div>
 
-            <div className="col-xl-9 col-lg-8">
+            <div className="col-xl-8 col-lg-8">
               <div className="card card-bx m-b30">
                 <div className="card-header">
                   <h6 className="title">Update Profile</h6>

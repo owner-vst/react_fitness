@@ -168,17 +168,6 @@ function Login() {
                         </Link>
                       </p>
                     </div>
-                    <div className="d-flex justify-content-around">
-                      <Link className="text-primary" to="/dashboard/admin">
-                        Admin
-                      </Link>
-                      <Link className="text-primary" to="/dashboard/vendor">
-                        Vendor
-                      </Link>
-                      <Link className="text-primary" to="/dashboard/user">
-                        User
-                      </Link>
-                    </div>
                   </div>
                 </div>
               </div>

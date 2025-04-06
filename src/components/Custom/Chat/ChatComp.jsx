@@ -43,6 +43,7 @@ const ChatComp = () => {
       });
       const data = await response.json();
       setConversations(data);
+      console.log("Conversations", data);
     } catch (error) {
       console.error("Error fetching conversations:", error);
     }
@@ -100,9 +101,18 @@ const ChatComp = () => {
         },
       ]);
       setInputMessage(""); // Reset input message
+      await fetchConversations();
     } catch (error) {
       console.error("Error sending message:", error);
     }
+  };
+  const updateUnreadMessagesToRead = (userId) => {
+    // Update unread messages to "read" when conversation is opened
+    setConversations((prevConversations) =>
+      prevConversations.map((conv) =>
+        conv.receiver.id === userId ? { ...conv, unreadMessages: 0 } : conv
+      )
+    );
   };
 
   const handleUserClick = (user) => {
@@ -110,6 +120,7 @@ const ChatComp = () => {
     setShowAutocomplete(false);
     setSelectedUser(user);
     fetchConversation(user.id);
+    updateUnreadMessagesToRead(user.id);
   };
 
   const filteredUsers = searchQuery.trim()
@@ -128,7 +139,7 @@ const ChatComp = () => {
           <div className="col-xl-3 col-lg-4">
             <div className="card">
               <div className="card-body">
-                <h5 className="mb-0">Users</h5>
+                <h5 className="mb-0">Chats</h5>
                 <hr />
                 {/* Search input */}
                 <div className="search-container position-relative mb-3">
@@ -154,7 +165,8 @@ const ChatComp = () => {
                         >
                           <img
                             src={
-                              user.profilePic || "/dash/images/profile/pic1.jpg"
+                              user.profilePic ||
+                              "/assets/images/profile/download.png"
                             }
                             alt={user.first_name}
                             className="rounded-circle shadow-sm border border-dark me-2"
@@ -182,7 +194,10 @@ const ChatComp = () => {
                       onClick={() => handleUserClick(conv.receiver)}
                     >
                       <img
-                        src={conv.receiver.profilePic}
+                        src={
+                          conv.receiver.profilePic ||
+                          "/assets/images/profile/download.png"
+                        }
                         alt={conv.receiver.first_name}
                         className="rounded-circle shadow-sm border border-dark"
                         width="40"
@@ -193,6 +208,9 @@ const ChatComp = () => {
                           {conv.content}
                         </p>
                       </div>
+                      <small className="d-block mt-1 text-muted">
+                        {new Date(conv.created_at).toLocaleDateString()}
+                      </small>
                       {conv.unreadMessages > 0 && (
                         <div className="ms-auto">
                           <span className="badge bg-primary">
@@ -216,7 +234,7 @@ const ChatComp = () => {
                     <img
                       src={
                         selectedUser.profilePic ||
-                        "/dash/images/profile/pic1.jpg"
+                        "/assets/images/profile/download.png"
                       }
                       alt={selectedUser.first_name}
                       className="rounded-circle shadow-sm border border-dark"
@@ -263,7 +281,7 @@ const ChatComp = () => {
                 ))}
               </div> */}
               <div
-                className="card-body"
+                className="card-body "
                 style={{ height: "400px", overflowY: "auto" }}
               >
                 {Array.isArray(messages) &&
@@ -299,13 +317,30 @@ const ChatComp = () => {
                               isSender ? "ms-2" : "me-2"
                             }`}
                             width="30"
+                            height={50}
                           />
                           <p
                             className={`mb-2 ${
                               isSender ? "text-end" : "text-start"
                             }`}
+                            style={{
+                              backgroundColor: isSender ? "#f1f1f1" : "#f1f1f1",
+                              color: isSender ? "black" : "black",
+                              padding: "8px 12px",
+                              borderRadius: "20px",
+                              maxWidth: "75%",
+                            }}
                           >
                             {message.content}
+                            <small
+                              className="d-block mt-1 text-muted"
+                              style={{ fontSize: "0.65rem" }}
+                            >
+                              {new Date(message.created_at).toLocaleTimeString(
+                                [],
+                                { hour: "2-digit", minute: "2-digit" }
+                              )}
+                            </small>
                           </p>
                         </div>
                         <small

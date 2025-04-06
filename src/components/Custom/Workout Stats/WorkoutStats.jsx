@@ -1,3 +1,7 @@
+import RunningChart from "../charts/RunningChart";
+import CycleChart from "../charts/CycleChart";
+import YogaChart from "../charts/YogaChart";
+
 function WorkoutStats() {
   return (
     <div>
@@ -46,7 +50,8 @@ function WorkoutStats() {
                       </div>
                     </div>
                     <div className="card-body pb-0">
-                      <div id="chartBar1" />
+                      {/* <div id="chartBar1" /> */}
+                      <RunningChart />
                     </div>
                   </div>
                 </div>
@@ -86,7 +91,8 @@ function WorkoutStats() {
                       </div>
                     </div>
                     <div className="card-body pb-0">
-                      <div id="chartBar2" />
+                      {/* <div id="chartBar2" /> */}
+                      <CycleChart />
                     </div>
                   </div>
                 </div>
@@ -137,7 +143,8 @@ function WorkoutStats() {
                       </div>
                     </div>
                     <div className="card-body pb-0">
-                      <div id="chartBar3" />
+                      {/* <div id="chartBar3" /> */}
+                      <YogaChart />
                     </div>
                   </div>
                 </div>
