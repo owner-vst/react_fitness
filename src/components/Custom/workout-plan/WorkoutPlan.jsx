@@ -1,49 +1,106 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useWorkoutPlan from "../../../hooks/workoutplan/useWorkoutPlan";
 import Workout from "../charts/Workout";
 
 function WorkoutPlan() {
-  const cartItems = [
-    {
-      id: 1,
-      activity: "Running",
-      caloriesBurned: "300 kcal",
-      status: "Completed",
-      duration: "30 min",
-    },
-    {
-      id: 2,
-      activity: "Cycling",
-      caloriesBurned: "250 kcal",
-      status: "In Progress",
-      duration: "45 min",
-    },
-    {
-      id: 3,
-      activity: "Yoga",
-      caloriesBurned: "150 kcal",
-      status: "Completed",
-      duration: "60 min",
-    },
-  ];
   const {
     workoutPlanItems,
     loading,
+    activities,
     error,
     fetchWorkoutPlanItems,
     updateWorkoutPlanItem,
+    createActivity,
     deleteWorkoutPlanItem,
+    createActivityLog,
+    getActivites,
     suggestWorkplan,
   } = useWorkoutPlan();
+  const [editedItems, setEditedItems] = useState({});
+  const [activityId, setActivityId] = useState("");
+  const [activityDuration, setActivityDuration] = useState("");
+  const [newActivity, setNewActivity] = useState({
+    name: "",
+    duration: 0,
+    calories_per_kg: 0,
+  });
+  const handleDurationChange = (planItemId, duration) => {
+    setEditedItems((prev) => ({
+      ...prev,
+      [planItemId]: {
+        ...prev[planItemId],
+        duration: parseInt(duration, 10), // Change quantity to duration
+        // Keep the status value intact if it is already set in editedItems
+        status:
+          prev[planItemId]?.status ??
+          workoutPlanItems
+            .flatMap((plan) => plan.items)
+            .find((item) => item.id === planItemId)?.status ??
+          "PENDING", // Default to 'PENDING' if no status is found
+      },
+    }));
+  };
+
+  const handleStatusChange = (planItemId, status) => {
+    setEditedItems((prev) => ({
+      ...prev,
+      [planItemId]: {
+        ...prev[planItemId],
+        status, // Update status
+        duration:
+          prev[planItemId]?.duration ??
+          workoutPlanItems
+            .flatMap((plan) => plan.items)
+            .find((item) => item.id === planItemId)?.duration ??
+          0, // Keep duartion unchanged if not provided
+      },
+    }));
+  };
+  const handleSaveChanges = async () => {
+    const updates = Object.entries(editedItems);
+    for (const [id, values] of updates) {
+      const itemId = parseInt(id, 10);
+      const existingItem = workoutPlanItems
+        .flatMap((plan) => plan.items)
+        .find((item) => item.id === itemId);
+
+      if (
+        existingItem &&
+        (existingItem.duration !== values.duration ||
+          existingItem.status !== values.status)
+      ) {
+        await updateWorkoutPlanItem(itemId, values.status, values.duration);
+        fetchWorkoutPlanItems(formattedDate);
+      }
+    }
+
+    // Clear after saving
+    setEditedItems({});
+  };
+
   const handleDeleteItem = async (planItemId) => {
     console.log("in handle delete", planItemId);
-    // await deleteWorkoutPlanItem(planItemId);
-    // fetchWorkoutPlanItems(formattedDate);
+    await deleteWorkoutPlanItem(planItemId);
+    fetchWorkoutPlanItems(formattedDate);
   };
-  const handleStatusChange = (itemId, newStatus) => {
-    // Update the status for the workout plan item.
-    // You could call your API here or update the state locally
-    // for example, via a function like `updateWorkoutPlanItem`.
+  const handleSubmitActivityLog = async (e) => {
+    e.preventDefault();
+    console.log("in handle activity log", activityId, activityDuration);
+    await createActivityLog(
+      parseInt(activityId, 10),
+      parseInt(activityDuration, 10)
+    );
+    fetchWorkoutPlanItems(formattedDate);
+  };
+  const handleSubmitAddActivity = async (e) => {
+    e.preventDefault();
+    await createActivity(newActivity);
+    getActivites();
+    setNewActivity({
+      name: "",
+      duration: 0,
+      calories_per_kg: 0,
+    });
   };
   const today = new Date();
 
@@ -54,9 +111,8 @@ function WorkoutPlan() {
     "-" +
     ("0" + today.getDate()).slice(-2);
   useEffect(() => {
-    if (!workoutPlanItems || workoutPlanItems.length === 0) {
-      fetchWorkoutPlanItems(formattedDate);
-    }
+    getActivites();
+    fetchWorkoutPlanItems(formattedDate);
   }, []);
 
   console.log("in comp", workoutPlanItems);
@@ -81,48 +137,33 @@ function WorkoutPlan() {
                       <h6 className="fs-16 text-black mb-4">
                         Suggested Today's Workout Plan
                       </h6>
-                      <div className="d-flex mb-4 align-items-center">
-                        <span className="date-icon me-3">2</span>
-                        <div>
-                          <h6 className="fs-16">
-                            <a
-                              href="workout-statistic.html"
-                              className="text-black"
-                            >
-                              Cardio Exercise
-                            </a>
-                          </h6>
-                          <span>Pending</span>
-                        </div>
-                      </div>
-                      <div className="d-flex mb-4 align-items-center">
-                        <span className="date-icon me-3">2</span>
-                        <div>
-                          <h6 className="fs-16">
-                            <a
-                              href="workout-statistic.html"
-                              className="text-black"
-                            >
-                              Cycling Routine
-                            </a>
-                          </h6>
-                          <span>Finished</span>
-                        </div>
-                      </div>
-                      <div className="d-flex mb-4 align-items-center">
-                        <span className="date-icon me-3">2</span>
-                        <div>
-                          <h6 className="fs-16">
-                            <a
-                              href="workout-statistic.html"
-                              className="text-black"
-                            >
-                              Running
-                            </a>
-                          </h6>
-                          <span>Skipped</span>
-                        </div>
-                      </div>
+                      {workoutPlanItems && workoutPlanItems.length > 0 ? (
+                        workoutPlanItems.map((workoutPlan) => (
+                          <div key={workoutPlan.id}>
+                            {workoutPlan.items.map((item) => (
+                              <div
+                                key={item.id}
+                                className="d-flex mb-4 align-items-center"
+                              >
+                                <span className="date-icon me-3">
+                                  {today.getDate()}
+                                </span>
+                                <div>
+                                  <h6 className="fs-16">
+                                    <a href="#" className="text-black">
+                                      {item.activity}
+                                    </a>
+                                  </h6>
+                                  <span>{item.status}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ))
+                      ) : (
+                        <div>No workout plan items found for today.</div>
+                      )}
+
                       <a
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
@@ -147,29 +188,50 @@ function WorkoutPlan() {
                               ></button>
                             </div>
                             <div className="modal-body">
-                              <form>
+                              <form onSubmit={handleSubmitAddActivity}>
                                 <div className="form-group">
                                   <label>Activity Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
                                     placeholder="Activity Name"
+                                    value={newActivity.name}
+                                    onChange={(e) =>
+                                      setNewActivity({
+                                        ...newActivity,
+                                        name: e.target.value,
+                                      })
+                                    }
                                   />
                                 </div>
                                 <div className="form-group">
-                                  <label>Activity Unit</label>
+                                  <label>Duration</label>
                                   <input
                                     type="text"
                                     className="form-control"
                                     placeholder="Activity Unit"
+                                    value={newActivity.duration}
+                                    onChange={(e) =>
+                                      setNewActivity({
+                                        ...newActivity,
+                                        duration: e.target.value,
+                                      })
+                                    }
                                   />
                                 </div>
                                 <div className="form-group">
-                                  <label>Calories Burned</label>
+                                  <label>Calories per kg</label>
                                   <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Calories Burned"
+                                    placeholder="Calories per kg"
+                                    value={newActivity.calories_per_kg}
+                                    onChange={(e) =>
+                                      setNewActivity({
+                                        ...newActivity,
+                                        calories_per_kg: e.target.value,
+                                      })
+                                    }
                                   />
                                 </div>
                                 <button className="btn btn-primary">
@@ -194,7 +256,7 @@ function WorkoutPlan() {
                         <h4 className="text-black fs-20">Plan List</h4>
                       </div>
                       <a
-                        href="javascript:void(0);"
+                        href="#"
                         className="btn btn-outline-primary rounded me-3"
                         onClick={suggestWorkplan}
                       >
@@ -225,16 +287,34 @@ function WorkoutPlan() {
                               ></button>
                             </div>
                             <div className="modal-body">
-                              <form>
+                              <form onSubmit={handleSubmitActivityLog}>
                                 <div className="form-group">
                                   <label>Activity</label>
                                   <select
-                                    name="status"
+                                    name="activityId"
+                                    value={activityId}
+                                    onChange={(e) =>
+                                      setActivityId(e.target.value)
+                                    }
                                     className="form-control input-btn input-number "
+                                    defaultValue=""
+                                    style={{
+                                      maxHeight: "100px", // Set the max height for the dropdown
+                                      overflowY: "auto", // Enable vertical scrolling when the list exceeds the max height
+                                      display: "block", // Ensure the select box takes up space and is visible
+                                    }}
                                   >
-                                    <option value="Cycling">Cycling</option>
-                                    <option value="Running">Running</option>
-                                    <option value="Yoga">Yoga</option>
+                                    <option value="" disabled>
+                                      Select an activity
+                                    </option>
+                                    {activities.map((activity) => (
+                                      <option
+                                        key={activity.id}
+                                        value={activity.id}
+                                      >
+                                        {activity.name}
+                                      </option>
+                                    ))}
                                   </select>
                                 </div>
 
@@ -244,6 +324,10 @@ function WorkoutPlan() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Duration"
+                                    value={activityDuration}
+                                    onChange={(e) =>
+                                      setActivityDuration(e.target.value)
+                                    }
                                   />
                                 </div>
                                 <button className="btn btn-primary">
@@ -256,8 +340,9 @@ function WorkoutPlan() {
                       </div>
 
                       <a
-                        href="javascript:void(0);"
+                        href="#"
                         className="btn btn-outline-primary rounded"
+                        onClick={handleSaveChanges}
                       >
                         Update Workout Log
                       </a>
@@ -291,7 +376,16 @@ function WorkoutPlan() {
                                     <input
                                       type="number"
                                       className="form-control"
-                                      value={item.duration}
+                                      value={
+                                        editedItems[item.id]?.duration ??
+                                        item.duration
+                                      }
+                                      onChange={(e) =>
+                                        handleDurationChange(
+                                          item.id,
+                                          e.target.value
+                                        )
+                                      }
                                     />
                                   </td>
 
@@ -300,8 +394,10 @@ function WorkoutPlan() {
                                       <select
                                         name="status"
                                         className="form-control input-btn input-number "
-                                        defaultValue="Pending"
-                                        value={item.status}
+                                        value={
+                                          editedItems[item.id]?.status ??
+                                          item.status
+                                        }
                                         onChange={(e) =>
                                           handleStatusChange(
                                             item.id,
@@ -366,7 +462,13 @@ function WorkoutPlan() {
                                         <a className="dropdown-item" href="#">
                                           Edit
                                         </a>
-                                        <a className="dropdown-item" href="#">
+                                        <a
+                                          className="dropdown-item"
+                                          href="#"
+                                          onClick={() =>
+                                            handleDeleteItem(item.id)
+                                          }
+                                        >
                                           Delete
                                         </a>
                                       </div>

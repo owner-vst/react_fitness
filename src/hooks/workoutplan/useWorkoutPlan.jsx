@@ -6,6 +6,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const useWorkoutPlan = () => {
   const [workoutPlanItems, setWorkoutPlanItems] = useState([]); // Store workout plan items
   const [loading, setLoading] = useState(true); // Loading state
+  const [activities, setActivities] = useState([]);
   const [error, setError] = useState(null); // Error state
 
   // Fetch workout plan items for a specific date
@@ -27,9 +28,10 @@ const useWorkoutPlan = () => {
 
   // Update the workout plan item (e.g., status or duration)
   const updateWorkoutPlanItem = async (planItemId, status, duration) => {
+    console.log("in update workout plan", planItemId, status, duration);
     try {
       const response = await axios.put(
-        `${apiUrl}/api/user/update-workout-plan-item`,
+        `${apiUrl}/api/user/update-workout-plan`,
         {
           planItemId,
           status,
@@ -40,7 +42,7 @@ const useWorkoutPlan = () => {
         }
       );
       if (response.data.success) {
-        toast.success(response.data.message);
+        toast.success("Workout Plan updated successfully");
       }
       setWorkoutPlanItems((prevItems) =>
         prevItems.map((item) =>
@@ -57,13 +59,13 @@ const useWorkoutPlan = () => {
   const deleteWorkoutPlanItem = async (planItemId) => {
     try {
       const response = await axios.delete(
-        `${apiUrl}/api/user/delete-workout-plan-item/${planItemId}`,
+        `${apiUrl}/api/user/delete-workout-plan/${planItemId}`,
         {
           withCredentials: true,
         }
       );
       if (response.data.success) {
-        toast.success(response.data.message);
+        toast.success("Workout Plan Item  deleted successfully");
       }
       setWorkoutPlanItems((prevItems) =>
         prevItems.filter((item) => item.id !== planItemId)
@@ -83,10 +85,62 @@ const useWorkoutPlan = () => {
         }
       );
       if (response.data.success) {
-        toast.success("PLan created successfully");
+        toast.success("Workout Plan created successfully");
       }
       return response.data;
     } catch (err) {
+      setError(err);
+    }
+  };
+  const getActivites = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/user/get-activities`, {
+        withCredentials: true,
+      });
+      setActivities(response.data.activities);
+    } catch (err) {
+      setError(err);
+    }
+  };
+  const createActivityLog = async (activityId, duration) => {
+    try {
+      const response = await axios.post(
+        `${apiUrl}/api/user/create-workout-plan-item`,
+        {
+          activity_id: activityId,
+          duration,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        toast.success("Activity Log created successfully");
+      }
+      return response.data;
+    } catch (err) {
+      setError(err);
+    }
+  };
+  const createActivity = async (activity) => {
+    try {
+      const response = await axios.post(
+        `${apiUrl}/api/user/create-activity`,
+        {
+          name: activity.name,
+          duration: parseInt(activity.duration, 10),
+          calories_per_kg: parseInt(activity.calories_per_kg, 10),
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        toast.success("Activity created successfully");
+      }
+      return response.data;
+    } catch (err) {
+      toast.error("Error creating activity", err);
       setError(err);
     }
   };
@@ -106,10 +160,14 @@ const useWorkoutPlan = () => {
     workoutPlanItems, // Fetched workout plan items
     loading, // Loading state
     error, // Error state
+    activities, // Fetched activities
     fetchWorkoutPlanItems, // Function to fetch workout plan items
     updateWorkoutPlanItem, // Function to update a workout plan item
     deleteWorkoutPlanItem, // Function to delete a workout plan item
     suggestWorkplan,
+    createActivity,
+    createActivityLog,
+    getActivites,
   };
 };
 

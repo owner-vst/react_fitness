@@ -14,6 +14,7 @@ function DietPlan() {
     updateDietPlanItem,
     createFoodLog,
     createFoodItem,
+    suggestDietPlan,
     deleteDietPlanItem,
     getFoodItems,
   } = useDietPlan();
@@ -123,14 +124,12 @@ function DietPlan() {
     ("0" + today.getDate()).slice(-2);
 
   useEffect(() => {
-    if (!dietPlanItems || dietPlanItems.length === 0) {
-      fetchDietPlanItems(formattedDate); // Trigger the fetch if not already done
-    }
+    fetchDietPlanItems(formattedDate);
     if (!foodItems || foodItems.length === 0) {
       getFoodItems();
     }
   }, [dietPlanItems, fetchDietPlanItems, foodItems]);
-  
+
   // if (loading) return <div>Loading...</div>;
   // if (error) return <div>Error: {error.message}</div>;
   return (
@@ -166,7 +165,7 @@ function DietPlan() {
                                 key={item.id}
                                 className="d-flex mb-4 align-items-center"
                               >
-                                <span className="date-icon me-3">2</span>
+                                <span className="date-icon me-3">{today.getDate()}</span>
                                 <div>
                                   <h6 className="fs-16">
                                     <a href="#" className="text-black">
@@ -321,6 +320,12 @@ function DietPlan() {
                       <div className="me-auto pe-3">
                         <h4 className="text-black fs-20">Plan List</h4>
                       </div>
+                      <a
+                        className="btn btn-outline-primary rounded me-3"
+                        onClick={suggestDietPlan}
+                      >
+                        Suggest Diet Plan
+                      </a>
 
                       <a
                         href="javascript:void(0);"

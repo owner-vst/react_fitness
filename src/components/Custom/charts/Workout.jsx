@@ -8,94 +8,60 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import useDietStats from "../../../hooks/dieplan/useDietStats"; // Adjust the import path based on where your hook is located
 
-// Adjusted data representing activities with decreasing values on weekdays
-const data = [
-  {
-    name: "Monday",
-    running: 5000,
-    cycling: 3000,
-    swimming: 3500,
-  },
-  {
-    name: "Tuesday",
-    running: 4800,
-    cycling: 2800,
-    swimming: 3400,
-  },
-  {
-    name: "Wednesday",
-    running: 4600,
-    cycling: 2700,
-    swimming: 3300,
-  },
-  {
-    name: "Thursday",
-    running: 4400,
-    cycling: 2600,
-    swimming: 3200,
-  },
-  {
-    name: "Friday",
-    running: 4200,
-    cycling: 2500,
-    swimming: 3100,
-  },
-  {
-    name: "Saturday",
-    running: 4600,
-    cycling: 2900,
-    swimming: 3400,
-  },
-  {
-    name: "Sunday",
-    running: 5000,
-    cycling: 3200,
-    swimming: 3600,
-  },
-];
+const Workout = () => {
+  const { dietStats, loading, error } = useDietStats(); // Use the hook to fetch diet stats
 
-const Workout = () => (
-  <ResponsiveContainer width="100%" height={265}>
-    <AreaChart
-      data={data}
-      margin={{
-        top: 10,
-        right: 30,
-        left: 0,
-        bottom: 0,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Area
-        type="monotone"
-        dataKey="running"
-        stackId="1"
-        stroke="#8884d8"
-        fill="#8884d8"
-        name="Running"
-      />
-      <Area
-        type="monotone"
-        dataKey="cycling"
-        stackId="1"
-        stroke="#82ca9d"
-        fill="#82ca9d"
-        name="Cycling"
-      />
-      <Area
-        type="monotone"
-        dataKey="swimming"
-        stackId="1"
-        stroke="#ffc658"
-        fill="#ffc658"
-        name="Swimming"
-      />
-    </AreaChart>
-  </ResponsiveContainer>
-);
+  // If loading, display a loading message
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // If there's an error, display the error message
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  // If no data, return a message
+  if (!dietStats || dietStats.length === 0) {
+    return <div>No data available</div>;
+  }
+
+  // Prepare the data to match the format expected by the AreaChart
+  const data = dietStats.map((dayStat) => ({
+    name: dayStat.day,
+    caloriesBurned: parseFloat(dayStat.caloriesBurned), // Ensure caloriesBurned is a valid number
+  }));
+
+  console.log("in workout", data);
+
+  return (
+    <ResponsiveContainer width="100%" height={265}>
+      <AreaChart
+        data={data}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 0,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Area
+          type="monotone"
+          dataKey="caloriesBurned"
+          stackId="1"
+          stroke="#ffc658"
+          fill="#ffc658"
+          name="Calories Burned"
+        />
+      </AreaChart>
+    </ResponsiveContainer>
+  );
+};
 
 export default Workout;

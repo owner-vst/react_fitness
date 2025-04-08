@@ -130,6 +130,24 @@ const useDietPlan = () => {
       setError(err);
     }
   };
+
+  const suggestDietPlan = async () => {
+    try {
+      const response = await axios.get(
+        `${apiUrl}/api/common/suggest-diet-plan`,
+
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        toast.success("Diet Plan created successfully");
+      }
+      return response.data;
+    } catch (err) {
+      setError(err);
+    }
+  };
   // useEffect(() => {
   //   const today = new Date();
   //   console.log(today);
@@ -155,6 +173,7 @@ const useDietPlan = () => {
     fetchDietPlanItems,
     getFoodItems,
     createFoodLog,
+    suggestDietPlan,
     createFoodItem,
     updateDietPlanItem,
     deleteDietPlanItem,
