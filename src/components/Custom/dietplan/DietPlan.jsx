@@ -5,43 +5,31 @@ import Workout from "../charts/Workout";
 import { CalenderCustom } from "../calender/CalenderCustom";
 
 function DietPlan() {
-  const cartItems = [
-    {
-      id: 1,
-      foodItem: "Salad",
-      carbs: 10,
-      protein: 5,
-      fats: 3,
-      quantity: "250g",
-    },
-    {
-      id: 2,
-      foodItem: "Rice",
-      carbs: 50,
-      protein: 6,
-      fats: 1,
-      quantity: "200g",
-    },
-    {
-      id: 3,
-      foodItem: "Fruit bowl",
-      carbs: 10,
-      protein: 5,
-      fats: 3,
-      quantity: "250g",
-    },
-    // More items...
-  ];
   const {
     dietPlanItems, // Provide a default empty array
+    foodItems,
     loading,
     error,
     fetchDietPlanItems,
     updateDietPlanItem,
+    createFoodLog,
+    createFoodItem,
     deleteDietPlanItem,
+    getFoodItems,
   } = useDietPlan();
 
   const [editedItems, setEditedItems] = useState({});
+  const [mealType, setMealType] = useState("");
+  const [foodId, setFoodId] = useState("");
+  const [quantityFoodLog, setQuantityFoodLog] = useState("");
+  const [newFoodItem, setNewFoodItem] = useState({
+    name: "",
+    calories: 0,
+    fats: 0,
+    carbs: 0,
+    protein: 0,
+    serving_size_gm: 0,
+  });
 
   const handleQuantityChange = (planItemId, quantity) => {
     setEditedItems((prev) => ({
@@ -78,6 +66,7 @@ function DietPlan() {
 
   const handleDeleteItem = async (planItemId) => {
     await deleteDietPlanItem(planItemId);
+    fetchDietPlanItems(formattedDate);
   };
   const handleSaveChanges = async () => {
     const updates = Object.entries(editedItems);
@@ -93,15 +82,38 @@ function DietPlan() {
           existingItem.status !== values.status)
       ) {
         await updateDietPlanItem(itemId, values.quantity, values.status);
+        fetchDietPlanItems(formattedDate);
       }
     }
 
     // Clear after saving
     setEditedItems({});
   };
+  const handleSubmitFoodLog = async (e) => {
+    e.preventDefault();
 
+    await createFoodLog(
+      parseInt(foodId),
+      mealType,
+      parseFloat(quantityFoodLog)
+    );
+    fetchDietPlanItems(formattedDate);
+  };
+  const handleSubmitAddFoodItem = async (e) => {
+    e.preventDefault();
+    await createFoodItem(newFoodItem);
+    getFoodItems();
+
+    setNewFoodItem({
+      name: "",
+      calories: 0,
+      fats: 0,
+      carbs: 0,
+      protein: 0,
+      serving_size_gm: 0,
+    });
+  };
   const today = new Date();
-  console.log(today);
 
   const formattedDate =
     today.getFullYear() +
@@ -114,8 +126,11 @@ function DietPlan() {
     if (!dietPlanItems || dietPlanItems.length === 0) {
       fetchDietPlanItems(formattedDate); // Trigger the fetch if not already done
     }
-  }, [dietPlanItems, fetchDietPlanItems]);
-  console.log("from comp", dietPlanItems);
+    if (!foodItems || foodItems.length === 0) {
+      getFoodItems();
+    }
+  }, [dietPlanItems, fetchDietPlanItems, foodItems]);
+  
   // if (loading) return <div>Loading...</div>;
   // if (error) return <div>Error: {error.message}</div>;
   return (
@@ -191,13 +206,20 @@ function DietPlan() {
                               ></button>
                             </div>
                             <div className="modal-body">
-                              <form>
+                              <form onSubmit={handleSubmitAddFoodItem}>
                                 <div className="form-group">
                                   <label>Food Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
                                     placeholder="Food Name"
+                                    value={newFoodItem.name}
+                                    onChange={(e) =>
+                                      setNewFoodItem({
+                                        ...newFoodItem,
+                                        name: e.target.value,
+                                      })
+                                    }
                                   />
                                 </div>
                                 <div className="form-group">
@@ -206,6 +228,13 @@ function DietPlan() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Calories"
+                                    value={newFoodItem.calories}
+                                    onChange={(e) =>
+                                      setNewFoodItem({
+                                        ...newFoodItem,
+                                        calories: e.target.value,
+                                      })
+                                    }
                                   />
                                 </div>
                                 <div className="form-group">
@@ -214,6 +243,13 @@ function DietPlan() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Fats"
+                                    value={newFoodItem.fats}
+                                    onChange={(e) =>
+                                      setNewFoodItem({
+                                        ...newFoodItem,
+                                        fats: e.target.value,
+                                      })
+                                    }
                                   />
                                 </div>
                                 <div className="form-group">
@@ -222,6 +258,13 @@ function DietPlan() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Carbs"
+                                    value={newFoodItem.carbs}
+                                    onChange={(e) =>
+                                      setNewFoodItem({
+                                        ...newFoodItem,
+                                        carbs: e.target.value,
+                                      })
+                                    }
                                   />
                                 </div>
                                 <div className="form-group">
@@ -230,9 +273,34 @@ function DietPlan() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Protein"
+                                    value={newFoodItem.protein}
+                                    onChange={(e) =>
+                                      setNewFoodItem({
+                                        ...newFoodItem,
+                                        protein: e.target.value,
+                                      })
+                                    }
                                   />
                                 </div>
-                                <button className="btn btn-primary">
+                                <div className="form-group">
+                                  <label>Serving Size (gm)</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Serving Size (gm)"
+                                    value={newFoodItem.serving_size_gm}
+                                    onChange={(e) =>
+                                      setNewFoodItem({
+                                        ...newFoodItem,
+                                        serving_size_gm: e.target.value,
+                                      })
+                                    }
+                                  />
+                                </div>
+                                <button
+                                  type="submit"
+                                  className="btn btn-primary"
+                                >
                                   Add Food Item
                                 </button>
                               </form>
@@ -279,22 +347,29 @@ function DietPlan() {
                               ></button>
                             </div>
                             <div className="modal-body">
-                              <form>
+                              <form onSubmit={handleSubmitFoodLog}>
                                 <div className="form-group">
                                   <label>Food Item</label>
                                   <select
-                                    name="status"
+                                    name="foodId"
+                                    value={foodId}
+                                    onChange={(e) => setFoodId(e.target.value)}
                                     className="form-control input-btn input-number "
                                     defaultValue=""
+                                    style={{
+                                      maxHeight: "100px", // Set the max height for the dropdown
+                                      overflowY: "auto", // Enable vertical scrolling when the list exceeds the max height
+                                      display: "block", // Ensure the select box takes up space and is visible
+                                    }}
                                   >
                                     <option value="" disabled>
                                       Select a food item
                                     </option>
-                                    <option value="Salad">Salad</option>
-                                    <option value="Rice">Rice</option>
-                                    <option value="Pizza">Pizza</option>
-                                    <option value="Burger">Burger</option>
-                                    <option value="Sandwich">Sandwich</option>
+                                    {foodItems.map((food) => (
+                                      <option key={food.id} value={food.id}>
+                                        {food.name}
+                                      </option>
+                                    ))}
                                   </select>
                                 </div>
 
@@ -304,13 +379,19 @@ function DietPlan() {
                                     name="status"
                                     className="form-control input-btn input-number "
                                     defaultValue=""
+                                    value={mealType}
+                                    onChange={(e) =>
+                                      setMealType(e.target.value)
+                                    }
+                                    required
                                   >
                                     <option value="" disabled>
                                       Select a Meal Type
                                     </option>
-                                    <option value="Breakfast">Breakfast</option>
-                                    <option value="Lunch">Lunch</option>
-                                    <option value="Dinner">Dinner</option>
+                                    <option value="BREAKFAST">Breakfast</option>
+                                    <option value="LUNCH">Lunch</option>
+                                    <option value="DINNER">Dinner</option>
+                                    <option value="SNACK">Snack</option>
                                   </select>
                                 </div>
                                 <div className="form-group">
@@ -319,9 +400,17 @@ function DietPlan() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Quantity"
+                                    value={quantityFoodLog}
+                                    onChange={(e) =>
+                                      setQuantityFoodLog(e.target.value)
+                                    }
+                                    required
                                   />
                                 </div>
-                                <button className="btn btn-primary">
+                                <button
+                                  type="submit"
+                                  className="btn btn-primary"
+                                >
                                   Add Food Log
                                 </button>
                               </form>
@@ -331,17 +420,17 @@ function DietPlan() {
                       </div>
 
                       <a
-                        href="javascript:void(0);"
                         className="btn btn-outline-primary rounded"
+                        onClick={handleSaveChanges}
                       >
                         Update Workout Log
                       </a>
-                      <button
+                      {/* <button
                         className="btn btn-primary"
                         onClick={handleSaveChanges}
                       >
                         Save
-                      </button>
+                      </button> */}
                     </div>
                     <div className="card-body">
                       <div className="table-responsive">

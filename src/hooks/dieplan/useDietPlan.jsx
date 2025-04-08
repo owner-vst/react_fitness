@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_API_URL;
 const useDietPlan = () => {
   const [dietPlanItems, setDietPlanItems] = useState([]);
+  const [foodItems, setFoodItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,7 +16,7 @@ const useDietPlan = () => {
         params: { date },
       });
       setDietPlanItems(response.data.dietPlan);
-      console.log("from hook", response.data.dietPlan);
+
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -35,6 +37,9 @@ const useDietPlan = () => {
           withCredentials: true,
         }
       );
+      if (response.data.success) {
+        toast.success(response.data.message);
+      }
       setDietPlanItems((prevItems) =>
         prevItems.map((item) =>
           item.id === planItemId ? { ...item, status, quantity } : item
@@ -54,6 +59,9 @@ const useDietPlan = () => {
           withCredentials: true,
         }
       );
+      if (response.data.success) {
+        toast.success(response.data.message);
+      }
       setDietPlanItems((prevItems) =>
         prevItems.filter((item) => item.id !== planItemId)
       );
@@ -63,27 +71,91 @@ const useDietPlan = () => {
     }
   };
 
-  useEffect(() => {
-    const today = new Date();
-    console.log(today);
+  const getFoodItems = async () => {
+    try {
+      const response = await axios.get(
+        `${apiUrl}/api/user/get-food-catalogue`,
+        {
+          withCredentials: true,
+        }
+      );
+      setFoodItems(response.data.foods);
+    } catch (err) {
+      setError(err);
+    }
+  };
 
-    const formattedDate =
-      today.getFullYear() +
-      "-" +
-      ("0" + (today.getMonth() + 1)).slice(-2) +
-      "-" +
-      ("0" + today.getDate()).slice(-2);
+  const createFoodLog = async (food_id, meal_type, quantity) => {
+    try {
+      const response = await axios.post(
+        `${apiUrl}/api/user/create-diet-plan-item`,
+        {
+          food_id,
+          meal_type,
+          quantity,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        toast.success(response.data.message);
+      }
+      return response.data;
+    } catch (err) {
+      setError(err);
+    }
+  };
+  const createFoodItem = async (food) => {
+    try {
+      const response = await axios.post(
+        `${apiUrl}/api/user/create-food-item`,
+        {
+          name: food.name,
+          calories: parseInt(food.calories),
+          fats: parseInt(food.fats),
+          carbs: parseInt(food.carbs),
+          protein: parseInt(food.protein),
+          serving_size_gm: parseInt(food.serving_size_gm),
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        toast.success(response.data.message);
+      }
+      return response.data;
+    } catch (err) {
+      setError(err);
+    }
+  };
+  // useEffect(() => {
+  //   const today = new Date();
+  //   console.log(today);
 
-    console.log(formattedDate);
+  //   const formattedDate =
+  //     today.getFullYear() +
+  //     "-" +
+  //     ("0" + (today.getMonth() + 1)).slice(-2) +
+  //     "-" +
+  //     ("0" + today.getDate()).slice(-2);
 
-    fetchDietPlanItems(formattedDate);
-  }, []);
+  //   console.log(formattedDate);
+
+  //   fetchDietPlanItems(formattedDate);
+  // }, []);
 
   return {
     dietPlanItems,
+    foodItems,
     loading,
     error,
+    foodItems,
     fetchDietPlanItems,
+    getFoodItems,
+    createFoodLog,
+    createFoodItem,
     updateDietPlanItem,
     deleteDietPlanItem,
   };
