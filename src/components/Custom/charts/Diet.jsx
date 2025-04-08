@@ -1,4 +1,105 @@
-import React from "react";
+// import React from "react";
+// import {
+//   AreaChart,
+//   Area,
+//   XAxis,
+//   YAxis,
+//   CartesianGrid,
+//   Tooltip,
+//   ResponsiveContainer,
+// } from "recharts";
+
+// // Adjusted data according to your input for the weekly progress (carbs, protein, fats)
+// const data = [
+//   {
+//     name: "Sunday",
+//     carbs: 0.0,
+//     fats: 0.0,
+//     protein: 0.0,
+//   },
+//   {
+//     name: "Monday",
+//     carbs: 0.0,
+//     fats: 0.0,
+//     protein: 0.0,
+//   },
+//   {
+//     name: "Tuesday",
+//     carbs: 500.0,
+//     fats: 45.0,
+//     protein: 250.0,
+//   },
+//   {
+//     name: "Wednesday",
+//     carbs: 0.0,
+//     fats: 0.0,
+//     protein: 0.0,
+//   },
+//   {
+//     name: "Thursday",
+//     carbs: 0.0,
+//     fats: 0.0,
+//     protein: 0.0,
+//   },
+//   {
+//     name: "Friday",
+//     carbs: 0.0,
+//     fats: 0.0,
+//     protein: 0.0,
+//   },
+//   {
+//     name: "Saturday",
+//     carbs: 0.0,
+//     fats: 0.0,
+//     protein: 0.0,
+//   },
+// ];
+
+// const Diet = () => (
+//   <ResponsiveContainer width="100%" height={265}>
+//     <AreaChart
+//       data={data}
+//       margin={{
+//         top: 10,
+//         right: 30,
+//         left: 0,
+//         bottom: 0,
+//       }}
+//     >
+//       <CartesianGrid strokeDasharray="3 3" />
+//       <XAxis dataKey="name" />
+//       <YAxis />
+//       <Tooltip />
+//       <Area
+//         type="monotone"
+//         dataKey="carbs"
+//         stackId="1"
+//         stroke="#8884d8"
+//         fill="#8884d8"
+//         name="Carbs"
+//       />
+//       <Area
+//         type="monotone"
+//         dataKey="fats"
+//         stackId="1"
+//         stroke="#82ca9d"
+//         fill="#82ca9d"
+//         name="Fats"
+//       />
+//       <Area
+//         type="monotone"
+//         dataKey="protein"
+//         stackId="1"
+//         stroke="#ffc658"
+//         fill="#ffc658"
+//         name="Protein"
+//       />
+//     </AreaChart>
+//   </ResponsiveContainer>
+// );
+
+// export default Diet;
+import React, { useEffect } from "react";
 import {
   AreaChart,
   Area,
@@ -8,94 +109,77 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import useDietStats from "../../../hooks/dieplan/useDietStats";
+// Adjust the import path based on where your hook is located
 
-// Adjusted data representing diet with carbs, fats, and protein values on each day of the week
-const data = [
-  {
-    name: "Monday",
-    carbs: 200,
-    fats: 60,
-    protein: 90,
-  },
-  {
-    name: "Tuesday",
-    carbs: 210,
-    fats: 55,
-    protein: 85,
-  },
-  {
-    name: "Wednesday",
-    carbs: 220,
-    fats: 50,
-    protein: 80,
-  },
-  {
-    name: "Thursday",
-    carbs: 230,
-    fats: 45,
-    protein: 95,
-  },
-  {
-    name: "Friday",
-    carbs: 240,
-    fats: 50,
-    protein: 100,
-  },
-  {
-    name: "Saturday",
-    carbs: 250,
-    fats: 55,
-    protein: 105,
-  },
-  {
-    name: "Sunday",
-    carbs: 260,
-    fats: 60,
-    protein: 110,
-  },
-];
+const Diet = () => {
+  const { dietStats, loading, error } = useDietStats(); // Use the hook to fetch diet stats
 
-const Diet = () => (
-  <ResponsiveContainer width="100%" height={265}>
-    <AreaChart
-      data={data}
-      margin={{
-        top: 10,
-        right: 30,
-        left: 0,
-        bottom: 0,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Area
-        type="monotone"
-        dataKey="carbs"
-        stackId="1"
-        stroke="#8884d8"
-        fill="#8884d8"
-        name="Carbs"
-      />
-      <Area
-        type="monotone"
-        dataKey="fats"
-        stackId="1"
-        stroke="#82ca9d"
-        fill="#82ca9d"
-        name="Fats"
-      />
-      <Area
-        type="monotone"
-        dataKey="protein"
-        stackId="1"
-        stroke="#ffc658"
-        fill="#ffc658"
-        name="Protein"
-      />
-    </AreaChart>
-  </ResponsiveContainer>
-);
+  // If loading, display a loading message
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // If there's an error, display the error message
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  // If no data, return a message
+  if (!dietStats || dietStats.length === 0) {
+    return <div>No data available</div>;
+  }
+
+  // Prepare the data to match the format expected by the AreaChart
+  const data = dietStats.map((dayStat) => ({
+    name: dayStat.day,
+    carbs: parseFloat(dayStat.carbs),
+    fats: parseFloat(dayStat.fats),
+    protein: parseFloat(dayStat.protein),
+  }));
+
+  return (
+    <ResponsiveContainer width="100%" height={265}>
+      <AreaChart
+        data={data}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 0,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Area
+          type="monotone"
+          dataKey="carbs"
+          stackId="1"
+          stroke="#8884d8"
+          fill="#8884d8"
+          name="Carbs"
+        />
+        <Area
+          type="monotone"
+          dataKey="fats"
+          stackId="1"
+          stroke="#82ca9d"
+          fill="#82ca9d"
+          name="Fats"
+        />
+        <Area
+          type="monotone"
+          dataKey="protein"
+          stackId="1"
+          stroke="#ffc658"
+          fill="#ffc658"
+          name="Protein"
+        />
+      </AreaChart>
+    </ResponsiveContainer>
+  );
+};
 
 export default Diet;

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import useWorkoutPlan from "../../../hooks/workoutplan/useWorkoutPlan";
 import Workout from "../charts/Workout";
 
 function WorkoutPlan() {
@@ -24,7 +26,40 @@ function WorkoutPlan() {
       duration: "60 min",
     },
   ];
+  const {
+    workoutPlanItems,
+    loading,
+    error,
+    fetchWorkoutPlanItems,
+    updateWorkoutPlanItem,
+    deleteWorkoutPlanItem,
+    suggestWorkplan,
+  } = useWorkoutPlan();
+  const handleDeleteItem = async (planItemId) => {
+    console.log("in handle delete", planItemId);
+    // await deleteWorkoutPlanItem(planItemId);
+    // fetchWorkoutPlanItems(formattedDate);
+  };
+  const handleStatusChange = (itemId, newStatus) => {
+    // Update the status for the workout plan item.
+    // You could call your API here or update the state locally
+    // for example, via a function like `updateWorkoutPlanItem`.
+  };
+  const today = new Date();
 
+  const formattedDate =
+    today.getFullYear() +
+    "-" +
+    ("0" + (today.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + today.getDate()).slice(-2);
+  useEffect(() => {
+    if (!workoutPlanItems || workoutPlanItems.length === 0) {
+      fetchWorkoutPlanItems(formattedDate);
+    }
+  }, []);
+
+  console.log("in comp", workoutPlanItems);
   return (
     <div>
       <div className="content-body">
@@ -158,7 +193,13 @@ function WorkoutPlan() {
                       <div className="me-auto pe-3">
                         <h4 className="text-black fs-20">Plan List</h4>
                       </div>
-
+                      <a
+                        href="javascript:void(0);"
+                        className="btn btn-outline-primary rounded me-3"
+                        onClick={suggestWorkplan}
+                      >
+                        Suggest Workout
+                      </a>
                       <a
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
@@ -223,189 +264,117 @@ function WorkoutPlan() {
                       {/* Modal */}
                     </div>
                     <div className="card-body">
-                      {/* <div className="table-responsive">
-                        <table className="table table-responsive-md">
-                          <thead>
-                            <tr>
-                              <th style={{ width: 80 }}>#</th>
-
-                              <th>UNIT PRICE</th>
-                              <th>QUANTITY</th>
-                              <th>TOTAL PRICE</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {cartItems.map((item) => (
-                              <tr key={item.id}>
-                                <td>
-                                  <strong className="text-black">
-                                    {String(item.id).padStart(2, "0")}
-                                  </strong>
-                                </td>
-
-                                <td>{item.unitPrice}</td>
-                                <td>{item.quantity}</td>
-                                <td>{item.totalPrice}</td>
-                                <td>
-                                  <div className="dropdown">
-                                    <button
-                                      type="button"
-                                      className="btn btn-success light sharp"
-                                      data-bs-toggle="dropdown"
-                                    >
-                                      <svg
-                                        width="20px"
-                                        height="20px"
-                                        viewBox="0 0 24 24"
-                                        version="1.1"
-                                      >
-                                        <g
-                                          stroke="none"
-                                          strokeWidth={1}
-                                          fill="none"
-                                          fillRule="evenodd"
-                                        >
-                                          <rect
-                                            x={0}
-                                            y={0}
-                                            width={24}
-                                            height={24}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={5}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={12}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={19}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                        </g>
-                                      </svg>
-                                    </button>
-                                    <div className="dropdown-menu">
-                                      <a className="dropdown-item" href="#">
-                                        Edit
-                                      </a>
-                                      <a className="dropdown-item" href="#">
-                                        Delete
-                                      </a>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div> */}
                       <div className="table-responsive">
                         <table className="table table-responsive-md">
                           <thead>
                             <tr>
                               <th style={{ width: 80 }}>#</th>
                               <th>Activity</th>
-                              <th>Calories Burned</th>
-                              <th>Status</th>
+
                               <th>Duration</th>
+                              <th>Status</th>
                               <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {cartItems.map((item) => (
-                              <tr key={item.id}>
-                                <td>
-                                  <strong className="text-black">
-                                    {String(item.id).padStart(2, "0")}
-                                  </strong>
-                                </td>
-                                <td>{item.activity}</td>
-                                <td>{item.caloriesBurned}</td>
-                                <td>
-                                  <div className="dropdown mt-sm-0 mt-3">
-                                    <select
-                                      name="status"
-                                      className="form-control input-btn input-number "
-                                      defaultValue="Pending"
-                                    >
-                                      <option value="Completed">
-                                        Completed
-                                      </option>
-                                      <option value="In Progress">
-                                        In Progress
-                                      </option>
-                                      <option value="Pending">Pending</option>
-                                    </select>
-                                  </div>
-                                </td>
-                                <td>{item.duration}</td>
-                                <td>
-                                  <div className="dropdown">
-                                    <button
-                                      type="button"
-                                      className="btn btn-success light sharp"
-                                      data-bs-toggle="dropdown"
-                                    >
-                                      <svg
-                                        width="20px"
-                                        height="20px"
-                                        viewBox="0 0 24 24"
-                                        version="1.1"
+                            {workoutPlanItems.map((workoutplan) =>
+                              workoutplan.items.map((item) => (
+                                <tr key={item.id}>
+                                  <td>
+                                    <strong className="text-black">
+                                      {String(item.id).padStart(2, "0")}
+                                    </strong>
+                                  </td>
+                                  <td>{item.activity}</td>
+
+                                  <td>
+                                    <input
+                                      type="number"
+                                      className="form-control"
+                                      value={item.duration}
+                                    />
+                                  </td>
+
+                                  <td>
+                                    <div className="dropdown mt-sm-0 mt-3">
+                                      <select
+                                        name="status"
+                                        className="form-control input-btn input-number "
+                                        defaultValue="Pending"
+                                        value={item.status}
+                                        onChange={(e) =>
+                                          handleStatusChange(
+                                            item.id,
+                                            e.target.value
+                                          )
+                                        }
                                       >
-                                        <g
-                                          stroke="none"
-                                          strokeWidth={1}
-                                          fill="none"
-                                          fillRule="evenodd"
-                                        >
-                                          <rect
-                                            x={0}
-                                            y={0}
-                                            width={24}
-                                            height={24}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={5}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={12}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={19}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                        </g>
-                                      </svg>
-                                    </button>
-                                    <div className="dropdown-menu">
-                                      <a className="dropdown-item" href="#">
-                                        Edit
-                                      </a>
-                                      <a className="dropdown-item" href="#">
-                                        Delete
-                                      </a>
+                                        <option value="PENDING">Pending</option>
+                                        <option value="COMPLETED">
+                                          Completed
+                                        </option>
+                                      </select>
                                     </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
+                                  </td>
+                                  <td>
+                                    <div className="dropdown">
+                                      <button
+                                        type="button"
+                                        className="btn btn-success light sharp"
+                                        data-bs-toggle="dropdown"
+                                      >
+                                        <svg
+                                          width="20px"
+                                          height="20px"
+                                          viewBox="0 0 24 24"
+                                          version="1.1"
+                                        >
+                                          <g
+                                            stroke="none"
+                                            strokeWidth={1}
+                                            fill="none"
+                                            fillRule="evenodd"
+                                          >
+                                            <rect
+                                              x={0}
+                                              y={0}
+                                              width={24}
+                                              height={24}
+                                            />
+                                            <circle
+                                              fill="#000000"
+                                              cx={5}
+                                              cy={12}
+                                              r={2}
+                                            />
+                                            <circle
+                                              fill="#000000"
+                                              cx={12}
+                                              cy={12}
+                                              r={2}
+                                            />
+                                            <circle
+                                              fill="#000000"
+                                              cx={19}
+                                              cy={12}
+                                              r={2}
+                                            />
+                                          </g>
+                                        </svg>
+                                      </button>
+                                      <div className="dropdown-menu">
+                                        <a className="dropdown-item" href="#">
+                                          Edit
+                                        </a>
+                                        <a className="dropdown-item" href="#">
+                                          Delete
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))
+                            )}
                           </tbody>
                         </table>
                       </div>
