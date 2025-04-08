@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
+import useDietPlan from "../../../hooks/dieplan/useDietPlan";
 import Diet from "../charts/Diet";
 import Workout from "../charts/Workout";
+import { CalenderCustom } from "../calender/CalenderCustom";
 
 function DietPlan() {
   const cartItems = [
@@ -29,7 +32,92 @@ function DietPlan() {
     },
     // More items...
   ];
+  const {
+    dietPlanItems, // Provide a default empty array
+    loading,
+    error,
+    fetchDietPlanItems,
+    updateDietPlanItem,
+    deleteDietPlanItem,
+  } = useDietPlan();
 
+  const [editedItems, setEditedItems] = useState({});
+
+  const handleQuantityChange = (planItemId, quantity) => {
+    setEditedItems((prev) => ({
+      ...prev,
+      [planItemId]: {
+        ...prev[planItemId],
+        quantity: parseInt(quantity, 10),
+        // Keep the status value intact if it is already set in editedItems
+        status:
+          prev[planItemId]?.status ??
+          dietPlanItems
+            .flatMap((plan) => plan.items)
+            .find((item) => item.id === planItemId)?.status ??
+          "PENDING", // Default to 'PENDING' if no status is found
+      },
+    }));
+  };
+
+  const handleStatusChange = (planItemId, status) => {
+    setEditedItems((prev) => ({
+      ...prev,
+      [planItemId]: {
+        ...prev[planItemId],
+        status, // Update status
+        quantity:
+          prev[planItemId]?.quantity ??
+          dietPlanItems
+            .flatMap((plan) => plan.items)
+            .find((item) => item.id === planItemId)?.quantity ??
+          0, // Keep quantity unchanged if not provided
+      },
+    }));
+  };
+
+  const handleDeleteItem = async (planItemId) => {
+    await deleteDietPlanItem(planItemId);
+  };
+  const handleSaveChanges = async () => {
+    const updates = Object.entries(editedItems);
+    for (const [id, values] of updates) {
+      const itemId = parseInt(id, 10);
+      const existingItem = dietPlanItems
+        .flatMap((plan) => plan.items)
+        .find((item) => item.id === itemId);
+
+      if (
+        existingItem &&
+        (existingItem.quantity !== values.quantity ||
+          existingItem.status !== values.status)
+      ) {
+        await updateDietPlanItem(itemId, values.quantity, values.status);
+      }
+    }
+
+    // Clear after saving
+    setEditedItems({});
+  };
+
+  const today = new Date();
+  console.log(today);
+
+  const formattedDate =
+    today.getFullYear() +
+    "-" +
+    ("0" + (today.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + today.getDate()).slice(-2);
+
+  useEffect(() => {
+    if (!dietPlanItems || dietPlanItems.length === 0) {
+      fetchDietPlanItems(formattedDate); // Trigger the fetch if not already done
+    }
+  }, [dietPlanItems, fetchDietPlanItems]);
+  console.log("from comp", dietPlanItems);
+  // if (loading) return <div>Loading...</div>;
+  // if (error) return <div>Error: {error.message}</div>;
   return (
     <div>
       <div className="content-body">
@@ -46,56 +134,39 @@ function DietPlan() {
                         className="form-control d-none"
                         id="datetimepicker1"
                       />
+
+                      {/* <CalenderCustom/> */}
                     </div>
+
                     <div className="card-body">
                       <h6 className="fs-16 text-black mb-4">
                         Suggested Today's Diet Plan
                       </h6>
-                      <div className="d-flex mb-4 align-items-center">
-                        <span className="date-icon me-3">2</span>
-                        <div>
-                          <h6 className="fs-16">
-                            <a
-                              href="workout-statistic.html"
-                              className="text-black"
-                            >
-                              Oatmeal
-                            </a>
-                          </h6>
-                          <span>Breakfast-</span>
-                          <span>Pending</span>
-                        </div>
-                      </div>
-                      <div className="d-flex mb-4 align-items-center">
-                        <span className="date-icon me-3">2</span>
-                        <div>
-                          <h6 className="fs-16">
-                            <a
-                              href="workout-statistic.html"
-                              className="text-black"
-                            >
-                              Rice Bowl
-                            </a>
-                          </h6>
-                          <span>Lunch-</span>
-                          <span>Finished</span>
-                        </div>
-                      </div>
-                      <div className="d-flex mb-4 align-items-center">
-                        <span className="date-icon me-3">2</span>
-                        <div>
-                          <h6 className="fs-16">
-                            <a
-                              href="workout-statistic.html"
-                              className="text-black"
-                            >
-                              Sandwich
-                            </a>
-                          </h6>
-                          <span>Snack-</span>
-                          <span>Skipped</span>
-                        </div>
-                      </div>
+
+                      {dietPlanItems && dietPlanItems.length > 0 ? (
+                        dietPlanItems.map((dietPlan) => (
+                          <div key={dietPlan.id}>
+                            {dietPlan.items.map((item) => (
+                              <div
+                                key={item.id}
+                                className="d-flex mb-4 align-items-center"
+                              >
+                                <span className="date-icon me-3">2</span>
+                                <div>
+                                  <h6 className="fs-16">
+                                    <a href="#" className="text-black">
+                                      {item.foodItem}
+                                    </a>
+                                  </h6>
+                                  <span>{item.status}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ))
+                      ) : (
+                        <div>No diet plan items found for today.</div>
+                      )}
                       <a
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
@@ -265,6 +336,12 @@ function DietPlan() {
                       >
                         Update Workout Log
                       </a>
+                      <button
+                        className="btn btn-primary"
+                        onClick={handleSaveChanges}
+                      >
+                        Save
+                      </button>
                     </div>
                     <div className="card-body">
                       <div className="table-responsive">
@@ -282,94 +359,122 @@ function DietPlan() {
                             </tr>
                           </thead>
                           <tbody>
-                            {cartItems.map((item) => (
-                              <tr key={item.id}>
-                                <td>
-                                  <strong className="text-black">
-                                    {String(item.id).padStart(2, "0")}
-                                  </strong>
-                                </td>
-                                <td>{item.foodItem}</td>{" "}
-                                {/* Adjusted for food item */}
-                                <td>{item.carbs}</td> {/* Adjusted for carbs */}
-                                <td>{item.protein}</td>{" "}
-                                {/* Adjusted for protein */}
-                                <td>{item.fats}</td> {/* Adjusted for fats */}
-                                <td>{item.quantity}</td>{" "}
-                                {/* Adjusted for quantity */}
-                                <td>
-                                  <div className="dropdown mt-sm-0 mt-3">
-                                    <select
-                                      name="status"
-                                      className="form-control input-btn input-number"
-                                      defaultValue="Pending"
-                                    >
-                                      <option value="Completed">
-                                        Completed
-                                      </option>
-                                      <option value="Skipped">Skipped</option>
-                                      <option value="Pending">Pending</option>
-                                    </select>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="dropdown">
-                                    <button
-                                      type="button"
-                                      className="btn btn-success light sharp"
-                                      data-bs-toggle="dropdown"
-                                    >
-                                      <svg
-                                        width="20px"
-                                        height="20px"
-                                        viewBox="0 0 24 24"
-                                        version="1.1"
+                            {dietPlanItems.map((dietPlan) =>
+                              dietPlan.items.map((item) => (
+                                <tr key={item.id}>
+                                  <td>
+                                    <strong className="text-black">
+                                      {String(item.id).padStart(2, "0")}
+                                    </strong>
+                                  </td>
+                                  <td>{item.foodItem}</td>
+                                  <td>{item.carbs}</td>
+                                  <td>{item.protein}</td>
+                                  <td>{item.fats}</td>
+                                  <td>
+                                    <input
+                                      type="number"
+                                      className="form-control"
+                                      value={
+                                        editedItems[item.id]?.quantity ??
+                                        item.quantity
+                                      }
+                                      onChange={(e) =>
+                                        handleQuantityChange(
+                                          item.id,
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                  </td>
+                                  <td>
+                                    <div className="dropdown mt-sm-0 mt-3">
+                                      <select
+                                        name="status"
+                                        className="form-control input-btn input-number"
+                                        value={
+                                          editedItems[item.id]?.status ??
+                                          item.status
+                                        }
+                                        onChange={(e) =>
+                                          handleStatusChange(
+                                            item.id,
+                                            e.target.value
+                                          )
+                                        }
                                       >
-                                        <g
-                                          stroke="none"
-                                          strokeWidth={1}
-                                          fill="none"
-                                          fillRule="evenodd"
-                                        >
-                                          <rect
-                                            x={0}
-                                            y={0}
-                                            width={24}
-                                            height={24}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={5}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={12}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                          <circle
-                                            fill="#000000"
-                                            cx={19}
-                                            cy={12}
-                                            r={2}
-                                          />
-                                        </g>
-                                      </svg>
-                                    </button>
-                                    <div className="dropdown-menu">
-                                      <a className="dropdown-item" href="#">
-                                        Edit
-                                      </a>
-                                      <a className="dropdown-item" href="#">
-                                        Delete
-                                      </a>
+                                        <option value="PENDING">Pending</option>
+                                        <option value="COMPLETED">
+                                          Completed
+                                        </option>
+                                      </select>
                                     </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
+                                  </td>
+                                  <td>
+                                    <div className="dropdown">
+                                      <button
+                                        type="button"
+                                        className="btn btn-success light sharp"
+                                        data-bs-toggle="dropdown"
+                                      >
+                                        <svg
+                                          width="20px"
+                                          height="20px"
+                                          viewBox="0 0 24 24"
+                                          version="1.1"
+                                        >
+                                          <g
+                                            stroke="none"
+                                            strokeWidth={1}
+                                            fill="none"
+                                            fillRule="evenodd"
+                                          >
+                                            <rect
+                                              x={0}
+                                              y={0}
+                                              width={24}
+                                              height={24}
+                                            />
+                                            <circle
+                                              fill="#000000"
+                                              cx={5}
+                                              cy={12}
+                                              r={2}
+                                            />
+                                            <circle
+                                              fill="#000000"
+                                              cx={12}
+                                              cy={12}
+                                              r={2}
+                                            />
+                                            <circle
+                                              fill="#000000"
+                                              cx={19}
+                                              cy={12}
+                                              r={2}
+                                            />
+                                          </g>
+                                        </svg>
+                                      </button>
+                                      <div className="dropdown-menu">
+                                        <a className="dropdown-item" href="#">
+                                          Edit
+                                        </a>
+                                        <a
+                                          className="dropdown-item"
+                                          href="#"
+                                          onClick={() =>
+                                            handleDeleteItem(item.id)
+                                          }
+                                        >
+                                          Delete
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))
+                            )}
                           </tbody>
                         </table>
                       </div>
@@ -393,6 +498,9 @@ function DietPlan() {
           </div>
         </div>
       </div>
+      <button className="btn btn-primary" onClick={handleSaveChanges}>
+        Save Changes
+      </button>
     </div>
   );
 }
