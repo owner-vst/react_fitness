@@ -10,18 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const RunningChart = () => {
-  // Running data for each day of the week
-  const data = [
-    { day: "Mon", Running: 0 },
-    { day: "Tue", Running: 340 },
-    { day: "Wed", Running: 0 },
-    { day: "Thu", Running: 0 },
-    { day: "Fri", Running: 0 },
-    { day: "Sat", Running: 0 },
-    { day: "Sun", Running: 0 },
-  ];
-
+const DynamicChart = ({ data, workoutType, color }) => {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <LineChart data={data}>
@@ -32,15 +21,15 @@ const RunningChart = () => {
         <Legend />
         <Line
           type="monotone"
-          dataKey="Running"
-          stroke="#FF7300"
+          dataKey={workoutType}
+          stroke={color}
           strokeWidth={3}
           activeDot={{ r: 8 }}
-          dot={{ fill: "#FF7300", strokeWidth: 4 }}
+          dot={{ fill: color, strokeWidth: 4 }}
         />
       </LineChart>
     </ResponsiveContainer>
   );
 };
 
-export default RunningChart;
+export default DynamicChart;

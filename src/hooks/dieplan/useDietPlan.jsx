@@ -169,7 +169,7 @@ const useDietPlan = () => {
     foodItems,
     loading,
     error,
-    foodItems,
+  
     fetchDietPlanItems,
     getFoodItems,
     createFoodLog,

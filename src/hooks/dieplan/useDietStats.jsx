@@ -8,6 +8,7 @@ const useDietStats = () => {
   const [loading, setLoading] = useState(false); // Handle loading state
   const [error, setError] = useState(null); // Handle error state
   const [personalRecord, setPersonalRecord] = useState(null);
+  const [WorkoutStats, setWorkoutStats] = useState(null);
   const fetchDietStats = async () => {
     setLoading(true);
     setError(null);
@@ -40,6 +41,20 @@ const useDietStats = () => {
       setLoading(false);
     }
   };
+  const fetchWorkoutStats = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get(`${apiUrl}/api/common/workout-stats`, {
+        withCredentials: true,
+      });
+      setWorkoutStats(response.data);
+    } catch (err) {
+      setError(err.response ? err.response.data : "Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
   // Fetch diet stats when the component mounts
   useEffect(() => {
     fetchDietStats();
@@ -50,6 +65,8 @@ const useDietStats = () => {
     loading, // Loading state
     error, // Error state
     personalRecord,
+    WorkoutStats,
+    fetchWorkoutStats,
     fetchDietStats, // Function to manually trigger fetching stats
     fetchPersonalRecord,
   };
