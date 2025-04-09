@@ -34,7 +34,7 @@ const Workout = () => {
     caloriesBurned: parseFloat(dayStat.caloriesBurned), // Ensure caloriesBurned is a valid number
   }));
 
-  console.log("in workout", data);
+  console.log("in workout", dietStats);
 
   return (
     <ResponsiveContainer width="100%" height={265}>

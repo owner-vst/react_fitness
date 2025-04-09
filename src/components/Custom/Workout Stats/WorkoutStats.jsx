@@ -2,15 +2,6 @@ import React, { useEffect } from "react";
 import useDietStats from "../../../hooks/dieplan/useDietStats";
 import DynamicChart from "../charts/DynamicChart";
 
-import {
-  RadarChart,
-  Radar,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
 import ProgressBarComponent from "../charts/ProgressBarComponent";
 function WorkoutStats() {
   const { WorkoutStats, loading, error, fetchWorkoutStats } = useDietStats();

@@ -128,7 +128,7 @@ function DietPlan() {
     if (!foodItems || foodItems.length === 0) {
       getFoodItems();
     }
-  }, [dietPlanItems, fetchDietPlanItems, foodItems]);
+  }, []);
 
   // if (loading) return <div>Loading...</div>;
   // if (error) return <div>Error: {error.message}</div>;
@@ -165,7 +165,9 @@ function DietPlan() {
                                 key={item.id}
                                 className="d-flex mb-4 align-items-center"
                               >
-                                <span className="date-icon me-3">{today.getDate()}</span>
+                                <span className="date-icon me-3">
+                                  {today.getDate()}
+                                </span>
                                 <div>
                                   <h6 className="fs-16">
                                     <a href="#" className="text-black">
