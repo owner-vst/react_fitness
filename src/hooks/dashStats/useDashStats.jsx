@@ -7,7 +7,7 @@ const useDashStats = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [userDashboardStats, setUserDashboardStats] = useState(null);
-
+  const [vendorDashboardStats, setVendorDashboardStats] = useState(null);
   const fetchAdminDashStats = async () => {
     setLoading(true);
     setError(null);
@@ -41,13 +41,32 @@ const useDashStats = () => {
       setLoading(false);
     }
   };
+  const fetchVendorDashStats = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get(
+        `${apiUrl}/api/user/get-vendor-dashboard`,
+        {
+          withCredentials: true,
+        }
+      );
+      setVendorDashboardStats(response.data);
+    } catch (err) {
+      setError(err.response ? err.response.data : "Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
   return {
     adminDashboardStats,
     userDashboardStats,
+    vendorDashboardStats,
     loading,
     error,
     fetchAdminDashStats,
     fetchUserDashStats,
+    fetchVendorDashStats,
   };
 };
 

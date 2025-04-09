@@ -176,7 +176,7 @@ function ProtoSidebar({ isSidebarOpen }) {
       },
       {
         label: "Workout Stats",
-        link: "/dashboard/admin/workoutstat",
+        link: "/dashboard/vendor/workoutstat",
         icon: "fas fa-chart-line",
       },
 

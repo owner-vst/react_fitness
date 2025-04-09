@@ -132,6 +132,7 @@ function App() {
           <Route path="cart" element={<Cart />} /> */}
               <Route path="personalrecord" element={<PersonalRecord />} />
               <Route path="settings" element={<Settings />} />
+              <Route path="workoutstat" element={<WorkoutStats />} />
               <Route path="chat" element={<ChatComp />} />
             </Route>
           </Route>
