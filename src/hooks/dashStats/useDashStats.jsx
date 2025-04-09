@@ -6,6 +6,7 @@ const useDashStats = () => {
   const [adminDashboardStats, setAdminDashboardStats] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [userDashboardStats, setUserDashboardStats] = useState(null);
 
   const fetchAdminDashStats = async () => {
     setLoading(true);
@@ -23,12 +24,30 @@ const useDashStats = () => {
       setLoading(false);
     }
   };
-
+  const fetchUserDashStats = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get(
+        `${apiUrl}/api/user/get-user-dashboard`,
+        {
+          withCredentials: true,
+        }
+      );
+      setUserDashboardStats(response.data);
+    } catch (err) {
+      setError(err.response ? err.response.data : "Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
   return {
     adminDashboardStats,
+    userDashboardStats,
     loading,
     error,
     fetchAdminDashStats,
+    fetchUserDashStats,
   };
 };
 
