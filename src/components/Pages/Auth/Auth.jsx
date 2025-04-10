@@ -8,22 +8,58 @@ const Auth = ({ allowedRoles }) => {
   const { auth } = useContext(AuthContext);
   const location = useLocation();
 
-  const isRoleAllowed = allowedRoles.find((role) => auth.role?.includes(role));
+  //   const isRoleAllowed = allowedRoles.find((role) => auth.role?.includes(role));
 
-  return isRoleAllowed ? (
-    auth.token ? (
-      <Outlet />
-    ) : (
-      <Navigate to="/auth/login" state={{ from: location }} replace />
-    )
-  ) : auth.token ? (
+  //   return isRoleAllowed ? (
+  //     auth.token ? (
+  //       <Outlet />
+  //     ) : (
+  //       <Navigate to="/auth/login" state={{ from: location }} replace />
+  //     )
+  //   ) : auth.token ? (
+  //     <Navigate
+  //       to={"/dashboard/" + auth.role || ""}
+  //       state={{ from: location }}
+  //       replace
+  //     />
+  //   ) : (
+  //     <Navigate to="/auth/login" state={{ from: location }} replace />
+  //   );
+  // };
+  const isLoggedIn = !!auth?.token;
+  const userRole = auth?.role;
+
+ 
+  if (allowedRoles.length === 0) {
+    if (isLoggedIn) {
+      return (
+        <Navigate
+          to={`/dashboard/${userRole}`}
+          state={{ from: location }}
+          replace
+        />
+      );
+    }
+    return <Outlet />;
+  }
+
+ 
+  if (!isLoggedIn) {
+    return <Navigate to="/auth/login" state={{ from: location }} replace />;
+  }
+
+  
+  if (allowedRoles.includes(userRole)) {
+    return <Outlet />;
+  }
+
+  
+  return (
     <Navigate
-      to={"/dashboard/" + auth.role || ""}
+      to={`/dashboard/${userRole}`}
       state={{ from: location }}
       replace
     />
-  ) : (
-    <Navigate to="/auth/login" state={{ from: location }} replace />
   );
 };
 

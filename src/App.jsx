@@ -136,6 +136,7 @@ function App() {
               <Route path="chat" element={<ChatComp />} />
             </Route>
           </Route>
+          <Route element={<Auth allowedRoles={[]} />}>
           <Route path="/auth" element={<Navigate to="/auth/login" />} />
           <Route path="/auth" element={<AuthLayout />}>
             <Route path="login" element={<Login />} />
@@ -144,6 +145,7 @@ function App() {
             <Route path="verify" element={<Verify />} />
             <Route path="verify-email" element={<VerifyEmail />} />
             <Route path="reset-password" element={<ResetPassword />} />
+          </Route>
           </Route>
         </Routes>
         <ToastContainer />
