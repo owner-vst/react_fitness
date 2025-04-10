@@ -26,10 +26,20 @@ const Auth = ({ allowedRoles }) => {
   //     <Navigate to="/auth/login" state={{ from: location }} replace />
   //   );
   // };
+  if (location.pathname === "/dashboard/") {
+    return <Navigate to="/dashboard" replace />;
+  }
   const isLoggedIn = !!auth?.token;
   const userRole = auth?.role;
 
- 
+  if (location.pathname === "/dashboard") {
+    if (isLoggedIn) {
+      return <Navigate to={`/dashboard/${userRole}`} replace />;
+    } else {
+      return <Navigate to="/auth/login" state={{ from: location }} replace />;
+    }
+  }
+
   if (allowedRoles.length === 0) {
     if (isLoggedIn) {
       return (
@@ -43,17 +53,14 @@ const Auth = ({ allowedRoles }) => {
     return <Outlet />;
   }
 
- 
   if (!isLoggedIn) {
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 
-  
   if (allowedRoles.includes(userRole)) {
     return <Outlet />;
   }
 
-  
   return (
     <Navigate
       to={`/dashboard/${userRole}`}

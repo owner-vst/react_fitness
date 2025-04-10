@@ -6,8 +6,10 @@ import useUnread from "../../../hooks/useUnread";
 function ProtoSidebar({ isSidebarOpen }) {
   const { auth } = useAuth();
   const role = auth.role;
-  const userId = JSON.parse(auth.user).id;
-
+  // const userId = JSON.parse(auth.user).id;
+  const user =
+    typeof auth.user === "string" ? JSON.parse(auth.user) : auth.user;
+  const userId = user?.id;
   const location = useLocation();
   const unreadCount = useUnread(userId);
 

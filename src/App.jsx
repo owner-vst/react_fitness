@@ -63,6 +63,9 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
           </Route>
+          <Route path="/dashboard" element={<Auth allowedRoles={[]}/>}>
+    {/* Redirect to correct role-based dashboard based on the role */}
+  </Route>
           <Route element={<Auth allowedRoles={["user"]} />}>
             <Route path="/dashboard/user" element={<DashLayout />}>
               <Route index element={<DashBoardUser />} />

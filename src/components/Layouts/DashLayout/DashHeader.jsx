@@ -11,8 +11,8 @@ function DashHeader() {
   const [role, setRole] = useState(null);
   const { setAuth } = useAuth();
   const { auth } = useAuth();
-  const currUser = JSON.parse(auth.user);
-
+  // const currUser = JSON.parse(auth.user);
+  const currUser = typeof auth.user === "string" ? JSON.parse(auth.user) : auth.user;
   const Logout = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/auth/logout`, {
@@ -29,7 +29,7 @@ function DashHeader() {
       if (data.success) {
         console.log("inside if res");
         localStorage.clear();
-        Cookies.remove(token);
+        Cookies.remove("token");
         setAuth({}); // Clear auth state, if you're using one
         // navigate("/auth/login");
         navigate("/auth/login");
