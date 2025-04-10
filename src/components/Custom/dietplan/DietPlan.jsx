@@ -31,7 +31,10 @@ function DietPlan() {
     protein: 0,
     serving_size_gm: 0,
   });
-
+  const handleSuggestDietPlan = async () => {
+    await suggestDietPlan();
+    fetchDietPlanItems(formattedDate);
+  };
   const handleQuantityChange = (planItemId, quantity) => {
     setEditedItems((prev) => ({
       ...prev,
@@ -324,7 +327,7 @@ function DietPlan() {
                       </div>
                       <a
                         className="btn btn-outline-primary rounded me-3"
-                        onClick={suggestDietPlan}
+                        onClick={handleSuggestDietPlan}
                       >
                         Suggest Diet Plan
                       </a>

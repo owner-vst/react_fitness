@@ -24,6 +24,10 @@ function WorkoutPlan() {
     duration: 0,
     calories_per_kg: 0,
   });
+  const handleSuggestWorkoutPlan = async () => {
+    await suggestWorkplan();
+    fetchWorkoutPlanItems(formattedDate);
+  };
   const handleDurationChange = (planItemId, duration) => {
     setEditedItems((prev) => ({
       ...prev,
@@ -258,7 +262,7 @@ function WorkoutPlan() {
                       <a
                         href="#"
                         className="btn btn-outline-primary rounded me-3"
-                        onClick={suggestWorkplan}
+                        onClick={handleSuggestWorkoutPlan}
                       >
                         Suggest Workout
                       </a>

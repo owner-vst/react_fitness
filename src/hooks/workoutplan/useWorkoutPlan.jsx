@@ -77,6 +77,7 @@ const useWorkoutPlan = () => {
   };
   const suggestWorkplan = async () => {
     try {
+      toast.success("Suggesting Workout Plan...");
       const response = await axios.get(
         `${apiUrl}/api/common/suggest-workout-plan`,
 
