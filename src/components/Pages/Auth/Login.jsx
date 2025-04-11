@@ -162,7 +162,7 @@ function Login() {
 
                     <div className="new-account mt-3">
                       <p>
-                        Dont have an account?{" "}
+                        Don't have an account?{" "}
                         <Link className="text-primary" to="/auth/signup">
                           Sign Up
                         </Link>

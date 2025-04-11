@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import UpdateProfile from "./UpdateProfile";
 import axios from "axios";
+import { Modal, Button } from "react-bootstrap";
 
 function Settings() {
   // Define state to store profile data
   const apiUrl = import.meta.env.VITE_API_URL;
+  const [showPicModal, setShowPicModal] = useState(false);
+  const [newPicFile, setNewPicFile] = useState(null);
   const [profileData, setProfileData] = useState({
     name: "",
     email: "",
@@ -80,14 +83,31 @@ function Settings() {
                       className="card p-4 shadow-sm"
                       style={{ maxWidth: "700px", width: "100%" }}
                     >
-                      <div className="mb-3 text-center">
+                      {/* <div className="mb-3 text-center">
                         <img
                           src={profileData.profilePic}
                           alt="User"
                           className="img-fluid rounded-circle"
                           width={150}
                         />
+                      </div> */}
+                      <div className="mb-3 text-center position-relative">
+                        <img
+                          src={profileData.profilePic}
+                          alt="User"
+                          className="img-fluid rounded-circle"
+                          width={150}
+                        />
+                        <button
+                          className="btn btn-sm btn-light border position-absolute p-1"
+                          style={{ bottom: "10px", right: "calc(50% - 75px)", fontSize: "12px" }}
+                          onClick={() => setShowPicModal(true)}
+                          title="Change profile picture"
+                        >
+                          <i className="fas fa-pencil-alt"></i>
+                        </button>
                       </div>
+
                       <h3 style={{ textAlign: "center" }}>
                         {profileData.name}
                       </h3>
@@ -124,7 +144,15 @@ function Settings() {
                           <li className="list-group-item d-flex justify-content-between">
                             <strong>Activity Level:</strong>{" "}
                             <span className="text-black">
-                              {profileData.activityLevel}
+                              {profileData.activityLevel === "SPORTS_PERSON"
+                                ? "Athlete"
+                                : profileData.activityLevel === "MODERATE"
+                                ? "Moderate"
+                                : profileData.activityLevel === "ACTIVE"
+                                ? "Active"
+                                : profileData.activityLevel === "LAZY"
+                                ? "Inactive"
+                                : "Unknown"}
                             </span>
                           </li>
                           <li className="list-group-item d-flex justify-content-between">
@@ -136,13 +164,13 @@ function Settings() {
                           <li className="list-group-item d-flex justify-content-between">
                             <strong>Height:</strong>{" "}
                             <span className="text-black">
-                              {profileData.height}
+                              {profileData.height} cm
                             </span>
                           </li>
                           <li className="list-group-item d-flex justify-content-between">
                             <strong>Weight:</strong>{" "}
                             <span className="text-black">
-                              {profileData.weight}
+                              {profileData.weight} kgs
                             </span>
                           </li>
                           <li className="list-group-item d-flex justify-content-between">
@@ -192,6 +220,62 @@ function Settings() {
           </div>
         </div>
       </div>
+      <Modal show={showPicModal} onHide={() => setShowPicModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Profile Picture</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <input
+            type="file"
+            className="form-control"
+            onChange={(e) => setNewPicFile(e.target.files[0])}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowPicModal(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={async () => {
+              if (!newPicFile) return;
+
+              const formData = new FormData();
+              formData.append("file", newPicFile);
+              formData.append("upload_preset", "insightstracker"); // your cloudinary preset
+
+              try {
+                const res = await fetch(
+                  "https://api.cloudinary.com/v1_1/dxckq9hel/image/upload",
+                  { method: "POST", body: formData }
+                );
+                const data = await res.json();
+                console.log(data);
+
+                if (data.secure_url) {
+                  // Send URL to backend to update user profile
+                  await axios.post(
+                    `${apiUrl}/api/common/upload-profile-picture`,
+                    { profilePic: data.secure_url },
+                    { withCredentials: true }
+                  );
+                  setProfileData((prev) => ({
+                    ...prev,
+                    profilePic: data.secure_url,
+                  }));
+                  setShowPicModal(false);
+                  setNewPicFile(null);
+                }
+              } catch (error) {
+                console.error("Failed to upload", error);
+              }
+            }}
+          >
+            Upload
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      ;
     </>
   );
 }

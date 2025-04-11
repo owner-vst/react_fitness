@@ -18,7 +18,7 @@ function UpdateProfile(props) {
     address: "",
   };
   const [formData, setFormData] = useState(initialFormData);
-  const [profilePicFile, setProfilePicFile] = useState(null);
+  // const [profilePicFile, setProfilePicFile] = useState(null);
   const { isLoading, updateProfile, getProfile } = useProfile();
   const handleWeigthChange = (e) => {
     const { value } = e.target;
@@ -32,46 +32,46 @@ function UpdateProfile(props) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  const handleFileChange = (e) => {
-    setProfilePicFile(e.target.files[0]);
-  };
-  const uploadProfilePic = async () => {
-    if (!profilePicFile) return null; // Skip upload if no file is selected
-    const formDataObj = new FormData();
-    formDataObj.append("file", profilePicFile);
-    formDataObj.append("upload_preset", "insightstracker"); // Replace with your Cloudinary preset
+  // const handleFileChange = (e) => {
+  //   setProfilePicFile(e.target.files[0]);
+  // };
+  // const uploadProfilePic = async () => {
+  //   if (!profilePicFile) return null; // Skip upload if no file is selected
+  //   const formDataObj = new FormData();
+  //   formDataObj.append("file", profilePicFile);
+  //   formDataObj.append("upload_preset", "insightstracker"); // Replace with your Cloudinary preset
 
-    try {
-      const response = await fetch(
-        "https://api.cloudinary.com/v1_1/dxckq9hel/image/upload", // Replace with your Cloudinary URL
-        {
-          method: "POST",
-          body: formDataObj,
-        }
-      );
-      const data = await response.json();
+  //   try {
+  //     const response = await fetch(
+  //       "https://api.cloudinary.com/v1_1/dxckq9hel/image/upload", // Replace with your Cloudinary URL
+  //       {
+  //         method: "POST",
+  //         body: formDataObj,
+  //       }
+  //     );
+  //     const data = await response.json();
 
-      return data.secure_url;
-    } catch (error) {
-      console.error("Error uploading profile picture:", error);
-      return null;
-    }
-  };
+  //     return data.secure_url;
+  //   } catch (error) {
+  //     console.error("Error uploading profile picture:", error);
+  //     return null;
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate form data before proceeding
 
     // Handle Profile Picture Upload
-    const profilePicUrl = await uploadProfilePic();
+    // const profilePicUrl = await uploadProfilePic();
 
     const dataToSend = {
       ...formData,
-      ...(profilePicUrl && { profilePic: profilePicUrl }),
+
     };
     // After profile picture is uploaded and form data is updated
 
-    await updateProfile(dataToSend);
+     await updateProfile(dataToSend);
   };
 
   useEffect(() => {
@@ -239,8 +239,8 @@ function UpdateProfile(props) {
             </option>
             <option value="MODERATE">Moderate</option>
             <option value="ACTIVE">Active</option>
-            <option value="LAZY">Lazy</option>
-            <option value="SPORTS_PERSON">Sports Person</option>
+            <option value="LAZY">Inactive</option>
+            <option value="SPORTS_PERSON">Athlete</option>
           </select>
           <div className="invalid-feedback">Please select Activity Level.</div>
         </div>
@@ -265,7 +265,7 @@ function UpdateProfile(props) {
           <div className="invalid-feedback">Please select Goal.</div>
         </div>
       </div>
-      <div className="row">
+      {/* <div className="row">
         <div className=" col-md-6 mb-3 ">
           <label className="form-label">Profile Picture</label>
           <input
@@ -291,11 +291,11 @@ function UpdateProfile(props) {
           />
           <div className="invalid-feedback">Please enter Email.</div>
         </div>
-      </div>
+      </div> */}
 
       <div className="row">
         <div className=" col-md-6 mb-3 ">
-          <label className="form-label">Height</label>
+          <label className="form-label">Height (cm)</label>
           <input
             type="number"
             name="height"
@@ -308,7 +308,7 @@ function UpdateProfile(props) {
           <div className="invalid-feedback">Please enter Height in cm.</div>
         </div>{" "}
         <div className=" col-md-6 mb-3 ">
-          <label className="form-label">Weight</label>
+          <label className="form-label">Weight </label>
           <input
             type="number"
             name="weight"

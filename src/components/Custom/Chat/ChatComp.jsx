@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useAuth from "../../../hooks/useAuth";
 
 const ChatComp = () => {
@@ -11,15 +11,22 @@ const ChatComp = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showAutocomplete, setShowAutocomplete] = useState(false);
   const { auth } = useAuth();
+  const messagesEndRef = useRef(null);
   const currUser = JSON.parse(auth.user);
 
   const currId = currUser.id;
-
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, selectedUser]);
   useEffect(() => {
     fetchConversations();
     fetchUsers();
   }, []);
-
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   const fetchUsers = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/common/get-users`, {
@@ -282,7 +289,11 @@ const ChatComp = () => {
               </div> */}
               <div
                 className="card-body "
-                style={{ height: "400px", overflowY: "auto" }}
+                style={{
+                  height: "400px",
+                  overflowY: "auto",
+                  scrollBehavior: "smooth",
+                }}
               >
                 {Array.isArray(messages) &&
                   messages.map((message, index) => {
@@ -316,7 +327,7 @@ const ChatComp = () => {
                             className={`rounded-circle shadow-sm ${
                               isSender ? "ms-2" : "me-2"
                             }`}
-                            width="30"
+                            width="50"
                             height={50}
                           />
                           <p
@@ -353,6 +364,7 @@ const ChatComp = () => {
                       </div>
                     );
                   })}
+                <div ref={messagesEndRef} />
               </div>
 
               {/* Message input */}

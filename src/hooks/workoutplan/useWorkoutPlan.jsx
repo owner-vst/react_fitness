@@ -77,7 +77,7 @@ const useWorkoutPlan = () => {
   };
   const suggestWorkplan = async () => {
     try {
-      toast.success("Suggesting Workout Plan...");
+      toast.info("Suggesting Workout Plan...");
       const response = await axios.get(
         `${apiUrl}/api/common/suggest-workout-plan`,
 
@@ -140,9 +140,12 @@ const useWorkoutPlan = () => {
         toast.success("Activity created successfully");
       }
       return response.data;
-    } catch (err) {
-      toast.error("Error creating activity", err);
-      setError(err);
+    } catch (error) {
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message); // Show backend message
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     }
   };
   // // UseEffect to fetch workout plan items on component mount

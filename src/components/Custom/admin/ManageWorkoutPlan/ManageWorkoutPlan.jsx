@@ -26,25 +26,25 @@ function ManageWorkoutPlan() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  useEffect(() => {
-    (function () {
-      "use strict";
-      const forms = document.querySelectorAll(".needs-validation");
-      Array.prototype.slice.call(forms).forEach(function (form) {
-        form.addEventListener(
-          "submit",
-          function (event) {
-            if (!form.checkValidity()) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add("was-validated");
-          },
-          false
-        );
-      });
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (function () {
+  //     "use strict";
+  //     const forms = document.querySelectorAll(".needs-validation");
+  //     Array.prototype.slice.call(forms).forEach(function (form) {
+  //       form.addEventListener(
+  //         "submit",
+  //         function (event) {
+  //           if (!form.checkValidity()) {
+  //             event.preventDefault();
+  //             event.stopPropagation();
+  //           }
+  //           form.classList.add("was-validated");
+  //         },
+  //         false
+  //       );
+  //     });
+  //   })();
+  // }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,9 +53,29 @@ function ManageWorkoutPlan() {
       [name]: value,
     }));
   };
+  const handleReset = (e) => {
+    e.preventDefault();
+    setFormData({
+      id: null,
+      workout_plan_id: "",
+      activity: "",
+      status: "",
+      duration: "",
+      user: "",
+      plan_type: "USER",
+    });
+    setIsEditMode(false);
+    const form = document.querySelector(".needs-validation");
+    if (form) form.classList.remove("was-validated");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = e.target;
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated");
+      return;
+    }
     const requiredFields = {
       workout_plan_id: parseInt(formData.workout_plan_id),
       activity_id: activities.find(
@@ -221,7 +241,7 @@ function ManageWorkoutPlan() {
                       </div>
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label className="form-label">Duration</label>
+                      <label className="form-label">Duration (mins)</label>
                       <input
                         type="number"
                         className="form-control"
@@ -258,7 +278,14 @@ function ManageWorkoutPlan() {
                     </div>
                   </div>
 
-                  <div className="d-flex justify-content-end">
+                  <div className="d-flex justify-content-end gap-2">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </button>
                     <button type="submit" className="btn btn-primary">
                       {isEditMode ? "Update" : "Add"}
                     </button>
@@ -279,11 +306,11 @@ function ManageWorkoutPlan() {
                     <table className="table table-responsive-md">
                       <thead>
                         <tr>
-                          <th style={{ width: 80 }}>#</th>
+                          <th>Workout Plan Item ID</th>
                           <th>Workout Plan ID</th>
                           <th>Activity</th>
                           <th>Status</th>
-                          <th>Duration</th>
+                          <th>Duration (mins)</th>
                           <th>User</th>
                           <th>Action</th>
                         </tr>
@@ -393,14 +420,12 @@ function ManageWorkoutPlan() {
                                   <div className="dropdown-menu">
                                     <a
                                       className="dropdown-item"
-                                      href="#"
                                       onClick={() => handleEdit(plan)}
                                     >
                                       Edit
                                     </a>
                                     <a
                                       className="dropdown-item"
-                                      href="#"
                                       onClick={() => handleDelete(plan.id)}
                                     >
                                       Delete

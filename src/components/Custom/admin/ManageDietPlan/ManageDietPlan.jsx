@@ -433,25 +433,25 @@ function ManageDietPlan() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  useEffect(() => {
-    (function () {
-      "use strict";
-      const forms = document.querySelectorAll(".needs-validation");
-      Array.prototype.slice.call(forms).forEach(function (form) {
-        form.addEventListener(
-          "submit",
-          function (event) {
-            if (!form.checkValidity()) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add("was-validated");
-          },
-          false
-        );
-      });
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (function () {
+  //     "use strict";
+  //     const forms = document.querySelectorAll(".needs-validation");
+  //     Array.prototype.slice.call(forms).forEach(function (form) {
+  //       form.addEventListener(
+  //         "submit",
+  //         function (event) {
+  //           if (!form.checkValidity()) {
+  //             event.preventDefault();
+  //             event.stopPropagation();
+  //           }
+  //           form.classList.add("was-validated");
+  //         },
+  //         false
+  //       );
+  //     });
+  //   })();
+  // }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -460,9 +460,29 @@ function ManageDietPlan() {
       [name]: value,
     }));
   };
-
+  const handleReset = (e) => {
+    e.preventDefault();
+    setFormData({
+      id: null,
+      diet_plan_id: "",
+      user: "",
+      quantity: "",
+      mealType: "",
+      status: "",
+      foodItem: "",
+      plan_type: "USER",
+    });
+    setIsEditMode(false);
+    const form = document.querySelector(".needs-validation");
+    if (form) form.classList.remove("was-validated");
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = e.target;
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated");
+      return;
+    }
     const requiredFields = {
       diet_plan_id: parseInt(formData.diet_plan_id),
       meal_type: formData.mealType.toUpperCase(),
@@ -495,6 +515,7 @@ function ManageDietPlan() {
       plan_type: "USER",
     });
     setIsEditMode(false);
+    if (form) form.classList.remove("was-validated");
   };
 
   const handleEdit = (plan) => {
@@ -607,7 +628,7 @@ function ManageDietPlan() {
                       </div>
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label className="form-label">Quantity</label>
+                      <label className="form-label">Quantity (gm)</label>
                       <input
                         type="text"
                         className="form-control"
@@ -683,7 +704,15 @@ function ManageDietPlan() {
                     </div>
                   </div>
 
-                  <div className="d-flex justify-content-end">
+                  <div className="d-flex justify-content-end gap-2">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </button>
+                    <> </>
                     <button type="submit" className="btn btn-primary">
                       {isEditMode ? "Edit" : "Add"}
                     </button>
@@ -704,7 +733,7 @@ function ManageDietPlan() {
                     <table className="table table-responsive-md">
                       <thead>
                         <tr>
-                          <th style={{ width: 80 }}>#</th>
+                          <th>DietPlan Item ID</th>
                           <th>Diet Plan ID</th>
                           <th>User</th>
                           <th>Quantity</th>
@@ -788,14 +817,12 @@ function ManageDietPlan() {
                                 <div className="dropdown-menu">
                                   <a
                                     className="dropdown-item"
-                                    href="#"
                                     onClick={() => handleEdit(plan)}
                                   >
                                     Edit
                                   </a>
                                   <a
                                     className="dropdown-item"
-                                    href="#"
                                     onClick={() => handleDelete(plan.id)}
                                   >
                                     Delete

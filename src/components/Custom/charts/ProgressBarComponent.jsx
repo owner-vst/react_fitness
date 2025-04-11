@@ -1,12 +1,11 @@
 import React from "react";
 
-const ProgressBarComponent = ({progressData}) => {
-
+const ProgressBarComponent = ({ progressData }) => {
   return (
     <div className="col-xl-12 col-md-6">
       <div className="card">
         <div className="card-header border-0 pb-0">
-          <h4 className="text-black fs-20 mb-0">Progress Bars</h4>
+          <h4 className="text-black fs-20 mb-0">My Progress </h4>
         </div>
         <div className="card-body text-center">
           <div className="progress-container mb-4">

@@ -124,7 +124,7 @@ function Forgot() {
                     <div className="new-account mt-3">
                       <p>
                         Remember your password?{" "}
-                        <Link to="/auth/login">Login</Link>
+                        <Link to="/auth/login" className="text-primary">Login</Link>
                       </p>
                     </div>
                   </div>

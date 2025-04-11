@@ -388,24 +388,24 @@ function ManageFoodCatalogue() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  useEffect(() => {
-    (function () {
-      const forms = document.querySelectorAll(".needs-validation");
-      Array.prototype.slice.call(forms).forEach(function (form) {
-        form.addEventListener(
-          "submit",
-          function (event) {
-            if (!form.checkValidity()) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add("was-validated");
-          },
-          false
-        );
-      });
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (function () {
+  //     const forms = document.querySelectorAll(".needs-validation");
+  //     Array.prototype.slice.call(forms).forEach(function (form) {
+  //       form.addEventListener(
+  //         "submit",
+  //         function (event) {
+  //           if (!form.checkValidity()) {
+  //             event.preventDefault();
+  //             event.stopPropagation();
+  //           }
+  //           form.classList.add("was-validated");
+  //         },
+  //         false
+  //       );
+  //     });
+  //   })();
+  // }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -414,9 +414,29 @@ function ManageFoodCatalogue() {
       [name]: value,
     }));
   };
-
+  const handleReset = (e) => {
+    e.preventDefault();
+    setFormData({
+      id: null,
+      name: "",
+      calories: "",
+      carbs: "",
+      protein: "",
+      fats: "",
+      serving_size_gm: "",
+      user_id: "",
+    });
+    setIsEditMode(false);
+    const form = document.querySelector(".needs-validation");
+    if (form) form.classList.remove("was-validated");
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = e.target;
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated");
+      return;
+    }
     const foodData = {
       name: formData.name,
       calories: parseFloat(formData.calories),
@@ -595,7 +615,14 @@ function ManageFoodCatalogue() {
                 </div>
               </div>
 
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end gap-2">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleReset}
+                >
+                  Reset
+                </button>
                 <button type="submit" className="btn btn-primary">
                   {isEditMode ? "Edit" : "Add"}
                 </button>
@@ -615,7 +642,7 @@ function ManageFoodCatalogue() {
                   <table className="table table-responsive-md">
                     <thead>
                       <tr>
-                        <th style={{ width: 80 }}>#</th>
+                        <th>Food Item ID</th>
                         <th>Food Name</th>
                         <th>Calories</th>
                         <th>Carbs</th>
@@ -687,14 +714,12 @@ function ManageFoodCatalogue() {
                               <div className="dropdown-menu">
                                 <a
                                   className="dropdown-item"
-                                  href="#"
                                   onClick={() => handleEdit(item)}
                                 >
                                   Edit
                                 </a>
                                 <a
                                   className="dropdown-item"
-                                  href="#"
                                   onClick={() => handleDelete(item.id)}
                                 >
                                   Delete

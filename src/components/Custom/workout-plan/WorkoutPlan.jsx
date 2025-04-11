@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useWorkoutPlan from "../../../hooks/workoutplan/useWorkoutPlan";
 import Workout from "../charts/Workout";
+import { toast } from "react-toastify";
 
 function WorkoutPlan() {
   const {
@@ -17,7 +18,9 @@ function WorkoutPlan() {
     suggestWorkplan,
   } = useWorkoutPlan();
   const [editedItems, setEditedItems] = useState({});
+  const [editMode, setEditMode] = useState(false);
   const [activityId, setActivityId] = useState("");
+
   const [activityDuration, setActivityDuration] = useState("");
   const [newActivity, setNewActivity] = useState({
     name: "",
@@ -25,15 +28,28 @@ function WorkoutPlan() {
     calories_per_kg: 0,
   });
   const handleSuggestWorkoutPlan = async () => {
+    const totalItems = workoutPlanItems.reduce(
+      (acc, group) => acc + group.items.length,
+      0
+    );
+
+    if (totalItems >= 3) {
+      toast.info("Workout plan already generated for today.");
+      return;
+    }
+
     await suggestWorkplan();
     fetchWorkoutPlanItems(formattedDate);
+  };
+  const handleEditMode = () => {
+    setEditMode(!editMode);
   };
   const handleDurationChange = (planItemId, duration) => {
     setEditedItems((prev) => ({
       ...prev,
       [planItemId]: {
         ...prev[planItemId],
-        duration: parseInt(duration, 10), // Change quantity to duration
+        duration: parseFloat(duration), // Change quantity to duration
         // Keep the status value intact if it is already set in editedItems
         status:
           prev[planItemId]?.status ??
@@ -80,6 +96,7 @@ function WorkoutPlan() {
 
     // Clear after saving
     setEditedItems({});
+    setEditMode(false);
   };
 
   const handleDeleteItem = async (planItemId) => {
@@ -89,11 +106,13 @@ function WorkoutPlan() {
   };
   const handleSubmitActivityLog = async (e) => {
     e.preventDefault();
-    console.log("in handle activity log", activityId, activityDuration);
+
     await createActivityLog(
       parseInt(activityId, 10),
       parseInt(activityDuration, 10)
     );
+    setActivityId("");
+    setActivityDuration("");
     fetchWorkoutPlanItems(formattedDate);
   };
   const handleSubmitAddActivity = async (e) => {
@@ -168,14 +187,22 @@ function WorkoutPlan() {
                         <div>No workout plan items found for today.</div>
                       )}
 
-                      <a
+                      {/* <a
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
                         data-bs-target="#addNewPlan"
                         className="btn btn-outline-primary rounded"
                       >
                         Add New Activity
-                      </a>
+                      </a> */}
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary rounded"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addNewPlan"
+                      >
+                        Add New Activity
+                      </button>
                       {/* Modal */}
                       <div className="modal fade" id="addNewPlan">
                         <div
@@ -238,7 +265,10 @@ function WorkoutPlan() {
                                     }
                                   />
                                 </div>
-                                <button className="btn btn-primary">
+                                <button
+                                  className="btn btn-primary"
+                                  data-bs-dismiss="modal"
+                                >
                                   Add New Activity
                                 </button>
                               </form>
@@ -259,13 +289,20 @@ function WorkoutPlan() {
                       <div className="me-auto pe-3">
                         <h4 className="text-black fs-20">Plan List</h4>
                       </div>
-                      <a
-                        href="#"
+                      {/* <a
+                        href="javascript:void(0);"
                         className="btn btn-outline-primary rounded me-3"
                         onClick={handleSuggestWorkoutPlan}
                       >
                         Suggest Workout
-                      </a>
+                      </a> */}
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary rounded me-3"
+                        onClick={handleSuggestWorkoutPlan}
+                      >
+                        Suggest Workout
+                      </button>
                       <a
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
@@ -334,7 +371,10 @@ function WorkoutPlan() {
                                     }
                                   />
                                 </div>
-                                <button className="btn btn-primary">
+                                <button
+                                  className="btn btn-primary"
+                                  data-bs-dismiss="modal"
+                                >
                                   Add Workout Log
                                 </button>
                               </form>
@@ -343,13 +383,20 @@ function WorkoutPlan() {
                         </div>
                       </div>
 
-                      <a
-                        href="#"
+                      {/* <a
+                        href="javascript:void(0);"
                         className="btn btn-outline-primary rounded"
                         onClick={handleSaveChanges}
                       >
                         Update Workout Log
-                      </a>
+                      </a> */}
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary rounded me-3"
+                        onClick={handleSaveChanges}
+                      >
+                        Update Workout Log
+                      </button>
                       {/* Modal */}
                     </div>
                     <div className="card-body">
@@ -357,10 +404,10 @@ function WorkoutPlan() {
                         <table className="table table-responsive-md">
                           <thead>
                             <tr>
-                              <th style={{ width: 80 }}>#</th>
+                              {/* <th style={{ width: 80 }}>#</th> */}
                               <th>Activity</th>
 
-                              <th>Duration</th>
+                              <th>Duration(in mins)</th>
                               <th>Status</th>
                               <th>Action</th>
                             </tr>
@@ -369,15 +416,15 @@ function WorkoutPlan() {
                             {workoutPlanItems.map((workoutplan) =>
                               workoutplan.items.map((item) => (
                                 <tr key={item.id}>
-                                  <td>
+                                  {/* <td>
                                     <strong className="text-black">
                                       {String(item.id).padStart(2, "0")}
                                     </strong>
-                                  </td>
+                                  </td> */}
                                   <td>{item.activity}</td>
 
                                   <td>
-                                    <input
+                                    {/* <input
                                       type="number"
                                       className="form-control"
                                       value={
@@ -390,10 +437,31 @@ function WorkoutPlan() {
                                           e.target.value
                                         )
                                       }
-                                    />
+                                    /> */}
+                                    {editMode ? (
+                                      <input
+                                        type="number"
+                                        step={0.1}
+                                        className="form-control"
+                                        value={
+                                          editedItems[item.id]?.duration ??
+                                          item.duration
+                                        }
+                                        onChange={(e) =>
+                                          handleDurationChange(
+                                            item.id,
+                                            e.target.value
+                                          )
+                                        }
+                                      />
+                                    ) : (
+                                      <p className="mb-0">
+                                        {item.duration} min
+                                      </p>
+                                    )}
                                   </td>
 
-                                  <td>
+                                  {/* <td>
                                     <div className="dropdown mt-sm-0 mt-3">
                                       <select
                                         name="status"
@@ -415,7 +483,39 @@ function WorkoutPlan() {
                                         </option>
                                       </select>
                                     </div>
+                                  </td> */}
+                                  <td>
+                                    {editMode ? (
+                                      <div className="dropdown mt-sm-0 mt-3">
+                                        <select
+                                          name="status"
+                                          className="form-control input-btn input-number"
+                                          value={
+                                            editedItems[item.id]?.status ??
+                                            item.status
+                                          }
+                                          onChange={(e) =>
+                                            handleStatusChange(
+                                              item.id,
+                                              e.target.value
+                                            )
+                                          }
+                                        >
+                                          <option value="PENDING">
+                                            Pending
+                                          </option>
+                                          <option value="COMPLETED">
+                                            Completed
+                                          </option>
+                                        </select>
+                                      </div>
+                                    ) : (
+                                      <p className="mb-0 text-capitalize">
+                                        {item.status.toLowerCase()}
+                                      </p>
+                                    )}
                                   </td>
+
                                   <td>
                                     <div className="dropdown">
                                       <button
@@ -463,7 +563,10 @@ function WorkoutPlan() {
                                         </svg>
                                       </button>
                                       <div className="dropdown-menu">
-                                        <a className="dropdown-item" href="#">
+                                        <a
+                                          className="dropdown-item"
+                                          onClick={() => handleEditMode()}
+                                        >
                                           Edit
                                         </a>
                                         <a

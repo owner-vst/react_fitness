@@ -130,7 +130,7 @@ function WorkoutStats() {
                 <div className="col-xl-12 col-md-6">
                   <div className="card">
                     <div className="card-header flex-wrap border-0 pb-0">
-                      <h4 className="text-black fs-20 mb-3">Progress</h4>
+                      <h4 className="text-black fs-20 mb-3">Calories Burned</h4>
                     </div>
                     <div className="card-body">
                       {progressData.map((progress, index) => (
@@ -174,7 +174,7 @@ function WorkoutStats() {
                           </div>
                           <div>
                             <h4 className="fs-18 text-black">
-                              {progress.label} ({progress.percentage}%)
+                              {progress.label} 
                             </h4>
 
                             <span>Calories Burned: {progress.calories}</span>

@@ -24,25 +24,38 @@ function ManageActivity() {
 
   const [isEditMode, setIsEditMode] = useState(false);
 
-  useEffect(() => {
-    (function () {
-      const forms = document.querySelectorAll(".needs-validation");
-      Array.prototype.slice.call(forms).forEach(function (form) {
-        form.addEventListener(
-          "submit",
-          function (event) {
-            if (!form.checkValidity()) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add("was-validated");
-          },
-          false
-        );
-      });
-    })();
-  }, []);
-
+  // useEffect(() => {
+  //   (function () {
+  //     const forms = document.querySelectorAll(".needs-validation");
+  //     Array.prototype.slice.call(forms).forEach(function (form) {
+  //       form.addEventListener(
+  //         "submit",
+  //         function (event) {
+  //           if (!form.checkValidity()) {
+  //             event.preventDefault();
+  //             event.stopPropagation();
+  //           }
+  //           form.classList.add("was-validated");
+  //         },
+  //         false
+  //       );
+  //     });
+  //   })();
+  // }, []);
+  const handleReset = (e) => {
+    e.preventDefault();
+    setFormData({
+      id: null,
+      user_id: "",
+      name: "",
+      unit: "",
+      calories_per_kg: "",
+      duration: "",
+    });
+    setIsEditMode(false);
+    const form = document.querySelector(".needs-validation");
+    if (form) form.classList.remove("was-validated");
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -53,6 +66,11 @@ function ManageActivity() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = e.target;
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated");
+      return;
+    }
     const activityData = {
       name: formData.name,
       duration: parseInt(formData.duration),
@@ -161,7 +179,14 @@ function ManageActivity() {
                   />
                 </div>
               </div>
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end gap-2">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleReset}
+                >
+                  Reset
+                </button>
                 <button type="submit" className="btn btn-primary">
                   {isEditMode ? "Update" : "Add"}
                 </button>
@@ -178,7 +203,7 @@ function ManageActivity() {
               <table className="table table-responsive-md">
                 <thead>
                   <tr>
-                    <th>#</th>
+                    <th>Activity ID</th>
                     <th>User</th>
                     <th>Activity Name</th>
                     <th>Duration</th>
@@ -208,14 +233,12 @@ function ManageActivity() {
                           <div className="dropdown-menu">
                             <a
                               className="dropdown-item"
-                              href="#"
                               onClick={() => handleEdit(activity)}
                             >
                               Edit
                             </a>
                             <a
                               className="dropdown-item"
-                              href="#"
                               onClick={() => handleDelete(activity.id)}
                             >
                               Delete

@@ -3,6 +3,8 @@ import useDietPlan from "../../../hooks/dieplan/useDietPlan";
 import Diet from "../charts/Diet";
 import Workout from "../charts/Workout";
 import { CalenderCustom } from "../calender/CalenderCustom";
+import { toast } from "react-toastify";
+import { set } from "date-fns";
 
 function DietPlan() {
   const {
@@ -20,6 +22,7 @@ function DietPlan() {
   } = useDietPlan();
 
   const [editedItems, setEditedItems] = useState({});
+  const [editMode, setEditMode] = useState(false);
   const [mealType, setMealType] = useState("");
   const [foodId, setFoodId] = useState("");
   const [quantityFoodLog, setQuantityFoodLog] = useState("");
@@ -31,7 +34,19 @@ function DietPlan() {
     protein: 0,
     serving_size_gm: 0,
   });
+  const handleEditMode = () => {
+    setEditMode(!editMode);
+  };
   const handleSuggestDietPlan = async () => {
+    const totalItems = dietPlanItems.reduce(
+      (acc, group) => acc + group.items.length,
+      0
+    );
+
+    if (totalItems >= 4) {
+      toast.info("Diet plan already generated for today.");
+      return;
+    }
     await suggestDietPlan();
     fetchDietPlanItems(formattedDate);
   };
@@ -92,6 +107,7 @@ function DietPlan() {
 
     // Clear after saving
     setEditedItems({});
+    setEditMode(false);
   };
   const handleSubmitFoodLog = async (e) => {
     e.preventDefault();
@@ -101,6 +117,9 @@ function DietPlan() {
       mealType,
       parseFloat(quantityFoodLog)
     );
+    setFoodId("");
+    setMealType("");
+    setQuantityFoodLog("");
     fetchDietPlanItems(formattedDate);
   };
   const handleSubmitAddFoodItem = async (e) => {
@@ -173,7 +192,7 @@ function DietPlan() {
                                 </span>
                                 <div>
                                   <h6 className="fs-16">
-                                    <a href="#" className="text-black">
+                                    <a className="text-black">
                                       {item.foodItem}
                                     </a>
                                   </h6>
@@ -304,6 +323,7 @@ function DietPlan() {
                                 <button
                                   type="submit"
                                   className="btn btn-primary"
+                                  data-bs-dismiss="modal"
                                 >
                                   Add Food Item
                                 </button>
@@ -420,6 +440,7 @@ function DietPlan() {
                                 <button
                                   type="submit"
                                   className="btn btn-primary"
+                                  data-bs-dismiss="modal"
                                 >
                                   Add Food Log
                                 </button>
@@ -447,12 +468,12 @@ function DietPlan() {
                         <table className="table table-responsive-md">
                           <thead>
                             <tr>
-                              <th style={{ width: 80 }}>#</th>
+                              {/* <th style={{ width: 80 }}>#</th> */}
                               <th>Food Item</th>
                               <th>Carbs</th>
                               <th>Protein</th>
                               <th>Fats</th>
-                              <th>Quantity</th>
+                              <th>Quantity (gm)</th>
                               <th>Status</th>
                               <th>Action</th>
                             </tr>
@@ -461,17 +482,17 @@ function DietPlan() {
                             {dietPlanItems.map((dietPlan) =>
                               dietPlan.items.map((item) => (
                                 <tr key={item.id}>
-                                  <td>
+                                  {/* <td>
                                     <strong className="text-black">
                                       {String(item.id).padStart(2, "0")}
                                     </strong>
-                                  </td>
+                                  </td> */}
                                   <td>{item.foodItem}</td>
                                   <td>{item.carbs}</td>
                                   <td>{item.protein}</td>
                                   <td>{item.fats}</td>
                                   <td>
-                                    <input
+                                    {/* <input
                                       type="number"
                                       className="form-control"
                                       value={
@@ -484,10 +505,31 @@ function DietPlan() {
                                           e.target.value
                                         )
                                       }
-                                    />
+                                    /> */}
+                                    {editMode ? (
+                                      <input
+                                        type="number"
+                                        className="form-control"
+                                        value={
+                                          editedItems[item.id]?.quantity ??
+                                          item.quantity
+                                        }
+                                        onChange={(e) =>
+                                          handleQuantityChange(
+                                            item.id,
+                                            e.target.value
+                                          )
+                                        }
+                                      />
+                                    ) : (
+                                      <>
+                                        {editedItems[item.id]?.quantity ??
+                                          item.quantity}
+                                      </>
+                                    )}
                                   </td>
                                   <td>
-                                    <div className="dropdown mt-sm-0 mt-3">
+                                    {/* <div className="dropdown mt-sm-0 mt-3">
                                       <select
                                         name="status"
                                         className="form-control input-btn input-number"
@@ -507,7 +549,37 @@ function DietPlan() {
                                           Completed
                                         </option>
                                       </select>
-                                    </div>
+                                    </div> */}
+                                    {editMode ? (
+                                      <div className="dropdown mt-sm-0 mt-3">
+                                        <select
+                                          name="status"
+                                          className="form-control input-btn input-number"
+                                          value={
+                                            editedItems[item.id]?.status ??
+                                            item.status
+                                          }
+                                          onChange={(e) =>
+                                            handleStatusChange(
+                                              item.id,
+                                              e.target.value
+                                            )
+                                          }
+                                        >
+                                          <option value="PENDING">
+                                            Pending
+                                          </option>
+                                          <option value="COMPLETED">
+                                            Completed
+                                          </option>
+                                        </select>
+                                      </div>
+                                    ) : (
+                                      <>
+                                        {editedItems[item.id]?.status ??
+                                          item.status}
+                                      </>
+                                    )}
                                   </td>
                                   <td>
                                     <div className="dropdown">
@@ -556,7 +628,10 @@ function DietPlan() {
                                         </svg>
                                       </button>
                                       <div className="dropdown-menu">
-                                        <a className="dropdown-item" href="#">
+                                        <a
+                                          className="dropdown-item"
+                                          onClick={() => handleEditMode()}
+                                        >
                                           Edit
                                         </a>
                                         <a

@@ -6,6 +6,8 @@ import Cookies from "js-cookie";
 
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
+
+
   const { setAuth } = useAuth();
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -24,9 +26,11 @@ const useLogin = () => {
       }
 
       if (data.success) {
+        sessionStorage.setItem("userId", data.userId);
+       
         toast.success(data.message);
         // window.location.href = `/auth/verify?userId=${data.userId}`;
-        navigate(`/auth/verify?userId=${data.userId}`);
+        navigate(`/auth/verify`);
       } else {
         toast.error(data.message);
       }
@@ -40,8 +44,8 @@ const useLogin = () => {
   const verifyOTP = async (otp) => {
     setLoading(true);
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const userId = urlParams.get("userId");
+      const userId = sessionStorage.getItem("userId");
+      if (!userId) throw new Error("User ID is missing. Please login again.");
 
       const res = await fetch(`${apiUrl}/api/auth/verify-otp`, {
         method: "POST",
@@ -66,6 +70,7 @@ const useLogin = () => {
           token: data.token,
         });
         Cookies.set("token", data.token);
+        sessionStorage.removeItem("userId"); // Clean up after success
         navigate("/dashboard/" + data.role);
       } else {
         toast.error(data.message);

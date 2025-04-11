@@ -126,14 +126,20 @@ const useDietPlan = () => {
         toast.success(response.data.message);
       }
       return response.data;
-    } catch (err) {
-      setError(err);
+    } catch (error) {
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message); // Show backend message
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+
+      setError(error);
     }
   };
 
   const suggestDietPlan = async () => {
     try {
-      toast.success("Suggesting Diet Plan...");
+      toast.info("Suggesting Diet Plan...");
       const response = await axios.get(
         `${apiUrl}/api/common/suggest-diet-plan`,
 
@@ -170,7 +176,7 @@ const useDietPlan = () => {
     foodItems,
     loading,
     error,
-  
+
     fetchDietPlanItems,
     getFoodItems,
     createFoodLog,

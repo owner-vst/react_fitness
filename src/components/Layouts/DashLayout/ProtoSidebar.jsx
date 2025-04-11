@@ -33,7 +33,7 @@ function ProtoSidebar({ isSidebarOpen }) {
         icon: "fas fa-dumbbell",
       },
       {
-        label: "Manage Workout Plan",
+        label: "Manage Workout Plan Items",
         link: "/dashboard/admin/manageworkoutplan",
         icon: "fas fa-pencil-alt",
       },
@@ -49,7 +49,7 @@ function ProtoSidebar({ isSidebarOpen }) {
         icon: "fas fa-apple-alt",
       },
       {
-        label: "Manage Diet Plan",
+        label: "Manage Diet Plan Items",
         link: "/dashboard/admin/managedietplan",
         icon: "fas fa-pizza-slice",
       },
@@ -261,7 +261,15 @@ function ProtoSidebar({ isSidebarOpen }) {
             <li key={index}>
               <Link to={item.link}>
                 <i className={item.icon} />
-                <span className="nav-text">{item.label}</span>
+                <span
+                  className="nav-text"
+                  style={{
+                   
+                    width: "40%",
+                  }}
+                >
+                  {item.label}
+                </span>
                 {item.unreadCount > 0 && (
                   <span className="">({item.unreadCount})</span>
                 )}

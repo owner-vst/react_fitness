@@ -70,7 +70,7 @@ function PersonalRecord() {
                                 <p className="text-black mb-1 font-w600">
                                   {session.day}
                                 </p>
-                                <span className="fs-14">{session.date}</span>
+                                <span className="fs-14">{session.date.split(",").slice(1).join(",").trim()}</span>
                               </td>
                               <td>
                                 <p className="text-black mb-1 font-w600">
