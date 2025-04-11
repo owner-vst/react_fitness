@@ -21,6 +21,8 @@
 //     plan_type: "USER",
 //   });
 //   const [isEditMode, setIsEditMode] = useState(false);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const itemsPerPage = 10;
 
 //   useEffect(() => {
 //     (function () {
@@ -59,10 +61,12 @@
 //       quantity: parseFloat(formData.quantity),
 //       user_id: users.find((user) => user.name === formData.user)?.id,
 //       plan_type: formData.plan_type,
+//       status: formData.status.toUpperCase(),
 //     };
 
 //     if (isEditMode) {
-//       requiredFields.status = formData.status.toUpperCase();
+//       // requiredFields.status = formData.status.toUpperCase();
+//       console.log(requiredFields);
 //       await updateDietPlanItem(formData.id, requiredFields);
 //     } else {
 //       await createDietPlanItem(requiredFields);
@@ -100,6 +104,43 @@
 //   const handleDelete = (id) => {
 //     deleteDietPlanItem(id);
 //   };
+
+//   const handlePageChange = (pageNumber) => {
+//     setCurrentPage(pageNumber);
+//   };
+
+//   const renderPagination = () => {
+//     const pageNumbers = [];
+//     for (let i = 1; i <= Math.ceil(dietPlans.length / itemsPerPage); i++) {
+//       pageNumbers.push(i);
+//     }
+
+//     return (
+//       <nav className="d-flex justify-content-end">
+//         <ul className="pagination">
+//           {pageNumbers.map((number) => (
+//             <li
+//               key={number}
+//               className={`page-item ${currentPage === number ? "active" : ""}`}
+//             >
+//               <a
+//                 onClick={() => handlePageChange(number)}
+//                 className="page-link"
+//                 href="#!"
+//               >
+//                 {number}
+//               </a>
+//             </li>
+//           ))}
+//         </ul>
+//       </nav>
+//     );
+//   };
+
+//   const currentDietPlans = dietPlans.slice(
+//     (currentPage - 1) * itemsPerPage,
+//     currentPage * itemsPerPage
+//   );
 
 //   return (
 //     <div>
@@ -202,7 +243,6 @@
 //                         </option>
 //                         <option>Completed</option>
 //                         <option>Pending</option>
-//                         <option>Skipped</option>
 //                       </select>
 //                       <div className="invalid-feedback">
 //                         Please select Status.
@@ -262,7 +302,7 @@
 //                         </tr>
 //                       </thead>
 //                       <tbody>
-//                         {dietPlans.map((plan) => (
+//                         {currentDietPlans.map((plan) => (
 //                           <tr key={plan.id}>
 //                             <td>
 //                               <strong className="text-black">
@@ -277,8 +317,8 @@
 //                               }
 //                             </td>
 //                             <td>{plan.quantity}</td>
-//                             <td>{plan.meal_type.toLowerCase()}</td>
-//                             <td>{plan.status.toLowerCase()}</td>
+//                             <td>{plan.meal_type}</td>
+//                             <td>{plan.status}</td>
 //                             <td>
 //                               {
 //                                 foodItems.find(
@@ -355,6 +395,7 @@
 //                       </tbody>
 //                     </table>
 //                   </div>
+//                   {renderPagination()}
 //                 </div>
 //               </div>
 //             </div>
@@ -433,7 +474,12 @@ function ManageDietPlan() {
 
     if (isEditMode) {
       requiredFields.status = formData.status.toUpperCase();
-      await updateDietPlanItem(formData.id, requiredFields);
+      const updatedPlan = await updateDietPlanItem(formData.id, requiredFields);
+      setWorkoutPlans((prevWorkoutPlans) =>
+        prevWorkoutPlans.map((plan) =>
+          plan.id === updatedPlan.id ? updatedPlan : plan
+        )
+      );
     } else {
       await createDietPlanItem(requiredFields);
     }
@@ -447,7 +493,6 @@ function ManageDietPlan() {
       status: "",
       foodItem: "",
       plan_type: "USER",
-      created_by_id: 1,
     });
     setIsEditMode(false);
   };
@@ -458,8 +503,8 @@ function ManageDietPlan() {
       diet_plan_id: plan.diet_plan_id,
       user: users.find((user) => user.id === plan.user_id)?.name || "",
       quantity: plan.quantity.toString(),
-      mealType: plan.meal_type.toLowerCase(),
-      status: plan.status.toLowerCase(),
+      mealType: plan.meal_type,
+      status: plan.status,
       foodItem: foodItems.find((food) => food.id === plan.food_id)?.name || "",
       plan_type: plan.plan_type,
       created_by_id: plan.created_by_id,
@@ -534,6 +579,7 @@ function ManageDietPlan() {
                         name="diet_plan_id"
                         value={formData.diet_plan_id}
                         onChange={handleChange}
+                        disabled={isEditMode}
                       />
                       <div className="invalid-feedback">
                         Please enter Diet Plan ID.
@@ -547,6 +593,7 @@ function ManageDietPlan() {
                         required
                         value={formData.user}
                         onChange={handleChange}
+                        disabled={isEditMode}
                       >
                         <option value="" disabled>
                           Choose User
@@ -586,10 +633,10 @@ function ManageDietPlan() {
                         <option value="" disabled>
                           Choose Meal Type
                         </option>
-                        <option>Breakfast</option>
-                        <option>Lunch</option>
-                        <option>Dinner</option>
-                        <option>Snack</option>
+                        <option value="BREAKFAST">Breakfast</option>
+                        <option value="LUNCH">Lunch</option>
+                        <option value="DINNER">Dinner</option>
+                        <option value="SNACK">Snack</option>
                       </select>
                       <div className="invalid-feedback">
                         Please select Meal Type.
@@ -607,8 +654,8 @@ function ManageDietPlan() {
                         <option value="" disabled>
                           Choose Status
                         </option>
-                        <option>Completed</option>
-                        <option>Pending</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="PENDING">Pending</option>
                       </select>
                       <div className="invalid-feedback">
                         Please select Status.
@@ -683,8 +730,8 @@ function ManageDietPlan() {
                               }
                             </td>
                             <td>{plan.quantity}</td>
-                            <td>{plan.meal_type.toLowerCase()}</td>
-                            <td>{plan.status.toLowerCase()}</td>
+                            <td>{plan.meal_type}</td>
+                            <td>{plan.status}</td>
                             <td>
                               {
                                 foodItems.find(

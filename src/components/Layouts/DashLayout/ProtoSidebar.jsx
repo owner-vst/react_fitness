@@ -37,11 +37,7 @@ function ProtoSidebar({ isSidebarOpen }) {
         link: "/dashboard/admin/manageworkoutplan",
         icon: "fas fa-pencil-alt",
       },
-      {
-        label: "Manage Workout Log",
-        link: "/dashboard/admin/manageworkoutlog",
-        icon: "fas fa-calendar-check",
-      },
+
       {
         label: "Manage Activity",
         link: "/dashboard/admin/manageactivity",
@@ -62,7 +58,7 @@ function ProtoSidebar({ isSidebarOpen }) {
         link: "/dashboard/admin/managefoodcatalogue",
         icon: "fas fa-th-list",
       },
-      
+
       {
         label: "Shop",
         link: "/dashboard/admin/shop",

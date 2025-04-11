@@ -91,7 +91,7 @@ function App() {
               <Route index element={<DashBoardAdmin />} />
               <Route path="workoutplan" element={<WorkoutPlan />} />
               <Route path="manageworkoutplan" element={<ManageWorkoutPlan />} />
-              <Route path="manageworkoutlog" element={<ManageWorkoutLog />} />
+
               <Route path="manageactivity" element={<ManageActivity />} />
               <Route path="dietplan" element={<DietPlan />} />
               <Route path="managedietplan" element={<ManageDietPlan />} />
