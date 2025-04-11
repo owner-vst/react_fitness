@@ -62,11 +62,7 @@ function ProtoSidebar({ isSidebarOpen }) {
         link: "/dashboard/admin/managefoodcatalogue",
         icon: "fas fa-th-list",
       },
-      {
-        label: "Manage Food Log",
-        link: "/dashboard/admin/managefoodlog",
-        icon: "fas fa-book",
-      },
+      
       {
         label: "Shop",
         link: "/dashboard/admin/shop",

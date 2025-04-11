@@ -63,9 +63,9 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
           </Route>
-          <Route path="/dashboard" element={<Auth allowedRoles={[]}/>}>
-    {/* Redirect to correct role-based dashboard based on the role */}
-  </Route>
+          <Route path="/dashboard" element={<Auth allowedRoles={[]} />}>
+            {/* Redirect to correct role-based dashboard based on the role */}
+          </Route>
           <Route element={<Auth allowedRoles={["user"]} />}>
             <Route path="/dashboard/user" element={<DashLayout />}>
               <Route index element={<DashBoardUser />} />
@@ -99,7 +99,7 @@ function App() {
                 path="managefoodcatalogue"
                 element={<ManageFoodCatalogue />}
               />
-              <Route path="managefoodlog" element={<ManageFoodLog />} />
+
               <Route path="shop" element={<AdminShop />} />
               <Route path="productdetail" element={<ProductDetail />} />
               <Route path="orders" element={<AdminOrders />} />
@@ -140,15 +140,15 @@ function App() {
             </Route>
           </Route>
           <Route element={<Auth allowedRoles={[]} />}>
-          <Route path="/auth" element={<Navigate to="/auth/login" />} />
-          <Route path="/auth" element={<AuthLayout />}>
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="forgot" element={<Forgot />} />
-            <Route path="verify" element={<Verify />} />
-            <Route path="verify-email" element={<VerifyEmail />} />
-            <Route path="reset-password" element={<ResetPassword />} />
-          </Route>
+            <Route path="/auth" element={<Navigate to="/auth/login" />} />
+            <Route path="/auth" element={<AuthLayout />}>
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+              <Route path="forgot" element={<Forgot />} />
+              <Route path="verify" element={<Verify />} />
+              <Route path="verify-email" element={<VerifyEmail />} />
+              <Route path="reset-password" element={<ResetPassword />} />
+            </Route>
           </Route>
         </Routes>
         <ToastContainer />
