@@ -2,6 +2,7 @@ import React from "react";
 
 const ProgressBarComponent = ({ progressData }) => {
   return (
+    
     <div className="col-xl-12 col-md-6">
       <div className="card">
         <div className="card-header border-0 pb-0">
@@ -9,6 +10,9 @@ const ProgressBarComponent = ({ progressData }) => {
         </div>
         <div className="card-body text-center">
           <div className="progress-container mb-4">
+            {progressData.length === 0 && (
+              <div className="col-xl-12">No data available</div>
+            )}
             {progressData.map((item, index) => (
               <div key={index} className="mb-3">
                 <span className="fs-14 text-black d-block">{item.label}</span>

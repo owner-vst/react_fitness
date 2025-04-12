@@ -72,6 +72,7 @@ function WorkoutStats() {
           <div className="row">
             <div className="col-xl-9 col-xxl-8">
               <div className="row">
+                {WorkoutStats.length===0 && <div className="col-xl-12">No data available</div>}
                 {chartData.map((chart, index) => (
                   <div key={index} className="col-xl-12">
                     <div className="card">
@@ -133,6 +134,7 @@ function WorkoutStats() {
                       <h4 className="text-black fs-20 mb-3">Calories Burned</h4>
                     </div>
                     <div className="card-body">
+                      {progressData.length===0 && <div className="col-xl-12">No data available</div>}
                       {progressData.map((progress, index) => (
                         <div key={index} className="d-flex mb-sm-5 mb-3">
                           <div className="d-inline-block relative donut-chart-sale me-3">
@@ -185,6 +187,7 @@ function WorkoutStats() {
                   </div>
                 </div>
                 <div className="col-xl-12 col-md-6">
+                 
                   <ProgressBarComponent progressData={progressData} />
                 </div>
               </div>

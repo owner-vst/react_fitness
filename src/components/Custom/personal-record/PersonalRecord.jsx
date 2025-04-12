@@ -27,6 +27,9 @@ function PersonalRecord() {
     <div className="content-body">
       <div className="container-fluid">
         <div className="row">
+          {!personalRecord.length && (
+            <div className="col-xl-12">No data available</div>
+          )}
           {Object.keys(personalRecord).map((activityName) => {
             const activitySessions = personalRecord[activityName];
             return (

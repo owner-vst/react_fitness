@@ -1,44 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import useManageUsers from "../../../../hooks/admin/useManageUsers";
 
 function ManageUsers() {
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      firstName: "John",
-      lastName: "Doe",
-      email: "john.doe@example.com",
-      profilePic: "/assets/images/profile/av1.jpeg",
-      gender: "Male",
-      role: "Admin",
-      dob: "1990-01-01",
-      status: "Active",
-      verified: "Verified",
-    },
-    {
-      id: 2,
-      firstName: "Jane",
-      lastName: "Smith",
-      email: "jane.smith@example.com",
-      profilePic: "/assets/images/profile/av2.jpeg",
-      gender: "Female",
-      role: "User",
-      dob: "1990-01-01",
-      status: "Inactive",
-      verified: "Not Verified",
-    },
-    {
-      id: 3,
-      firstName: "Alice",
-      lastName: "Johnson",
-      email: "alice.johnson@example.com",
-      profilePic: "/assets/images/profile/av3.jpeg",
-      gender: "Female",
-      role: "Vendor",
-      dob: "1990-01-01",
-      status: "Active",
-      verified: "Verified",
-    },
-  ]);
+  const { users, createUser, updateUser, deleteUser, fetchUsers } =
+    useManageUsers();
 
   const [formData, setFormData] = useState({
     id: null,
@@ -50,35 +15,35 @@ function ManageUsers() {
     role: "",
     dob: "",
     status: "",
-    verified: "",
   });
 
+  const [profilePicFile, setProfilePicFile] = useState(null);
+  const fileInputRef = useRef(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
   const genderOptions = ["Male", "Female"];
-  const roleOptions = ["Admin", "User", "Vendor"];
-  const statusOptions = ["Active", "Inactive"];
-  const verifiedOptions = ["Verified", "Not Verified"];
+  const roleOptions = ["ADMIN", "USER", "VENDOR"];
+  const statusOptions = ["ACTIVE", "INACTIVE"];
 
-  useEffect(() => {
-    (function () {
-      "use strict";
-      const forms = document.querySelectorAll(".needs-validation");
-      Array.prototype.slice.call(forms).forEach(function (form) {
-        form.addEventListener(
-          "submit",
-          function (event) {
-            if (!form.checkValidity()) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add("was-validated");
-          },
-          false
-        );
-      });
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (function () {
+  //     "use strict";
+  //     const forms = document.querySelectorAll(".needs-validation");
+  //     Array.prototype.slice.call(forms).forEach(function (form) {
+  //       form.addEventListener(
+  //         "submit",
+  //         function (event) {
+  //           if (!form.checkValidity()) {
+  //             event.preventDefault();
+  //             event.stopPropagation();
+  //           }
+  //           form.classList.add("was-validated");
+  //         },
+  //         false
+  //       );
+  //     });
+  //   })();
+  // }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -90,27 +55,66 @@ function ManageUsers() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      profilePic: file ? URL.createObjectURL(file) : null,
-    }));
+    setProfilePicFile(file); // Only set the file
+    // No need to update formData.profilePic here
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isEditMode) {
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === formData.id ? { ...user, ...formData } : user
-        )
+  const uploadProfilePic = async () => {
+    const formDataObj = new FormData();
+    formDataObj.append("file", profilePicFile);
+    formDataObj.append("upload_preset", "insightstracker"); // Replace with your Cloudinary preset
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dxckq9hel/image/upload", // Replace with your Cloudinary URL
+        {
+          method: "POST",
+          body: formDataObj,
+        }
       );
-    } else {
-      setUsers((prevUsers) => [
-        ...prevUsers,
-        { ...formData, id: prevUsers.length + 1 },
-      ]);
+      const data = await response.json();
+      return data.secure_url;
+    } catch (error) {
+      console.error("Error uploading profile picture:", error);
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated");
+      return;
     }
 
+    let profilePicUrl = formData.profilePic; // This will be Cloudinary URL
+
+    if (profilePicFile) {
+      const uploadedUrl = await uploadProfilePic();
+      if (!uploadedUrl) return;
+      profilePicUrl = uploadedUrl;
+    }
+
+    const userData = {
+      firstname: formData.firstName,
+      lastname: formData.lastName,
+      email: formData.email,
+      profilePic: profilePicUrl, // This will now be Cloudinary URL
+      gender: formData.gender,
+      role_name: formData.role,
+      dob: formData.dob,
+      status: formData.status,
+    };
+
+    if (isEditMode) {
+      await updateUser(formData.id, userData);
+    } else {
+      await createUser(userData);
+    }
+
+    // Reset everything after submit
     setFormData({
       id: null,
       firstName: "",
@@ -121,18 +125,54 @@ function ManageUsers() {
       role: "",
       dob: "",
       status: "",
-      verified: "",
     });
+    setProfilePicFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
     setIsEditMode(false);
+    form.classList.remove("was-validated");
+    await fetchUsers();
   };
 
+  const handleReset = (e) => {
+    e.preventDefault();
+    setFormData({
+      id: null,
+      firstName: "",
+      lastName: "",
+      email: "",
+      profilePic: null,
+      gender: "",
+      role: "",
+      dob: "",
+      status: "",
+    });
+    setProfilePicFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    setIsEditMode(false);
+    const formElement = document.querySelector(".needs-validation");
+    formElement.classList.remove("was-validated");
+  };
   const handleEdit = (user) => {
-    setFormData({ ...user });
+    setFormData({
+      id: user.id,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      email: user.email,
+      profilePic: user.profilePic,
+      gender: user.gender,
+      role: user.role,
+      dob: user.dob,
+      status: user.status,
+    });
     setIsEditMode(true);
   };
 
-  const handleDelete = (id) => {
-    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+  const handleDelete = async (id) => {
+    await deleteUser(id);
   };
 
   return (
@@ -202,8 +242,9 @@ function ManageUsers() {
                         type="file"
                         className="form-control"
                         placeholder="Choose Profile Picture"
-                        required
+                        required={!isEditMode}
                         onChange={handleImageChange}
+                        ref={fileInputRef}
                       />
                       <div className="invalid-feedback">
                         Select Profile Picture.
@@ -275,28 +316,6 @@ function ManageUsers() {
                         Please select Status.
                       </div>
                     </div>
-                    <div className="col-md-6 mb-3">
-                      <label className="form-label">Verified</label>
-                      <select
-                        name="verified"
-                        className="form-control"
-                        required
-                        value={formData.verified}
-                        onChange={handleChange}
-                      >
-                        <option value="" disabled>
-                          Choose Verified
-                        </option>
-                        {verifiedOptions.map((verified) => (
-                          <option key={verified} value={verified}>
-                            {verified}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="invalid-feedback">
-                        Please select Verified.
-                      </div>
-                    </div>
                     <div className="col-md-6">
                       <label htmlFor="dateOfBirth">Date of Birth</label>
                       <input
@@ -311,9 +330,16 @@ function ManageUsers() {
                     </div>
                   </div>
 
-                  <div className="d-flex justify-content-end">
+                  <div className="d-flex justify-content-end gap-2">
                     <button type="submit" className="btn btn-primary">
                       {isEditMode ? "Edit" : "Add"}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={handleReset}
+                    >
+                      Reset
                     </button>
                   </div>
                 </form>
@@ -333,6 +359,7 @@ function ManageUsers() {
                       <thead>
                         <tr>
                           <th style={{ width: 80 }}>#</th>
+                          <th>Profile Pic</th>
                           <th>First Name</th>
                           <th>Last Name</th>
                           <th>Email</th>
@@ -340,7 +367,6 @@ function ManageUsers() {
                           <th>Role</th>
                           <th>DOB</th>
                           <th>Status</th>
-                          <th>Verified</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -353,25 +379,23 @@ function ManageUsers() {
                               </strong>
                             </td>
                             <td>
-                              <div className="d-flex align-items-center">
-                                <img
-                                  src={user.profilePic}
-                                  className="rounded-lg me-2"
-                                  width={70}
-                                  alt
-                                />
-                                <span className="w-space-no">
-                                  {user.firstName}
-                                </span>
-                              </div>
+                              <img
+                                src={
+                                  user.profilePic ||
+                                  "/assets/images/profile/download.png"
+                                }
+                                className="rounded-circle shadow-sm border border-dark"
+                                width={70}
+                                alt=""
+                              />
                             </td>
-                            <td>{user.lastName}</td>
+                            <td> {user.first_name}</td>
+                            <td>{user.last_name}</td>
                             <td>{user.email}</td>
                             <td>{user.gender}</td>
                             <td>{user.role}</td>
                             <td>{user.dob}</td>
                             <td>{user.status}</td>
-                            <td>{user.verified}</td>
                             <td>
                               <div className="dropdown">
                                 <button
