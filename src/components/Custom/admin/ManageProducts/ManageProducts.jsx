@@ -1,46 +1,28 @@
-// import { useEffect, useState } from "react";
+// import React, { useState, useEffect, useRef } from "react";
+// import useManageProducts from "../../../../hooks/admin/useManageProducts";
 
 // function ManageProducts() {
-//   const [products, setProducts] = useState([
-//     {
-//       id: 1,
-//       productName: "Product A",
-//       quantity: 100,
-//       price: 20,
-//       category: "Electronics",
-//       productImage: "/assets/images/product/1.jpg",
-//       description: "A high-quality gadget.",
-//     },
-//     {
-//       id: 2,
-//       productName: "Product B",
-//       quantity: 50,
-//       price: 30,
-//       category: "Home",
-//       productImage: "/assets/images/product/2.jpg",
-//       description: "A beautiful home decor item.",
-//     },
-//     {
-//       id: 3,
-//       productName: "Product C",
-//       quantity: 200,
-//       price: 15,
-//       category: "Books",
-//       productImage: "/assets/images/product/3.jpg",
-//       description: "An educational book.",
-//     },
-//   ]);
+//   const {
+//     products,
+//     createProduct,
+//     updateProduct,
+//     deleteProduct,
+//     fetchProducts,
+//   } = useManageProducts();
 
 //   const [formData, setFormData] = useState({
 //     id: null,
 //     productName: "",
-//     quantity: "",
+//     stock: "",
 //     price: "",
 //     category: "",
 //     productImage: null,
 //     description: "",
+//     status: "",
 //   });
 
+//   const [productImageFile, setProductImageFile] = useState(null);
+//   const fileInputRef = useRef(null);
 //   const [isEditMode, setIsEditMode] = useState(false);
 
 //   const categoryOptions = [
@@ -51,6 +33,8 @@
 //     "Books",
 //     "Education",
 //   ];
+
+//   const statusOptions = ["ACTIVE", "INACTIVE"];
 
 //   useEffect(() => {
 //     (function () {
@@ -81,53 +65,122 @@
 //   };
 
 //   const handleImageChange = (e) => {
-//     const file = e.target.files[0]; // Get the file
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       productImage: file ? URL.createObjectURL(file) : null, // Convert the file to a temporary URL
-//     }));
+//     const file = e.target.files[0];
+//     setProductImageFile(file); // Only set the file
+//     // No need to update formData.productImage here
 //   };
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (isEditMode) {
-//       setProducts((prevProducts) =>
-//         prevProducts.map((product) =>
-//           product.id === formData.id ? { ...product, ...formData } : product
-//         )
+//   const uploadProductImage = async () => {
+//     const formDataObj = new FormData();
+//     formDataObj.append("file", productImageFile);
+//     formDataObj.append("upload_preset", "insightstracker"); // Replace with your Cloudinary preset
+
+//     try {
+//       const response = await fetch(
+//         "https://api.cloudinary.com/v1_1/dxckq9hel/image/upload", // Replace with your Cloudinary URL
+//         {
+//           method: "POST",
+//           body: formDataObj,
+//         }
 //       );
-//     } else {
-//       setProducts((prevProducts) => [
-//         ...prevProducts,
-//         { ...formData, id: prevProducts.length + 1 },
-//       ]);
+//       const data = await response.json();
+//       return data.secure_url;
+//     } catch (error) {
+//       console.error("Error uploading product image:", error);
+//       return null;
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const form = e.target;
+
+//     if (!form.checkValidity()) {
+//       form.classList.add("was-validated");
+//       return;
 //     }
 
-//     // Reset formData and ensure the image URL is retained
+//     let productImageUrl = formData.productImage; // This will be Cloudinary URL
+
+//     if (productImageFile) {
+//       const uploadedUrl = await uploadProductImage();
+//       if (!uploadedUrl) return;
+//       productImageUrl = uploadedUrl;
+//     }
+
+//     const productData = {
+//       name: formData.productName,
+//       stock: parseInt(formData.stock),
+//       price: parseFloat(formData.price),
+//       category: formData.category,
+//       image_url: productImageUrl, // This will now be Cloudinary URL
+//       description: formData.description,
+//       status: formData.status,
+//     };
+
+//     if (isEditMode) {
+//       await updateProduct(formData.id, productData);
+//     } else {
+//       await createProduct(productData);
+//     }
+
+//     // Reset everything after submit
 //     setFormData({
 //       id: null,
 //       productName: "",
-//       quantity: "",
+//       stock: "",
 //       price: "",
 //       category: "",
-//       productImage: null, // Resetting image to null but it will be set again with object URL
+//       productImage: null,
 //       description: "",
+//       status: "",
 //     });
+//     setProductImageFile(null);
+//     if (fileInputRef.current) {
+//       fileInputRef.current.value = "";
+//     }
 //     setIsEditMode(false);
+//     form.classList.remove("was-validated");
+//     await fetchProducts();
+//   };
+
+//   const handleReset = (e) => {
+//     e.preventDefault();
+//     setFormData({
+//       id: null,
+//       productName: "",
+//       stock: "",
+//       price: "",
+//       category: "",
+//       productImage: null,
+//       description: "",
+//       status: "",
+//     });
+//     setProductImageFile(null);
+//     if (fileInputRef.current) {
+//       fileInputRef.current.value = "";
+//     }
+//     setIsEditMode(false);
+//     const formElement = document.querySelector(".needs-validation");
+//     formElement.classList.remove("was-validated");
 //   };
 
 //   const handleEdit = (product) => {
 //     setFormData({
-//       ...product,
+//       id: product.id,
+//       productName: product.name,
+//       stock: product.stock,
+//       price: product.price,
 //       category: product.category,
+//       productImage: product.image_url,
+//       description: product.description,
+//       status: product.status,
 //     });
 //     setIsEditMode(true);
 //   };
 
-//   const handleDelete = (id) => {
-//     setProducts((prevProducts) =>
-//       prevProducts.filter((product) => product.id !== id)
-//     );
+//   const handleDelete = async (id) => {
+//     await deleteProduct(id);
 //   };
 
 //   return (
@@ -168,8 +221,8 @@
 //                         className="form-control"
 //                         placeholder="Enter Quantity"
 //                         required
-//                         name="quantity"
-//                         value={formData.quantity}
+//                         name="stock"
+//                         value={formData.stock}
 //                         onChange={handleChange}
 //                       />
 //                       <div className="invalid-feedback">
@@ -219,8 +272,9 @@
 //                         type="file"
 //                         className="form-control"
 //                         placeholder="Choose Product Image"
-//                         required
+//                         required={!isEditMode}
 //                         onChange={handleImageChange}
+//                         ref={fileInputRef}
 //                       />
 //                       <div className="invalid-feedback">
 //                         Select Product Image.
@@ -240,11 +294,40 @@
 //                         Please enter Description.
 //                       </div>
 //                     </div>
+//                     <div className="col-md-6 mb-3">
+//                       <label className="form-label">Status</label>
+//                       <select
+//                         name="status"
+//                         className="form-control"
+//                         required
+//                         value={formData.status}
+//                         onChange={handleChange}
+//                       >
+//                         <option value="" disabled>
+//                           Choose Status
+//                         </option>
+//                         {statusOptions.map((status) => (
+//                           <option key={status} value={status}>
+//                             {status}
+//                           </option>
+//                         ))}
+//                       </select>
+//                       <div className="invalid-feedback">
+//                         Please select Status.
+//                       </div>
+//                     </div>
 //                   </div>
 
-//                   <div className="d-flex justify-content-end">
+//                   <div className="d-flex justify-content-end gap-2">
 //                     <button type="submit" className="btn btn-primary">
 //                       {isEditMode ? "Edit" : "Add"}
+//                     </button>
+//                     <button
+//                       type="button"
+//                       className="btn btn-primary"
+//                       onClick={handleReset}
+//                     >
+//                       Reset
 //                     </button>
 //                   </div>
 //                 </form>
@@ -264,11 +347,12 @@
 //                       <thead>
 //                         <tr>
 //                           <th style={{ width: 80 }}>#</th>
+//                           <th>Product Image</th>
 //                           <th>Product Name</th>
 //                           <th>Quantity</th>
 //                           <th>Price</th>
 //                           <th>Category</th>
-//                           {/* <th>Product Image</th> */}
+//                           <th>Status</th>
 //                           <th>Description</th>
 //                           <th>Action</th>
 //                         </tr>
@@ -283,32 +367,45 @@
 //                             </td>
 //                             <td>
 //                               <div className="d-flex align-items-center">
-//                                 <img
-//                                   src={product.productImage}
-//                                   className="rounded-lg me-2"
-//                                   width={70}
-//                                   alt
-//                                 />
-//                                 <span className="w-space-no">
-//                                   {product.productName}
-//                                 </span>
+//                                 <div
+//                                   style={{
+//                                     width: "100px",
+//                                     height: "60px",
+//                                     overflow: "hidden",
+//                                   }}
+//                                 >
+//                                   <img
+//                                     src={
+//                                       product.image_url ||
+//                                       "/assets/images/product/1.jpg"
+//                                     }
+//                                     style={{
+//                                       width: "100%",
+//                                       height: "100%",
+//                                       objectFit: "contain",
+//                                     }}
+//                                     className="rounded-lg me-2"
+//                                     width={70}
+//                                     alt=""
+//                                   />
+//                                 </div>
 //                               </div>
 //                             </td>
-//                             <td>{product.quantity}</td>
+//                             <td>{product.name}</td>
+//                             <td>{product.stock}</td>
 //                             <td>{product.price}</td>
 //                             <td>{product.category}</td>
-//                             {/* <td>
-//                               {product.productImage ? (
-//                                 <img
-//                                   src={product.productImage}
-//                                   alt={product.productName}
-//                                   style={{ width: "50px", height: "50px" }}
-//                                 />
-//                               ) : (
-//                                 "No Image"
-//                               )}
-//                             </td> */}
-//                             <td>{product.description}</td>
+//                             <td>{product.status}</td>
+//                             <td
+//                               style={{
+//                                 maxWidth: "200px",
+//                                 whiteSpace: "nowrap",
+//                                 overflow: "hidden",
+//                                 textOverflow: "ellipsis",
+//                               }}
+//                             >
+//                               {product.description}
+//                             </td>
 //                             <td>
 //                               <div className="dropdown">
 //                                 <button
@@ -389,46 +486,22 @@
 // }
 
 // export default ManageProducts;
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import useManageProducts from "../../../../hooks/admin/useManageProducts";
 
 function ManageProducts() {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      productName: "Product A",
-      quantity: 100,
-      price: 20,
-      category: "Electronics",
-      productImage: "/assets/images/product/1.jpg",
-      description: "A high-quality gadget.",
-      status: "Active",
-    },
-    {
-      id: 2,
-      productName: "Product B",
-      quantity: 50,
-      price: 30,
-      category: "Home",
-      productImage: "/assets/images/product/2.jpg",
-      description: "A beautiful home decor item.",
-      status: "Inactive",
-    },
-    {
-      id: 3,
-      productName: "Product C",
-      quantity: 200,
-      price: 15,
-      category: "Books",
-      productImage: "/assets/images/product/3.jpg",
-      description: "An educational book.",
-      status: "Active",
-    },
-  ]);
+  const {
+    products,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    fetchProducts,
+  } = useManageProducts();
 
   const [formData, setFormData] = useState({
     id: null,
     productName: "",
-    quantity: "",
+    stock: "",
     price: "",
     category: "",
     productImage: null,
@@ -436,7 +509,11 @@ function ManageProducts() {
     status: "",
   });
 
+  const [productImageFile, setProductImageFile] = useState(null);
+  const fileInputRef = useRef(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const categoryOptions = [
     "Electronics",
@@ -447,7 +524,7 @@ function ManageProducts() {
     "Education",
   ];
 
-  const statusOptions = ["Active", "Inactive"];
+  const statusOptions = ["ACTIVE", "INACTIVE"];
 
   useEffect(() => {
     (function () {
@@ -479,50 +556,159 @@ function ManageProducts() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      productImage: file ? URL.createObjectURL(file) : null,
-    }));
+    setProductImageFile(file); // Only set the file
+    // No need to update formData.productImage here
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isEditMode) {
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === formData.id ? { ...product, ...formData } : product
-        )
+  const uploadProductImage = async () => {
+    const formDataObj = new FormData();
+    formDataObj.append("file", productImageFile);
+    formDataObj.append("upload_preset", "insightstracker"); // Replace with your Cloudinary preset
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dxckq9hel/image/upload", // Replace with your Cloudinary URL
+        {
+          method: "POST",
+          body: formDataObj,
+        }
       );
-    } else {
-      setProducts((prevProducts) => [
-        ...prevProducts,
-        { ...formData, id: prevProducts.length + 1 },
-      ]);
+      const data = await response.json();
+      return data.secure_url;
+    } catch (error) {
+      console.error("Error uploading product image:", error);
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated");
+      return;
     }
 
+    let productImageUrl = formData.productImage; // This will be Cloudinary URL
+
+    if (productImageFile) {
+      const uploadedUrl = await uploadProductImage();
+      if (!uploadedUrl) return;
+      productImageUrl = uploadedUrl;
+    }
+
+    const productData = {
+      name: formData.productName,
+      stock: parseInt(formData.stock),
+      price: parseFloat(formData.price),
+      category: formData.category,
+      image_url: productImageUrl, // This will now be Cloudinary URL
+      description: formData.description,
+      status: formData.status,
+    };
+
+    if (isEditMode) {
+      await updateProduct(formData.id, productData);
+    } else {
+      await createProduct(productData);
+    }
+
+    // Reset everything after submit
     setFormData({
       id: null,
       productName: "",
-      quantity: "",
+      stock: "",
       price: "",
       category: "",
       productImage: null,
       description: "",
       status: "",
     });
+    setProductImageFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
     setIsEditMode(false);
+    form.classList.remove("was-validated");
+    await fetchProducts();
+  };
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    setFormData({
+      id: null,
+      productName: "",
+      stock: "",
+      price: "",
+      category: "",
+      productImage: null,
+      description: "",
+      status: "",
+    });
+    setProductImageFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    setIsEditMode(false);
+    const formElement = document.querySelector(".needs-validation");
+    formElement.classList.remove("was-validated");
   };
 
   const handleEdit = (product) => {
-    setFormData({ ...product });
+    setFormData({
+      id: product.id,
+      productName: product.name,
+      stock: product.stock,
+      price: product.price,
+      category: product.category,
+      productImage: product.image_url,
+      description: product.description,
+      status: product.status,
+    });
     setIsEditMode(true);
   };
 
-  const handleDelete = (id) => {
-    setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== id)
+  const handleDelete = async (id) => {
+    await deleteProduct(id);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const renderPagination = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(products.length / itemsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <nav className="d-flex justify-content-end">
+        <ul className="pagination">
+          {pageNumbers.map((number) => (
+            <li
+              key={number}
+              className={`page-item ${currentPage === number ? "active" : ""}`}
+            >
+              <a
+                onClick={() => handlePageChange(number)}
+                className="page-link"
+                href="#!"
+              >
+                {number}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     );
   };
+
+  const currentProducts = products.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div>
@@ -562,8 +748,8 @@ function ManageProducts() {
                         className="form-control"
                         placeholder="Enter Quantity"
                         required
-                        name="quantity"
-                        value={formData.quantity}
+                        name="stock"
+                        value={formData.stock}
                         onChange={handleChange}
                       />
                       <div className="invalid-feedback">
@@ -613,8 +799,9 @@ function ManageProducts() {
                         type="file"
                         className="form-control"
                         placeholder="Choose Product Image"
-                        required
+                        required={!isEditMode}
                         onChange={handleImageChange}
+                        ref={fileInputRef}
                       />
                       <div className="invalid-feedback">
                         Select Product Image.
@@ -658,9 +845,16 @@ function ManageProducts() {
                     </div>
                   </div>
 
-                  <div className="d-flex justify-content-end">
+                  <div className="d-flex justify-content-end gap-2">
                     <button type="submit" className="btn btn-primary">
                       {isEditMode ? "Edit" : "Add"}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={handleReset}
+                    >
+                      Reset
                     </button>
                   </div>
                 </form>
@@ -691,7 +885,7 @@ function ManageProducts() {
                         </tr>
                       </thead>
                       <tbody>
-                        {products.map((product) => (
+                        {currentProducts.map((product) => (
                           <tr key={product.id}>
                             <td>
                               <strong className="text-black">
@@ -700,20 +894,45 @@ function ManageProducts() {
                             </td>
                             <td>
                               <div className="d-flex align-items-center">
-                                <img
-                                  src={product.productImage}
-                                  className="rounded-lg me-2"
-                                  width={70}
-                                  alt
-                                />
+                                <div
+                                  style={{
+                                    width: "100px",
+                                    height: "60px",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      product.image_url ||
+                                      "/assets/images/product/1.jpg"
+                                    }
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "contain",
+                                    }}
+                                    className="rounded-lg me-2"
+                                    width={70}
+                                    alt=""
+                                  />
+                                </div>
                               </div>
                             </td>
-                            <td>{product.productName}</td>
-                            <td>{product.quantity}</td>
-                            <td>{product.price}</td>
+                            <td>{product.name}</td>
+                            <td>{product.stock}</td>
+                            <td>{product.price} $</td>
                             <td>{product.category}</td>
                             <td>{product.status}</td>
-                            <td>{product.description}</td>
+                            <td
+                              style={{
+                                maxWidth: "200px",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {product.description}
+                            </td>
                             <td>
                               <div className="dropdown">
                                 <button
@@ -783,6 +1002,7 @@ function ManageProducts() {
                       </tbody>
                     </table>
                   </div>
+                  {renderPagination()}
                 </div>
               </div>
             </div>
