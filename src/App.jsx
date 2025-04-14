@@ -54,6 +54,7 @@ import TestingChat from "./components/Custom/Chat/TestingChat";
 import ChatComp from "./components/Custom/Chat/ChatComp";
 import AdminProductDetail from "./components/Custom/shop/AdminProductDetail";
 import VendorProductDetail from "./components/Custom/shop/VendorProductDetail";
+import UserProductDetail from "./components/Custom/shop/UserProductDetail";
 
 function App() {
   return (
@@ -75,7 +76,7 @@ function App() {
               <Route path="dietplan" element={<DietPlan />} />
               <Route path="shop" element={<ProductGrid />} />
               <Route path="checkout" element={<Checkout />} />
-              <Route path="productdetail" element={<ProductDetail />} />
+              <Route path="productdetail/:id" element={<UserProductDetail />} />
               <Route path="payment" element={<PaymentSuccess />} />
               <Route path="paymentfailed" element={<PaymentFailed />} />
               <Route path="orders" element={<Orders />} />

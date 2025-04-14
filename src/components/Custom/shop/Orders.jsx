@@ -1,108 +1,82 @@
+// components/Orders.jsx
+import React, { useState } from "react";
+import useUserOrders from "../../../hooks/user/useUserOrders";
+
+
 function Orders() {
-  const orders = [
-    {
-      orderId: 1,
-      username: "John Miller",
-      date: "27/01/2025",
-      status: "Delivered",
-      totalPrice: "$200.00",
-    },
-    {
-      orderId: 2,
-      username: "Alice Smith",
-      date: "29/01/2025",
-      status: "Processing",
-      totalPrice: "$150.00",
-    },
-    {
-      orderId: 3,
-      username: "Bob Johnson",
-      date: "30/01/2025",
-      status: "Shipped",
-      totalPrice: "$300.00",
-    },
-    {
-      orderId: 4,
-      username: "Emma Davis",
-      date: "01/02/2025",
-      status: "Pending",
-      totalPrice: "$120.00",
-    },
-    {
-      orderId: 5,
-      username: "Michael Brown",
-      date: "03/02/2025",
-      status: "Delivered",
-      totalPrice: "$250.00",
-    },
-    {
-      orderId: 6,
-      username: "Sarah Williams",
-      date: "04/02/2025",
-      status: "Shipped",
-      totalPrice: "$400.00",
-    },
-    {
-      orderId: 7,
-      username: "David Jones",
-      date: "05/02/2025",
-      status: "Pending",
-      totalPrice: "$150.00",
-    },
-    {
-      orderId: 8,
-      username: "Emily Lee",
-      date: "06/02/2025",
-      status: "Delivered",
-      totalPrice: "$200.00",
-    },
-    {
-      orderId: 9,
-      username: "Olivia Brown",
-      date: "07/02/2025",
-      status: "Shipped",
-      totalPrice: "$300.00",
-    },
-    {
-      orderId: 10,
-      username: "Sophia Wilson",
-      date: "08/02/2025",
-      status: "Pending",
-      totalPrice: "$120.00",
-    },
-    {
-      orderId: 11,
-      username: "James Smith",
-      date: "09/02/2025",
-      status: "Delivered",
-      totalPrice: "$250.00",
-    },
-    {
-      orderId: 12,
-      username: "Ava Brown",
-      date: "10/02/2025",
-      status: "Shipped",
-      totalPrice: "$400.00",
-    },
-    {
-      orderId: 13,
-      username: "Mia Williams",
-      date: "11/02/2025",
-      status: "Pending",
-      totalPrice: "$150.00",
-    },
-    {
-      orderId: 14,
-      username: "Alex Smith",
-      date: "12/02/2025",
-      status: "Delivered",
-      totalPrice: "$200.00",
-    },
-  ];
+  const { orders, orderItems, fetchOrderItems } = useUserOrders();
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+  const handleRowClick = async (orderId) => {
+    setSelectedOrderId(orderId);
+    await fetchOrderItems(orderId);
+    const modal = new bootstrap.Modal(
+      document.getElementById("orderItemsModal")
+    );
+    modal.show();
+  };
 
   return (
     <div className="content-body">
       <div className="container-fluid">
+        {/* Modal */}
+        <div
+          className="modal fade"
+          id="orderItemsModal"
+          tabIndex="-1"
+          aria-labelledby="orderItemsModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-lg modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="orderItemsModalLabel">
+                  Order #{String(selectedOrderId).padStart(2, "0")} Items
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Product</th>
+                      <th>Unit Price</th>
+                      <th>Quantity</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orderItems.length > 0 ? (
+                      orderItems.map((item, index) => (
+                        <tr key={item.id}>
+                          <td>{index + 1}</td>
+                          <td>{item.product?.name || "Unknown"}</td>
+                          <td>${item.price}</td>
+                          <td>{item.quantity}</td>
+                          <td>${item.price * item.quantity}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5" className="text-center">
+                          No items found.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Table */}
         <div className="row">
           <div className="col-lg-12">
             <div className="card">
@@ -123,22 +97,26 @@ function Orders() {
                     </thead>
                     <tbody>
                       {orders.map((order) => (
-                        <tr key={order.orderId}>
+                        <tr
+                          key={order.id}
+                          onClick={() => handleRowClick(order.id)}
+                          style={{ cursor: "pointer" }}
+                        >
                           <td>
                             <strong className="text-black">
-                              {String(order.orderId).padStart(2, "0")}
+                              {String(order.id).padStart(2, "0")}
                             </strong>
                           </td>
-                          <td>{order.username}</td>
-                          <td>{order.date}</td>
+                          <td>{order.name}</td>
+                          <td>
+                            {new Date(order.created_at).toLocaleDateString()}
+                          </td>
                           <td>
                             <span
                               className={`badge ${
-                                order.status === "Delivered"
+                                order.status === "DELIVERED"
                                   ? "bg-success"
-                                  : order.status === "Shipped"
-                                  ? "bg-primary"
-                                  : order.status === "Processing"
+                                  : order.status === "PENDING"
                                   ? "bg-warning"
                                   : "bg-danger"
                               }`}
@@ -146,7 +124,7 @@ function Orders() {
                               {order.status}
                             </span>
                           </td>
-                          <td>{order.totalPrice}</td>
+                          <td>${order.total_price}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -156,7 +134,8 @@ function Orders() {
             </div>
           </div>
         </div>
-      </div>
+      </div>{" "}
+      {/* container-fluid */}
     </div>
   );
 }
