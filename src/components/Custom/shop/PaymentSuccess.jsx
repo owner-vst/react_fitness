@@ -1,4 +1,18 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 function PaymentSuccess() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { order, formData, cart } = location.state || {};
+
+  useEffect(() => {
+    if (!order) {
+      navigate("/dashboard/user/cart"); // if someone lands here without state
+    }
+  }, [order]);
+  const handleContinue = () => {
+    navigate("/dashboard/user/shop");
+  };
   return (
     <div>
       <div className="content-body">
@@ -30,62 +44,59 @@ function PaymentSuccess() {
                       <span className="text-success">✔ Successful</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
-                      <strong>Date:</strong> 27/01/2025
+                      <strong>Date:</strong>{" "}
+                      {new Date(order.created_at).toLocaleDateString()}
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
-                      <strong>Customer:</strong> John Miller
+                      <strong>Customer:</strong> {formData.firstName}{" "}
+                      {formData.lastName}
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
                       <strong>Payment Method:</strong> VISA
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
-                      <strong>Order Number:</strong> 586789863
+                      <strong>Order Number:</strong> {order.id}
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
                       <strong>Total:</strong>{" "}
-                      <span className="fw-bold">$273</span>
+                      <span className="fw-bold">${order.total_price}</span>
                     </li>
                   </ul>
                 </div>
+
                 <h5 className="mt-4">Order Line</h5>
                 <ul
                   className="list-group list-group-flush text-start"
                   style={{ maxWidth: 700 }}
                 >
-                  <li className="list-group-item d-flex justify-content-between">
-                    <img
-                      src="/assets/images/product/1.jpg"
-                      alt="Product"
-                      className="me-3"
-                      width={70}
-                    />
-                    <li className="w-100 d-flex justify-content-between">
-                      <div>
-                        <p className="mb-0">Product’s name</p>
-                        <small>x3 items</small>
-                      </div>
-                      <span className="ms-auto">$73</span>{" "}
-                      {/* Price moved to the right extreme */}
+                  {cart.map((item) => (
+                    <li
+                      key={item.id}
+                      className="list-group-item d-flex justify-content-between"
+                    >
+                      <img
+                        src={item.product.image_url}
+                        alt={item.product.name}
+                        className="me-3"
+                        width={70}
+                      />
+                      <li className="w-100 d-flex justify-content-between">
+                        <div>
+                          <p className="mb-0">{item.product.name}</p>
+                          <small>x{item.quantity} items</small>
+                        </div>
+                        <span className="ms-auto">
+                          ${(item.quantity * item.product.price).toFixed(2)}
+                        </span>
+                      </li>
                     </li>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between">
-                    <img
-                      src="/assets/images/product/2.jpg"
-                      alt="Product"
-                      className="me-3"
-                      width={70}
-                    />
-                    <li className="w-100 d-flex justify-content-between">
-                      <div>
-                        <p className="mb-0">Product’s name</p>
-                        <small>x4 items</small>
-                      </div>
-                      <span className="ms-auto">$50</span>{" "}
-                      {/* Price moved to the right extreme */}
-                    </li>
-                  </li>
+                  ))}
                 </ul>
-                <button className="btn btn-dark mt-4 w-100">
+
+                <button
+                  className="btn btn-dark mt-4 w-100"
+                  onClick={handleContinue}
+                >
                   Continue Shopping
                 </button>
               </div>

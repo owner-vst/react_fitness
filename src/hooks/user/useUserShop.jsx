@@ -107,7 +107,22 @@ const useUserShop = () => {
       toast.error("Failed to move item to cart.");
     }
   };
+  const createOrder = async (orderItems) => {
+    try {
+      const response = await axios.post(
+        `${apiUrl}/api/user/create-order`,
+        { items: orderItems },
+        { withCredentials: true }
+      );
 
+      toast.success("Order placed successfully!");
+      return response.data.order;
+    } catch (error) {
+      console.error("Create order error:", error);
+      toast.error("Failed to create order.");
+      throw error;
+    }
+  };
   useEffect(() => {
     fetchCart();
     fetchWishlist();
@@ -123,6 +138,7 @@ const useUserShop = () => {
     addToWishlist,
     removeFromWishlist,
     moveToCartFromWishlist,
+    createOrder,
   };
 };
 

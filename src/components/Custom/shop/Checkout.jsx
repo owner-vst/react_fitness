@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-
+import useUserShop from "../../../hooks/user/useUserShop";
+import { useNavigate } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 function Checkout() {
   const [role, setRole] = useState(null);
   const location = useLocation();
-
+  const { cart, createOrder } = useUserShop();
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
   useEffect(() => {
     if (location.pathname) {
       const currentRole = location.pathname.split("/")[2];
@@ -31,9 +37,20 @@ function Checkout() {
     })();
   }, []);
   const handleSubmit = (e) => {
+    // e.preventDefault();
+    // console.log("redirecting");
+    // window.location.href = `/dashboard/${role}/payment`;
     e.preventDefault();
-    console.log("redirecting");
-    window.location.href = `/dashboard/${role}/payment`;
+    const form = e.target;
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated");
+      return;
+    }
+
+    const data = new FormData(form);
+    const formatted = Object.fromEntries(data.entries());
+    setFormData(formatted);
+    setShowModal(true);
   };
   return (
     <div>
@@ -48,35 +65,39 @@ function Checkout() {
                       <h4 className="d-flex justify-content-between align-items-center mb-3">
                         <span className="text-black">Your cart</span>
                         <span className="badge badge-primary badge-pill">
-                          3
+                          {cart.length}
                         </span>
                       </h4>
                       <ul className="list-group mb-3">
-                        <li className="list-group-item d-flex justify-content-between lh-condensed">
-                          <div>
-                            <h6 className="my-0">Dumbell</h6>
-                            <small className="text-muted">x2</small>
-                          </div>
-                          <span className="text-muted">$12</span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between lh-condensed">
-                          <div>
-                            <h6 className="my-0">Fitbit</h6>
-                            <small className="text-muted">x1</small>
-                          </div>
-                          <span className="text-muted">$8</span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between lh-condensed">
-                          <div>
-                            <h6 className="my-0">Gripper</h6>
-                            <small className="text-muted">x4</small>
-                          </div>
-                          <span className="text-muted">$5</span>
-                        </li>
-
+                        {cart.map((item) => (
+                          <li
+                            key={item.id}
+                            className="list-group-item d-flex justify-content-between lh-condensed"
+                          >
+                            <div>
+                              <h6 className="my-0">{item.product.name}</h6>
+                              <small className="text-muted">
+                                x{item.quantity}
+                              </small>
+                            </div>
+                            <span className="text-muted">
+                              ${(item.quantity * item.product.price).toFixed(2)}
+                            </span>
+                          </li>
+                        ))}
                         <li className="list-group-item d-flex justify-content-between">
-                          <span>total (USD)</span>
-                          <strong>$25</strong>
+                          <span>Total (USD)</span>
+                          <strong>
+                            $
+                            {cart
+                              .reduce(
+                                (total, item) =>
+                                  total +
+                                  item.quantity * Number(item.product.price),
+                                0
+                              )
+                              .toFixed(2)}
+                          </strong>
                         </li>
                       </ul>
                     </div>
@@ -308,6 +329,38 @@ function Checkout() {
           </div>
         </div>
       </div>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Payment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to place this order?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={async () => {
+              const orderPayload = cart.map((item) => ({
+                product_id: item.product_id,
+                quantity: item.quantity,
+              }));
+
+              try {
+                const order = await createOrder(orderPayload);
+                setShowModal(false);
+                navigate("/dashboard/user/payment", {
+                  state: { order, formData, cart },
+                });
+              } catch (err) {
+                setShowModal(false);
+              }
+            }}
+          >
+            Pay
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

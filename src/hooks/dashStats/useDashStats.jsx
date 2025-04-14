@@ -1,4 +1,5 @@
 import axios from "axios";
+import { set } from "date-fns";
 import { use, useEffect, useState } from "react";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -8,6 +9,7 @@ const useDashStats = () => {
   const [error, setError] = useState(null);
   const [userDashboardStats, setUserDashboardStats] = useState(null);
   const [vendorDashboardStats, setVendorDashboardStats] = useState(null);
+  const [suggestedProducts, setSuggestedProducts] = useState([]);
   const fetchAdminDashStats = async () => {
     setLoading(true);
     setError(null);
@@ -58,6 +60,19 @@ const useDashStats = () => {
       setLoading(false);
     }
   };
+
+  const suggestProducts = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/user/suggest-products`, {
+        withCredentials: true,
+      });
+      setSuggestedProducts(response.data.suggestedProducts);
+      console.log(suggestedProducts);
+    } catch (error) {
+      console.error("Error fetching suggested products:", error);
+      throw error;
+    }
+  };
   return {
     adminDashboardStats,
     userDashboardStats,
@@ -67,6 +82,8 @@ const useDashStats = () => {
     fetchAdminDashStats,
     fetchUserDashStats,
     fetchVendorDashStats,
+    suggestedProducts,
+    suggestProducts,
   };
 };
 

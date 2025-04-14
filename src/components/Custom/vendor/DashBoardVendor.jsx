@@ -7,11 +7,17 @@ import { Link } from "react-router-dom";
 import Nutrients from "../charts/Nutrients";
 
 function DashBoardVendor() {
-  const { vendorDashboardStats, loading, error, fetchVendorDashStats } =
-    useDashStats();
+  const {
+    vendorDashboardStats,
+    suggestedProducts,loading,
+    error,
+    fetchVendorDashStats,
+    suggestProducts,
+  } = useDashStats();
 
   useEffect(() => {
     fetchVendorDashStats();
+    suggestProducts();
   }, []);
 
   if (loading) {
@@ -322,7 +328,7 @@ function DashBoardVendor() {
               </div>
             </div>
           </div>
-         <Nutrients/>
+          <Nutrients />
           <div className="col-xl-9 col-xxl-8">
             <div className="card">
               <div className="card-header d-sm-flex d-block pb-0 border-0">
@@ -336,6 +342,67 @@ function DashBoardVendor() {
               <div className="card-body">
                 {/* <div id="chartTimeline" /> */}
                 <CalorieChart />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="card">
+            <div className="card-header d-sm-flex d-block pb-0 border-0">
+              <div className="me-auto pe-3">
+                <h4 className="text-black fs-20">Suggested Products</h4>
+              </div>
+            </div>
+            <div className="card-body">
+              <div className="row mt-3">
+                {Array.isArray(suggestedProducts) &&
+                suggestedProducts.length > 0 ? (
+                  suggestedProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="col-xl-3 col-xxl-3 col-md-4 col-sm-6"
+                    >
+                      <Link
+                        to={`/dashboard/vendor/productdetail/${product.id}`}
+                      >
+                        <div className="card border border-dark border-2 rounded shadow-sm">
+                          <div className="card-body product-grid-card">
+                            <div className="new-arrival-product">
+                              <div
+                                className="new-arrivals-img-contnent"
+                                style={{
+                                  position: "relative",
+                                  height: "200px",
+                                  overflow: "hidden",
+                                }}
+                              >
+                                <img
+                                  className="img-fluid rounded"
+                                  src={product.image_url}
+                                  alt={product.name}
+                                  style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              </div>
+                              <div className="new-arrival-content text-center mt-3">
+                                <h4>{product.name}</h4>
+                                <span className="price">${product.price}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  ))
+                ) : (
+                  <div className="col-12 text-center">
+                    <p>No suggestions found or still loading...</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
