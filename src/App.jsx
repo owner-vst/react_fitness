@@ -52,6 +52,8 @@ import VerifyEmail from "./components/Pages/Auth/VerifyEmail";
 import ResetPassword from "./components/Pages/Auth/ResetPassword";
 import TestingChat from "./components/Custom/Chat/TestingChat";
 import ChatComp from "./components/Custom/Chat/ChatComp";
+import AdminProductDetail from "./components/Custom/shop/AdminProductDetail";
+import VendorProductDetail from "./components/Custom/shop/VendorProductDetail";
 
 function App() {
   return (
@@ -101,7 +103,10 @@ function App() {
               />
 
               <Route path="shop" element={<AdminShop />} />
-              <Route path="productdetail" element={<ProductDetail />} />
+              <Route
+                path="productdetail/:id"
+                element={<AdminProductDetail />}
+              />
               <Route path="orders" element={<AdminOrders />} />
               {/* <Route path="manageorders" element={<ManageOrders />} /> */}
               <Route path="manageproducts" element={<ManageProducts />} />
@@ -124,7 +129,10 @@ function App() {
               <Route path="workoutplan" element={<WorkoutPlan />} />
               <Route path="dietplan" element={<DietPlan />} />
               <Route path="shop" element={<AdminShop />} />
-              <Route path="productdetail" element={<ProductDetail />} />
+              <Route
+                path="productdetail/:id"
+                element={<VendorProductDetail />}
+              />
               <Route path="orders" element={<AdminOrders />} />
               {/* <Route path="checkout" element={<Checkout />} /> */}
               {/* <Route path="manageorders" element={<ManageOrders />} /> */}

@@ -95,7 +95,7 @@ function AdminOrders() {
     } else {
       await createOrderItem(requiredFields);
     }
-await fetchOrders();
+    await fetchOrders();
     setFormData({
       id: null,
       name: "",
@@ -137,13 +137,13 @@ await fetchOrders();
     deleteOrder(id);
   };
 
-  const handleOrderStatusChange = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    if (!form.checkValidity()) {
-      form.classList.add("was-validated");
-      return;
-    }
+  const handleOrderStatusChange = async () => {
+    // e.preventDefault();
+    // const form = e.target;
+    // if (!form.checkValidity()) {
+    //   form.classList.add("was-validated");
+    //   return;
+    // }
 
     const requiredFields = {
       status: formData.status,
@@ -156,7 +156,7 @@ await fetchOrders();
       status: "",
     });
     setIsEditMode(false);
-    form.classList.remove("was-validated");
+    // form.classList.remove("was-validated");
   };
 
   const handleInfoClick = (orderId) => {
@@ -422,12 +422,12 @@ await fetchOrders();
                                   <option value="DELIVERED">Delivered</option>
                                   <option value="CANCELLED">Cancelled</option>
                                 </select>
-                                <button
+                                {/* <button
                                   type="submit"
                                   className="btn btn-primary mt-2"
                                 >
                                   Save
-                                </button>
+                                </button> */}
                               </form>
                             ) : (
                               <span
@@ -510,6 +510,14 @@ await fetchOrders();
                                   Info
                                 </a>
                               </div>
+                              {isEditMode && formData.id === order.id && (
+                                <button
+                                  className="btn btn-primary btn-sm ms-2"
+                                  onClick={handleOrderStatusChange}
+                                >
+                                  Save
+                                </button>
+                              )}
                             </div>
                           </td>
                         </tr>
