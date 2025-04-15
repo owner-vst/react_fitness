@@ -154,7 +154,7 @@ function ProductGrid() {
                 >
                   Prev
                 </button>
-                <span className="align-middle">
+                <span className="align-middle py-4">
                   Page {currentPage} of {totalPages}
                 </span>
                 <button

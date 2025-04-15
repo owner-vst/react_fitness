@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
+import useNotifications from "../../../hooks/user/useNotifications";
 
 function DashHeader() {
+  const { notifications, unreadCount, markAllAsRead } = useNotifications();
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -12,7 +14,8 @@ function DashHeader() {
   const { setAuth } = useAuth();
   const { auth } = useAuth();
   // const currUser = JSON.parse(auth.user);
-  const currUser = typeof auth.user === "string" ? JSON.parse(auth.user) : auth.user;
+  const currUser =
+    typeof auth.user === "string" ? JSON.parse(auth.user) : auth.user;
   const Logout = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/auth/logout`, {
@@ -71,6 +74,7 @@ function DashHeader() {
                   href="#"
                   role="button"
                   data-bs-toggle="dropdown"
+                  onClick={markAllAsRead}
                 >
                   <svg
                     width={28}
@@ -84,7 +88,11 @@ function DashHeader() {
                       fill="#555555"
                     />
                   </svg>
-                  <span className="badge light text-white bg-primary">12</span>
+                  {unreadCount > 0 && (
+                    <span className="badge light text-white bg-primary">
+                      {unreadCount}
+                    </span>
+                  )}
                 </a>
                 <div className="dropdown-menu dropdown-menu-end">
                   <div
@@ -92,94 +100,6 @@ function DashHeader() {
                     className="widget-media dz-scroll p-3 height380"
                   >
                     {/* <ul className="timeline">
-                      <li>
-                        <div className="timeline-panel">
-                          <div className="media me-2">
-                            <img
-                              alt="image"
-                              width={50}
-                              src="/assets/images/avatar/1.jpg"
-                            />
-                          </div>
-                          <div className="media-body">
-                            <h6 className="mb-1">Dr sultads Send you Photo</h6>
-                            <small className="d-block">
-                              29 July 2020 - 02:26 PM
-                            </small>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="timeline-panel">
-                          <div className="media me-2 media-info">KG</div>
-                          <div className="media-body">
-                            <h6 className="mb-1">
-                              Resport created successfully
-                            </h6>
-                            <small className="d-block">
-                              29 July 2020 - 02:26 PM
-                            </small>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="timeline-panel">
-                          <div className="media me-2 media-success">
-                            <i className="fa fa-home" />
-                          </div>
-                          <div className="media-body">
-                            <h6 className="mb-1">Reminder : Treatment Time!</h6>
-                            <small className="d-block">
-                              29 July 2020 - 02:26 PM
-                            </small>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="timeline-panel">
-                          <div className="media me-2">
-                            <img
-                              alt="image"
-                              width={50}
-                              src="/assets/images/avatar/1.jpg"
-                            />
-                          </div>
-                          <div className="media-body">
-                            <h6 className="mb-1">Dr sultads Send you Photo</h6>
-                            <small className="d-block">
-                              29 July 2020 - 02:26 PM
-                            </small>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="timeline-panel">
-                          <div className="media me-2 media-danger">KG</div>
-                          <div className="media-body">
-                            <h6 className="mb-1">
-                              Resport created successfully
-                            </h6>
-                            <small className="d-block">
-                              29 July 2020 - 02:26 PM
-                            </small>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="timeline-panel">
-                          <div className="media me-2 media-primary">
-                            <i className="fa fa-home" />
-                          </div>
-                          <div className="media-body">
-                            <h6 className="mb-1">Reminder : Treatment Time!</h6>
-                            <small className="d-block">
-                              29 July 2020 - 02:26 PM
-                            </small>
-                          </div>
-                        </div>
-                      </li>
-                    </ul> */}
-                    <ul className="timeline">
                       <li>
                         <div className="timeline-panel">
                           <div className="media me-2">
@@ -275,6 +195,32 @@ function DashHeader() {
                           </div>
                         </div>
                       </li>
+                    </ul> */}
+                    <ul className="timeline">
+                      {notifications.length ? (
+                        notifications.map((notif) => (
+                          <li key={notif.id}>
+                            <div
+                              className={`timeline-panel ${
+                                !notif.read ? "bg-light" : ""
+                              }`}
+                            >
+                              <div className="media me-2 media-primary">
+                                <i className="fa fa-bell" />
+                              </div>
+                              <div className="media-body">
+                                <h6 className="mb-1">{notif.message}</h6>
+                              </div>
+                            </div>
+                          </li>
+                        ))
+                      ) : (
+                        <li>
+                          <div className="timeline-panel text-center">
+                            <small>No new notifications</small>
+                          </div>
+                        </li>
+                      )}
                     </ul>
                   </div>
                 </div>
