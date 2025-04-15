@@ -20,6 +20,7 @@ const useWorkoutPlan = () => {
 
       setWorkoutPlanItems(response.data.workoutPlans);
       setLoading(false);
+      return response.data.workoutPlans;
     } catch (err) {
       setError(err);
       setLoading(false);
@@ -76,6 +77,7 @@ const useWorkoutPlan = () => {
     }
   };
   const suggestWorkplan = async () => {
+    console.log("in suggest workout plan");
     try {
       toast.info("Suggesting Workout Plan...");
       const response = await axios.get(

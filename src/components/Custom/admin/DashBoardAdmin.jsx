@@ -6,6 +6,8 @@ import RadialChart from "../charts/RadialChart";
 import Nutrients from "../charts/Nutrients";
 import useDashStats from "../../../hooks/dashStats/useDashStats";
 import { useEffect } from "react";
+import useDietPlan from "../../../hooks/dieplan/useDietPlan";
+import useWorkoutPlan from "../../../hooks/workoutplan/useWorkoutPlan";
 
 function DashBoardAdmin() {
   const {
@@ -16,10 +18,51 @@ function DashBoardAdmin() {
     fetchAdminDashStats,
     suggestProducts,
   } = useDashStats();
+  const { dietPlanItems, fetchDietPlanItems, suggestDietPlan } = useDietPlan();
+  const { workoutPlanItems, fetchWorkoutPlanItems, suggestWorkplan } =
+    useWorkoutPlan();
+  const today = new Date();
 
+  const formattedDate =
+    today.getFullYear() +
+    "-" +
+    ("0" + (today.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + today.getDate()).slice(-2);
+
+  // useEffect(() => {
+  //   fetchAdminDashStats();
+  //   suggestProducts();
+  // }, []);
   useEffect(() => {
-    fetchAdminDashStats();
-    suggestProducts();
+    const initDashboard = async () => {
+      try {
+        fetchAdminDashStats();
+        suggestProducts();
+
+        const dietData = await fetchDietPlanItems(formattedDate);
+        const workoutData = await fetchWorkoutPlanItems(formattedDate);
+
+        const isDietEmpty =
+          !dietData || dietData.every((plan) => plan.items.length === 0);
+        const isWorkoutEmpty =
+          !workoutData || workoutData.every((plan) => plan.items.length === 0);
+
+        if (isDietEmpty) {
+          await suggestDietPlan();
+          await fetchDietPlanItems(formattedDate);
+        }
+
+        if (isWorkoutEmpty) {
+          await suggestWorkplan();
+          await fetchWorkoutPlanItems(formattedDate);
+        }
+      } catch (err) {
+        console.error("Dashboard initialization failed:", err);
+      }
+    };
+
+    initDashboard();
   }, []);
 
   if (loading) {

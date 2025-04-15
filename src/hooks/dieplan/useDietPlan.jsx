@@ -16,8 +16,8 @@ const useDietPlan = () => {
         params: { date },
       });
       setDietPlanItems(response.data.dietPlan);
-
       setLoading(false);
+      return response.data.dietPlan;
     } catch (err) {
       setError(err);
       setLoading(false);
@@ -155,21 +155,6 @@ const useDietPlan = () => {
       setError(err);
     }
   };
-  // useEffect(() => {
-  //   const today = new Date();
-  //   console.log(today);
-
-  //   const formattedDate =
-  //     today.getFullYear() +
-  //     "-" +
-  //     ("0" + (today.getMonth() + 1)).slice(-2) +
-  //     "-" +
-  //     ("0" + today.getDate()).slice(-2);
-
-  //   console.log(formattedDate);
-
-  //   fetchDietPlanItems(formattedDate);
-  // }, []);
 
   return {
     dietPlanItems,

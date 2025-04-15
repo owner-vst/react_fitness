@@ -3,9 +3,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
 import useNotifications from "../../../hooks/user/useNotifications";
+import useProfilePic from "../../../hooks/useProfilePic";
 
 function DashHeader() {
   const { notifications, unreadCount, markAllAsRead } = useNotifications();
+  
+const { profilePicUrl, loading } = useProfilePic();
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -233,7 +236,7 @@ function DashHeader() {
                   role="button"
                   data-bs-toggle="dropdown"
                 >
-                  <img src={currUser.profilePic} alt={currUser.first_name} />
+                  <img src={profilePicUrl || "/assets/images/default-avatar.png"} alt={currUser.first_name} />
                 </a>
                 <div className="dropdown-menu dropdown-menu-end">
                   <Link

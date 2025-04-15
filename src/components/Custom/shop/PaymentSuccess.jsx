@@ -47,10 +47,7 @@ function PaymentSuccess() {
                       <strong>Date:</strong>{" "}
                       {new Date(order.created_at).toLocaleDateString()}
                     </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                      <strong>Customer:</strong> {formData.firstName}{" "}
-                      {formData.lastName}
-                    </li>
+
                     <li className="list-group-item d-flex justify-content-between">
                       <strong>Payment Method:</strong> VISA
                     </li>

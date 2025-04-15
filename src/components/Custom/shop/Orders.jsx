@@ -85,6 +85,9 @@ function Orders() {
               </div>
               <div className="card-body">
                 <div className="table-responsive">
+                {!orders ||orders.length === 0 ? (
+  <div className="text-center my-4">You have no orders yet.</div>
+) : (
                   <table className="table table-responsive-md ">
                     <thead>
                       <tr>
@@ -129,6 +132,7 @@ function Orders() {
                       ))}
                     </tbody>
                   </table>
+                  )}
                 </div>
               </div>
             </div>

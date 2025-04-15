@@ -5,6 +5,8 @@ import DashboardAdminCharts from "../charts/DashBardAdminCharts";
 import Nutrients from "../charts/Nutrients";
 import RadialChart from "../charts/RadialChart";
 import { Link } from "react-router-dom";
+import useDietPlan from "../../../hooks/dieplan/useDietPlan";
+import useWorkoutPlan from "../../../hooks/workoutplan/useWorkoutPlan";
 
 function DashBoardUser() {
   const {
@@ -15,11 +17,49 @@ function DashBoardUser() {
     fetchUserDashStats,
     suggestProducts,
   } = useDashStats();
+  const { dietPlanItems, fetchDietPlanItems, suggestDietPlan } = useDietPlan();
+  const { workoutPlanItems, fetchWorkoutPlanItems, suggestWorkplan } =
+    useWorkoutPlan();
+  const today = new Date();
+
+  const formattedDate =
+    today.getFullYear() +
+    "-" +
+    ("0" + (today.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + today.getDate()).slice(-2);
 
   useEffect(() => {
-    fetchUserDashStats();
-    suggestProducts();
+    const initDashboard = async () => {
+      try {
+        fetchUserDashStats();
+        suggestProducts();
+
+        const dietData = await fetchDietPlanItems(formattedDate);
+        const workoutData = await fetchWorkoutPlanItems(formattedDate);
+
+        const isDietEmpty =
+          !dietData || dietData.every((plan) => plan.items.length === 0);
+        const isWorkoutEmpty =
+          !workoutData || workoutData.every((plan) => plan.items.length === 0);
+
+        if (isDietEmpty) {
+          await suggestDietPlan();
+          await fetchDietPlanItems(formattedDate);
+        }
+
+        if (isWorkoutEmpty) {
+          await suggestWorkplan();
+          await fetchWorkoutPlanItems(formattedDate);
+        }
+      } catch (err) {
+        console.error("Dashboard initialization failed:", err);
+      }
+    };
+
+    initDashboard();
   }, []);
+
   console.log(suggestedProducts);
   if (loading) {
     return <div>Loading...</div>;
@@ -64,9 +104,10 @@ function DashBoardUser() {
                   <span className="circle bg-success" />
                 </div>
                 <h2 className="fs-24 text-black font-w600 mb-0">
-                  {userDashboardStats.weeklyProgress._sum.calories_burned.toFixed(
-                    2
-                  )}
+                  {(
+                    userDashboardStats?.weeklyProgress?._sum?.calories_burned ??
+                    0
+                  ).toFixed(2)}
                 </h2>
                 <span className="fs-14">Weekly Calories Burned</span>
               </div>
@@ -106,9 +147,10 @@ function DashBoardUser() {
                   <span className="circle bg-green" />
                 </div>
                 <h2 className="fs-24 text-black font-w600 mb-0">
-                  {userDashboardStats.totalCaloriesBurnedUser._sum.calories_burned.toFixed(
-                    2
-                  )}
+                  {(
+                    userDashboardStats?.totalCaloriesBurnedUser?._sum
+                      ?.calories_burned ?? 0
+                  ).toFixed(2)}
                 </h2>
                 <span className="fs-14">Total Calories Burn</span>
               </div>

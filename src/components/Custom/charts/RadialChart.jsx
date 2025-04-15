@@ -26,10 +26,9 @@ const RadialChart = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  if (!WorkoutStats) {
+  if (!WorkoutStats || WorkoutStats.length === 0) {
     return <div>No data available</div>;
   }
-
   // Calculate total calories burned
   const totalCaloriesBurned = WorkoutStats.reduce((total, stat) => {
     const activity = Object.keys(stat)[0];
