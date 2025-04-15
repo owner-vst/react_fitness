@@ -502,7 +502,7 @@ function ManageFoodCatalogue() {
       <div className="container-fluid">
         <div className="card card-bx m-b30">
           <div className="card-header">
-            <h6 className="title">Manage Food Catalogue</h6>
+            <h6 className="title">Manage Food Items</h6>
           </div>
           <div className="card-body">
             <form
@@ -527,7 +527,7 @@ function ManageFoodCatalogue() {
                   </div>
                 </div>
                 <div className="col-md-6 mb-3">
-                  <label className="form-label">Calories</label>
+                  <label className="form-label">Calories (kcal)</label>
                   <input
                     type="number"
                     className="form-control"
@@ -540,7 +540,7 @@ function ManageFoodCatalogue() {
                   <div className="invalid-feedback">Please enter Calories.</div>
                 </div>
                 <div className="col-md-6 mb-3">
-                  <label className="form-label">Carbs</label>
+                  <label className="form-label">Carbs (gm)</label>
                   <input
                     type="number"
                     className="form-control"
@@ -553,7 +553,7 @@ function ManageFoodCatalogue() {
                   <div className="invalid-feedback">Please enter Carbs.</div>
                 </div>
                 <div className="col-md-6 mb-3">
-                  <label className="form-label">Protein</label>
+                  <label className="form-label">Protein (gm)</label>
                   <input
                     type="number"
                     className="form-control"
@@ -566,7 +566,7 @@ function ManageFoodCatalogue() {
                   <div className="invalid-feedback">Please enter Protein.</div>
                 </div>
                 <div className="col-md-6 mb-3">
-                  <label className="form-label">Fats</label>
+                  <label className="form-label">Fats (gm)</label>
                   <input
                     type="number"
                     className="form-control"
@@ -624,7 +624,7 @@ function ManageFoodCatalogue() {
                   Reset
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  {isEditMode ? "Edit" : "Add"}
+                  {isEditMode ? "Update" : "Add"}
                 </button>
               </div>
             </form>
@@ -635,7 +635,7 @@ function ManageFoodCatalogue() {
           <div className="col-lg-12">
             <div className="card">
               <div className="card-header">
-                <h4 className="card-title">Food Catalogue Items</h4>
+                <h4 className="card-title">Food Items</h4>
               </div>
               <div className="card-body">
                 <div className="table-responsive">

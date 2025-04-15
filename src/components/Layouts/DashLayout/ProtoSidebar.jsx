@@ -54,7 +54,7 @@ function ProtoSidebar({ isSidebarOpen }) {
         icon: "fas fa-pizza-slice",
       },
       {
-        label: "Manage Catalogue",
+        label: "Manage Food Item",
         link: "/dashboard/admin/managefoodcatalogue",
         icon: "fas fa-th-list",
       },

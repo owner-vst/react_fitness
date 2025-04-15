@@ -107,7 +107,7 @@ function ProductGrid() {
                       </div>
 
                       {/* ⭐️ Action buttons (Cart + Wishlist) */}
-                      <div className="card-footer d-flex justify-content-between">
+                      {/* <div className="card-footer d-flex justify-content-between">
                         <button
                           className="btn btn-sm btn-outline-primary"
                           onClick={() => addToCart(product.id, 1)}
@@ -121,6 +121,25 @@ function ProductGrid() {
                           title="Add to Wishlist"
                         >
                           <i className="fas fa-heart"></i>
+                        </button>
+                      </div> */}
+                      <div className="card-footer d-flex flex-column text-center gap-2">
+                        <button
+                          className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center gap-2"
+                          onClick={() => addToCart(product.id, 1)}
+                          title="Add to Cart"
+                        >
+                          <i className="fas fa-shopping-cart"></i>
+                          <span>Add to Cart</span>
+                        </button>
+
+                        <button
+                          className="btn btn-sm btn-outline-secondary d-flex align-items-center justify-content-center gap-2"
+                          onClick={() => addToWishlist(product.id)}
+                          title="Add to Wishlist"
+                        >
+                          <i className="fas fa-heart"></i>
+                          <span>Add to Wishlist</span>
                         </button>
                       </div>
                     </div>

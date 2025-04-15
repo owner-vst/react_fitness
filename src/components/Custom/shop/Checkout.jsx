@@ -116,6 +116,7 @@ function Checkout() {
                               className="form-control"
                               id="firstName"
                               placeholder="First Name"
+                              name="first_name"
                               required
                             />
                             <div className="invalid-feedback">
@@ -129,6 +130,7 @@ function Checkout() {
                               className="form-control"
                               id="lastName"
                               placeholder="Last Name"
+                              name="last_name"
                               required
                             />
                             <div className="invalid-feedback">
@@ -143,6 +145,7 @@ function Checkout() {
                             type="email"
                             className="form-control"
                             id="email"
+                            name="email"
                             required
                             placeholder="you@example.com"
                           />
@@ -157,6 +160,7 @@ function Checkout() {
                             type="text"
                             className="form-control"
                             id="address"
+                            name="address"
                             placeholder="1234 Main St"
                             required
                           />
@@ -165,58 +169,16 @@ function Checkout() {
                           </div>
                         </div>
                         <div className="mb-3">
-                          <label htmlFor="address2">
-                            Address 2{" "}
-                            <span className="text-muted">(Optional)</span>
-                          </label>
+                          <label htmlFor="address2">Phone </label>
                           <input
                             type="text"
                             className="form-control"
                             id="address2"
-                            placeholder="Apartment or suite"
+                            name="phone"
+                            placeholder="Phone"
+                            required
+                            minLength={10}
                           />
-                        </div>
-                        <div className="row">
-                          <div className="col-md-5 mb-3">
-                            <label htmlFor="country">Country</label>
-                            <input
-                              type="text"
-                              required
-                              className="form-control"
-                              id="address2"
-                              placeholder="Country"
-                            />
-
-                            <div className="invalid-feedback">
-                              Please select a valid country.
-                            </div>
-                          </div>
-                          <div className="col-md-4 mb-3">
-                            <label htmlFor="state">State</label>
-                            <input
-                              type="text"
-                              required
-                              className="form-control"
-                              id="address2"
-                              placeholder="State"
-                            />
-                            <div className="invalid-feedback">
-                              Please provide a valid state.
-                            </div>
-                          </div>
-                          <div className="col-md-3 mb-3">
-                            <label htmlFor="zip">Zip</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="zip"
-                              placeholder
-                              required
-                            />
-                            <div className="invalid-feedback">
-                              Zip code required.
-                            </div>
-                          </div>
                         </div>
 
                         <hr className="mb-4" />
@@ -338,7 +300,7 @@ function Checkout() {
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Cancel
           </Button>
-          <Button
+          {/* <Button
             variant="primary"
             onClick={async () => {
               const orderPayload = cart.map((item) => ({
@@ -347,6 +309,31 @@ function Checkout() {
               }));
 
               try {
+                const order = await createOrder(orderPayload);
+                setShowModal(false);
+                navigate("/dashboard/user/payment", {
+                  state: { order, formData, cart },
+                });
+              } catch (err) {
+                setShowModal(false);
+              }
+            }}
+          >
+            Pay
+          </Button> */}
+          <Button
+            variant="primary"
+            onClick={async () => {
+              const orderPayload = {
+                ...formData, // includes first_name, last_name, email, phone, address
+                items: cart.map((item) => ({
+                  product_id: item.product_id,
+                  quantity: item.quantity,
+                })),
+              };
+
+              try {
+                console.log(orderPayload);
                 const order = await createOrder(orderPayload);
                 setShowModal(false);
                 navigate("/dashboard/user/payment", {

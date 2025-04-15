@@ -714,7 +714,7 @@ function ManageDietPlan() {
                     </button>
                     <> </>
                     <button type="submit" className="btn btn-primary">
-                      {isEditMode ? "Edit" : "Add"}
+                      {isEditMode ? "Update" : "Add"}
                     </button>
                   </div>
                 </form>

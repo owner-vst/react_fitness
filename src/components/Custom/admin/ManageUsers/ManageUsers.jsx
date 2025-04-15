@@ -15,6 +15,13 @@ function ManageUsers() {
     role: "",
     dob: "",
     status: "",
+    height: "",
+    weight: "",
+    blood_group: "",
+    activity_type: "",
+    goal: "",
+    address: "",
+    phone: "",
   });
 
   const [profilePicFile, setProfilePicFile] = useState(null);
@@ -24,26 +31,28 @@ function ManageUsers() {
   const genderOptions = ["Male", "Female"];
   const roleOptions = ["ADMIN", "USER", "VENDOR"];
   const statusOptions = ["ACTIVE", "INACTIVE"];
+  const bloodGroupDisplayMap = {
+    A_POSITIVE: "A+",
+    A_NEGATIVE: "A-",
+    B_POSITIVE: "B+",
+    B_NEGATIVE: "B-",
+    O_POSITIVE: "O+",
+    O_NEGATIVE: "O-",
+    AB_POSITIVE: "AB+",
+    AB_NEGATIVE: "AB-",
+  };
 
-  // useEffect(() => {
-  //   (function () {
-  //     "use strict";
-  //     const forms = document.querySelectorAll(".needs-validation");
-  //     Array.prototype.slice.call(forms).forEach(function (form) {
-  //       form.addEventListener(
-  //         "submit",
-  //         function (event) {
-  //           if (!form.checkValidity()) {
-  //             event.preventDefault();
-  //             event.stopPropagation();
-  //           }
-  //           form.classList.add("was-validated");
-  //         },
-  //         false
-  //       );
-  //     });
-  //   })();
-  // }, []);
+  const goalDisplayMap = {
+    GAIN: "Gain Weight",
+    LOSE: "Lose Weight",
+    MAINTAIN: "Maintain Weight",
+  };
+  const activityTypeDisplayMap = {
+    MODERATE: "Moderate",
+    LAZY: "Inactive",
+    ACTIVE: "Active",
+    SPORTS_PERSON: "Athlete",
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -106,6 +115,13 @@ function ManageUsers() {
       role_name: formData.role,
       dob: formData.dob,
       status: formData.status,
+      height: formData.height,
+      weight: formData.weight,
+      blood_group: formData.blood_group,
+      activity_type: formData.activity_type,
+      goal: formData.goal,
+      address: formData.address,
+      phone: formData.phone,
     };
 
     if (isEditMode) {
@@ -125,6 +141,13 @@ function ManageUsers() {
       role: "",
       dob: "",
       status: "",
+      height: "",
+      weight: "",
+      blood_group: "",
+      activity_type: "",
+      goal: "",
+      address: "",
+      phone: "",
     });
     setProfilePicFile(null);
     if (fileInputRef.current) {
@@ -147,6 +170,13 @@ function ManageUsers() {
       role: "",
       dob: "",
       status: "",
+      height: "",
+      weight: "",
+      blood_group: "",
+      activity_type: "",
+      goal: "",
+      address: "",
+      phone: "",
     });
     setProfilePicFile(null);
     if (fileInputRef.current) {
@@ -156,6 +186,7 @@ function ManageUsers() {
     const formElement = document.querySelector(".needs-validation");
     formElement.classList.remove("was-validated");
   };
+
   const handleEdit = (user) => {
     setFormData({
       id: user.id,
@@ -167,6 +198,13 @@ function ManageUsers() {
       role: user.role,
       dob: user.dob,
       status: user.status,
+      height: user.height,
+      weight: user.weight,
+      blood_group: user.blood_group,
+      activity_type: user.activity_type,
+      goal: user.goal,
+      address: user.address,
+      phone: user.phone,
     });
     setIsEditMode(true);
   };
@@ -190,6 +228,37 @@ function ManageUsers() {
                   noValidate
                   onSubmit={handleSubmit}
                 >
+                  <div className="col-md-6 mb-3 d-flex align-items-center gap-3">
+                    <div>
+                      <img
+                        src={
+                          profilePicFile
+                            ? URL.createObjectURL(profilePicFile)
+                            : formData.profilePic ||
+                              "/assets/images/profile/download.png"
+                        }
+                        alt="Preview"
+                        className="rounded-circle border border-dark shadow-sm"
+                        width={70}
+                        height={70}
+                      />
+                    </div>
+                    <div>
+                      <label className="form-label">Profile Picture</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        required={!isEditMode}
+                        onChange={handleImageChange}
+                        ref={fileInputRef}
+                        accept="image/*"
+                      />
+                      <div className="invalid-feedback">
+                        Select Profile Picture.
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="row">
                     <div className="col-md-6 mb-3">
                       <label className="form-label">First Name</label>
@@ -236,7 +305,7 @@ function ManageUsers() {
                         Please enter Email.
                       </div>
                     </div>
-                    <div className="col-md-6 mb-3">
+                    {/* <div className="col-md-6 mb-3">
                       <label className="form-label">Profile Picture</label>
                       <input
                         type="file"
@@ -249,7 +318,7 @@ function ManageUsers() {
                       <div className="invalid-feedback">
                         Select Profile Picture.
                       </div>
-                    </div>
+                    </div> */}
                     <div className="col-md-6 mb-3">
                       <label className="form-label">Gender</label>
                       <select
@@ -316,6 +385,137 @@ function ManageUsers() {
                         Please select Status.
                       </div>
                     </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Height</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        className="form-control"
+                        placeholder="Enter Height"
+                        required
+                        name="height"
+                        value={formData.height}
+                        onChange={handleChange}
+                      />
+                      <div className="invalid-feedback">
+                        Please enter Height.
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Weight</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        className="form-control"
+                        placeholder="Enter Weight"
+                        required
+                        name="weight"
+                        value={formData.weight}
+                        onChange={handleChange}
+                      />
+                      <div className="invalid-feedback">
+                        Please enter Weight.
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Blood Group</label>
+                      <select
+                        name="blood_group"
+                        className="form-control"
+                        required
+                        value={formData.blood_group}
+                        onChange={handleChange}
+                      >
+                        <option value="" disabled>
+                          Choose Blood Group
+                        </option>
+                        {Object.keys(bloodGroupDisplayMap).map((bloodGroup) => (
+                          <option key={bloodGroup} value={bloodGroup}>
+                            {bloodGroupDisplayMap[bloodGroup]}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="invalid-feedback">
+                        Please select Blood Group.
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Activity Type</label>
+                      <select
+                        name="activity_type"
+                        className="form-control"
+                        required
+                        value={formData.activity_type}
+                        onChange={handleChange}
+                      >
+                        <option value="" disabled>
+                          Choose Activity Type
+                        </option>
+                        {Object.keys(activityTypeDisplayMap).map(
+                          (activityType) => (
+                            <option key={activityType} value={activityType}>
+                              {activityTypeDisplayMap[activityType]}
+                            </option>
+                          )
+                        )}
+                      </select>
+                      <div className="invalid-feedback">
+                        Please select Activity Type.
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Goal</label>
+                      <select
+                        name="goal"
+                        className="form-control"
+                        required
+                        value={formData.goal}
+                        onChange={handleChange}
+                      >
+                        <option value="" disabled>
+                          Choose Goal
+                        </option>
+                        {Object.keys(goalDisplayMap).map((goal) => (
+                          <option key={goal} value={goal}>
+                            {goalDisplayMap[goal]}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="invalid-feedback">
+                        Please select Goal.
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Address</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter Address"
+                        required
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                      />
+                      <div className="invalid-feedback">
+                        Please enter Address.
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Phone</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter Phone"
+                        required
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        minLength={10}
+                      />
+                      <div className="invalid-feedback">
+                        Please enter Phone.
+                      </div>
+                    </div>
                     <div className="col-md-6">
                       <label htmlFor="dateOfBirth">Date of Birth</label>
                       <input
@@ -332,7 +532,7 @@ function ManageUsers() {
 
                   <div className="d-flex justify-content-end gap-2">
                     <button type="submit" className="btn btn-primary">
-                      {isEditMode ? "Edit" : "Add"}
+                      {isEditMode ? "Update" : "Add"}
                     </button>
                     <button
                       type="button"
@@ -367,6 +567,13 @@ function ManageUsers() {
                           <th>Role</th>
                           <th>DOB</th>
                           <th>Status</th>
+                          <th>Height</th>
+                          <th>Weight</th>
+                          <th>Blood Group</th>
+                          <th>Activity Type</th>
+                          <th>Goal</th>
+                          <th>Address</th>
+                          <th>Phone</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -396,6 +603,15 @@ function ManageUsers() {
                             <td>{user.role}</td>
                             <td>{user.dob}</td>
                             <td>{user.status}</td>
+                            <td>{user.height}</td>
+                            <td>{user.weight}</td>
+                            <td>{bloodGroupDisplayMap[user.blood_group]}</td>
+                            <td>
+                              {activityTypeDisplayMap[user.activity_type]}
+                            </td>
+                            <td>{goalDisplayMap[user.goal]}</td>
+                            <td>{user.address}</td>
+                            <td>{user.phone}</td>
                             <td>
                               <div className="dropdown">
                                 <button
@@ -445,14 +661,12 @@ function ManageUsers() {
                                 <div className="dropdown-menu">
                                   <a
                                     className="dropdown-item"
-                                    href="#"
                                     onClick={() => handleEdit(user)}
                                   >
                                     Edit
                                   </a>
                                   <a
                                     className="dropdown-item"
-                                    href="#"
                                     onClick={() => handleDelete(user.id)}
                                   >
                                     Delete

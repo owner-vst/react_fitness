@@ -145,6 +145,20 @@ const useManageOrders = () => {
       toast.error("Error fetching orders. Please try again.");
     }
   };
+  const adminUpdateOrderDetails = async (formData) => {
+    try {
+      const response = await axios.put(
+        `${apiUrl}/api/admin/update-order/${formData.order_id}`,
+        formData,
+        { withCredentials: true }
+      );
+      toast.success("Order details updated successfully!");
+      fetchOrders(); // Refresh orders list
+    } catch (error) {
+      console.error("Error updating full order details:", error);
+      toast.error("Failed to update order details.");
+    }
+  };
 
   return {
     orders,
@@ -152,6 +166,7 @@ const useManageOrders = () => {
     products,
     fetchOrders,
     fetchOrderItems,
+    adminUpdateOrderDetails,
     createOrderItem,
     updateOrderItem,
     deleteOrderItem,

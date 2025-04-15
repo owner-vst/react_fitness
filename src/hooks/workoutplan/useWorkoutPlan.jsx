@@ -79,7 +79,7 @@ const useWorkoutPlan = () => {
   const suggestWorkplan = async () => {
     console.log("in suggest workout plan");
     try {
-      toast.info("Suggesting Workout Plan...");
+     
       const response = await axios.get(
         `${apiUrl}/api/common/suggest-workout-plan`,
 
@@ -88,7 +88,7 @@ const useWorkoutPlan = () => {
         }
       );
       if (response.data.success) {
-        toast.success("Workout Plan created successfully");
+        // toast.success("Workout Plan created successfully");
       }
       return response.data;
     } catch (err) {

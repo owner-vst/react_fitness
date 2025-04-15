@@ -139,7 +139,7 @@ const useDietPlan = () => {
 
   const suggestDietPlan = async () => {
     try {
-      toast.info("Suggesting Diet Plan...");
+     
       const response = await axios.get(
         `${apiUrl}/api/common/suggest-diet-plan`,
 
@@ -148,7 +148,7 @@ const useDietPlan = () => {
         }
       );
       if (response.data.success) {
-        toast.success("Diet Plan created successfully");
+        // toast.success("Diet Plan created successfully");
       }
       return response.data;
     } catch (err) {

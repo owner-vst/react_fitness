@@ -308,7 +308,7 @@ function UpdateProfile(props) {
           <div className="invalid-feedback">Please enter Height in cm.</div>
         </div>{" "}
         <div className=" col-md-6 mb-3 ">
-          <label className="form-label">Weight </label>
+          <label className="form-label">Weight (kgs)</label>
           <input
             type="number"
             name="weight"

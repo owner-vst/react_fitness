@@ -516,12 +516,13 @@ function ManageProducts() {
   const itemsPerPage = 10;
 
   const categoryOptions = [
+    "Accessories",
     "Electronics",
+    "Equipment",
+    "Footwear",
     "Gadgets",
-    "Home",
-    "Decor",
-    "Books",
-    "Education",
+    "Indoor",
+    "Supplements",
   ];
 
   const statusOptions = ["ACTIVE", "INACTIVE"];
@@ -847,7 +848,7 @@ function ManageProducts() {
 
                   <div className="d-flex justify-content-end gap-2">
                     <button type="submit" className="btn btn-primary">
-                      {isEditMode ? "Edit" : "Add"}
+                      {isEditMode ? "Update" : "Add"}
                     </button>
                     <button
                       type="button"

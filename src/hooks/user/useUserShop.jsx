@@ -107,11 +107,12 @@ const useUserShop = () => {
       toast.error("Failed to move item to cart.");
     }
   };
-  const createOrder = async (orderItems) => {
+  const createOrder = async (orderData) => {
     try {
+      console.log("inside create order");
       const response = await axios.post(
         `${apiUrl}/api/user/create-order`,
-        { items: orderItems },
+        orderData,
         { withCredentials: true }
       );
 

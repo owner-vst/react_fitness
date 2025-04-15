@@ -343,9 +343,10 @@ function DashBoardAdmin() {
                   <span className="circle bg-success" />
                 </div>
                 <h2 className="fs-24 text-black font-w600 mb-0">
-                  {adminDashboardStats.weeklyProgress._sum.calories_burned.toFixed(
-                    2
-                  )}
+                  {(
+                    adminDashboardStats?.weeklyProgress?._sum
+                      ?.calories_burned ?? 0
+                  ).toFixed(2)}
                 </h2>
                 <span className="fs-14">Weekly Calories Burned</span>
               </div>
@@ -385,9 +386,10 @@ function DashBoardAdmin() {
                   <span className="circle bg-green" />
                 </div>
                 <h2 className="fs-24 text-black font-w600 mb-0">
-                  {adminDashboardStats.totalCaloriesBurnedUser._sum.calories_burned.toFixed(
-                    2
-                  )}
+                  {(
+                    adminDashboardStats?.totalCaloriesBurnedUser?._sum
+                      ?.calories_burned ?? 0
+                  ).toFixed(2)}
                 </h2>
                 <span className="fs-14">Total Calories Burned </span>
               </div>

@@ -242,7 +242,7 @@ function WishList() {
                                     removeFromWishlist(item.product_id)
                                   }
                                 >
-                                  Remove
+                                  <i className="fas fa-trash"></i>
                                 </button>
                               </td>
                             </tr>

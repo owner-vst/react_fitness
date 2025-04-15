@@ -100,7 +100,11 @@ function Settings() {
                         />
                         <button
                           className="btn btn-sm btn-light border position-absolute p-1"
-                          style={{ bottom: "10px", right: "calc(50% - 75px)", fontSize: "12px" }}
+                          style={{
+                            bottom: "10px",
+                            right: "calc(50% - 75px)",
+                            fontSize: "12px",
+                          }}
                           onClick={() => setShowPicModal(true)}
                           title="Change profile picture"
                         >
@@ -138,7 +142,23 @@ function Settings() {
                           <li className="list-group-item d-flex justify-content-between">
                             <strong>Blood Group:</strong>{" "}
                             <span className="text-black">
-                              {profileData.bloodGroup}
+                              {profileData.bloodGroup === "O_POSITIVE"
+                                ? "O+"
+                                : profileData.bloodGroup === "O_NEGATIVE"
+                                ? "O-"
+                                : profileData.bloodGroup === "A_POSITIVE"
+                                ? "A+"
+                                : profileData.bloodGroup === "A_NEGATIVE"
+                                ? "A-"
+                                : profileData.bloodGroup === "B_POSITIVE"
+                                ? "B+"
+                                : profileData.bloodGroup === "B_NEGATIVE"
+                                ? "B-"
+                                : profileData.bloodGroup === "AB_POSITIVE"
+                                ? "AB+"
+                                : profileData.bloodGroup === "AB_NEGATIVE"
+                                ? "AB-"
+                                : "Unknown"}
                             </span>
                           </li>
                           <li className="list-group-item d-flex justify-content-between">
@@ -158,7 +178,13 @@ function Settings() {
                           <li className="list-group-item d-flex justify-content-between">
                             <strong>Goal:</strong>{" "}
                             <span className="text-black">
-                              {profileData.goal}
+                              {profileData.goal === "LOSE"
+                                ? "Lose Weight"
+                                : profileData.goal === "MAINTAIN"
+                                ? "Maintain Weight"
+                                : profileData.goal === "GAIN"
+                                ? "Increase Weight"
+                                : "Unknown"}
                             </span>
                           </li>
                           <li className="list-group-item d-flex justify-content-between">
