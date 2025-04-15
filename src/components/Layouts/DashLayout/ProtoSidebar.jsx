@@ -101,11 +101,11 @@ function ProtoSidebar({ isSidebarOpen }) {
         icon: "fas fa-comments",
         unreadCount,
       },
-      {
-        label: "Integration",
-        link: "/dashboard/admin/integration",
-        icon: "fas fa-plug",
-      },
+      // {
+      //   label: "Integration",
+      //   link: "/dashboard/admin/integration",
+      //   icon: "fas fa-plug",
+      // },
       {
         label: "Workout Stats",
         link: "/dashboard/admin/workoutstat",
@@ -264,7 +264,6 @@ function ProtoSidebar({ isSidebarOpen }) {
                 <span
                   className="nav-text"
                   style={{
-                   
                     width: "40%",
                   }}
                 >
